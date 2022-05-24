@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:27:27 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/24 11:00:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/05/24 12:43:49 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 # define ERROR_MSG_ARG "Error : No arguments needed\n"
 # define EXIT_MINISHELL "Error : Exit minishell\n"
+
 int		main(int argc, char **argv);
 void	ft_prompt(void);
+int		read_input(void);
+void	ft_save_history(char *input);
 
 #endif

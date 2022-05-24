@@ -6,11 +6,17 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:35:21 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/24 11:00:32 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/05/24 12:42:49 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	ft_save_history(char	*input)
+{
+	if (input && *input)
+		add_history(input);
+}
 
 int	read_input(void)
 {
@@ -21,7 +27,7 @@ int	read_input(void)
 	input_readline = readline("minishell$>");
 	if (!input_readline)
 		return (0x0);
-	add_history(input_readline);
+	ft_save_history(input_readline);
 	free(input_readline);
 	return (check_returns);
 }

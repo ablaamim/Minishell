@@ -25,6 +25,7 @@
 </h1>
 
 ---
+	add_history(input_readline);
 
 The objective of this project is to create a simple shell and learn a lot about
 processes and file descriptors.
@@ -73,7 +74,7 @@ problems people faced when Windows didn’t exist.
 
 ### main()
 
-> Arguments verification :
+#### Arguments verification :
 
 	* if argc == 1 : launch program.
 	* else (argc > 1 or argc < 1) : Error.
@@ -93,28 +94,34 @@ int	main(int argc, char **argv)
 	return (EXIT_SUCCESS);
 }
 ```
-* Prompt launching :
+#### Prompt launching :
 
 > In Linux, much of your work occurs from a command prompt, also known
 as the shell, or BASH (Bourne-Again Shell). The shell interprets your
 commands and passes them to the operating system for execution.
 
-### ft_prompt() && read_input()
+* ft_prompt() && read_input() && ft_save_history
 
 > I retrieve input from user using readline() function [man readline](https://www.man7.org/linux/man-pages/man3/readline.3.html).
 > Adding user input in history using add_history (Also read readline manual).
 
 ```c
+void	ft_save_history(char *input) // Add history
+{
+	if (input && *input)
+		ft_save_history(input);
+}
+
 int		read_input(void)
 {
 	char	*input_readline; // string to save input
 	int		check_returns; // return values checker
 
-	check_returns = 0x1; //normal state return to work properly is 1, every other value is a form of error handling.
-	input_readline = readline("minishell$>");
+	check_returns = 0x1; //normal state return to work properly is 1, 
+	every other value is a form of error handling.
+	input_readline = readline("minishell$>"); // Read input from user, save it as well && display a message prompt
 	if (!input_readline) // if input_readline == NULL return 0
 		return (0x0);
-	add_history(input_readline); // Add history to command line
 	free(input_readline);
 	return (check_returns);
 }
