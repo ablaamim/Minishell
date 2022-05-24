@@ -33,16 +33,16 @@ problems people faced when Windows didn’t exist.
 
 ---
 
-| command | description  |
+| Command | Description  |
 |--- |--- |
-| **echo** | echo the STRING(s) to standart output. **-n** flag:
+| **echo** | Echo the STRING(s) to standart output. **-n** flag:
 do not output the trailing newline. |
-| **cd** | change the shell working directory	(with a relative or absolute path). |
-| **pwd** | print name of current/working directory. |
-| **export** | set export attribute for shell variables. |
-| **unset** | unset values of shell variables. |
-| **env** | print the environment. |
-| **exit** | cause the shell to exit with the exit status specified. |
+| **cd** | Change the shell working directory	(with a relative or absolute path). |
+| **pwd** | Print name of current/working directory. |
+| **export** | Set export attribute for shell variables. |
+| **unset** | Unset values of shell variables. |
+| **env** | Print the environment. |
+| **exit** | Cause the shell to exit with the exit status specified. |
 
 ---
 
@@ -50,11 +50,31 @@ do not output the trailing newline. |
 	<b> :hourglass:  Step by step : </b>
 </h1>
 
-
 ---
 
 * Arguments handling / Prompt implementation :
 
-> 
+# main.c
+
+> Arguments verification :
+
+	* if argc == 1 : launch program.
+	* else : Error.
+
+```c
+int	main(int argc, char **argv)
+{
+	/* Normal behavior, since the executable doesnt take args dynamically */
+	if (argc == 1)
+	{
+		/* Launch prompt */
+		ft_prompt();
+	}
+	/* ERROR */
+	else
+		ERROR;
+	return (EXIT_SUCCESS);
+}
+```
 
 ---
