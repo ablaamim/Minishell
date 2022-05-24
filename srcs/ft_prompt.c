@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:35:21 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/24 10:45:16 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/05/24 11:00:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	ft_prompt(void)
 	{
 		check_returns = read_input();
 		if (!check_returns)
-			write(2, "exit minishell\n", sizeof("exit minishell\n"));
+			write(2, EXIT_MINISHELL, sizeof(EXIT_MINISHELL));
 	}
 }
