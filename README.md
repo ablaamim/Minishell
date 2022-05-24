@@ -1,8 +1,16 @@
 
 <h1 align=center>
-	<b> :skull:  Minishell : As much beautiful as a shell !</b>
+	<b> :skull:  Minishell : Untitled mini-HELL as well !</b>
 </h1>
 
+---
+
+</p>
+<p align="center">
+<img src="https://miro.medium.com/max/1000/1*VyyVo0PiByEqMMPUs4_QaQ.gif" width="500">
+<p/>
+
+> “The Linux philosophy is 'to laugh in the face of danger".
 
 ---
 
@@ -52,14 +60,24 @@ do not output the trailing newline. |
 
 ---
 
+:construction: Project Organization :
+
+```
+.
+├── includes/
+├── srcs/
+├── Makefile
+```
+---
+
 * Arguments handling / Prompt implementation :
 
-# main.c
+### main()
 
 > Arguments verification :
 
 	* if argc == 1 : launch program.
-	* else : Error.
+	* else (argc > 1 or argc < 1) : Error.
 
 ```c
 int	main(int argc, char **argv)
@@ -75,6 +93,34 @@ int	main(int argc, char **argv)
 		ERROR;
 	return (EXIT_SUCCESS);
 }
+```
+* Prompt launching :
+
+> In Linux, much of your work occurs from a command prompt, also known
+as the shell, or BASH (Bourne-Again Shell). The shell interprets your
+commands and passes them to the operating system for execution.
+
+### ft_prompt() && read_input()
+
+> I retrieve input from user using readline() function [man readline](https://www.man7.org/linux/man-pages/man3/readline.3.html).
+> Adding user input in history using add_history (Also read readline manual).
+
+```c
+
+void	ft_prompt(void)
+{
+	int	check_return = 0x0;
+
+	/*Infinite loop to keep the program running*/
+	while (0x1)
+	{
+		check_return = read_input();
+		if (!check_return)
+			write(2, EXIT_MINISHELL, sizeof(EXIT_MINISHELL));
+
+	}
+}
+
 ```
 
 ---
