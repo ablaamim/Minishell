@@ -11,6 +11,8 @@
 <p/>
 
 > “The Linux philosophy is 'to laugh in the face of danger".
+> “All operating systems sucks, but Linux just sucks less”
+>  “An infinite number of monkeys typing into GNU emacs would never make a good program.”
 
 ---
 
@@ -72,7 +74,7 @@ problems people faced when Windows didn’t exist.
 
 #### Arguments handling / Prompt implementation :
 
-> Entry point of our program in the main, we will handle errors starting from there.
+> Entry point of our program is the main, we will handle errors starting from there.
 
 #### main() function :
 
