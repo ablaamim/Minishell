@@ -43,8 +43,7 @@ problems people faced when Windows didn’t exist.
 
 | Command | Description  |
 |--- |--- |
-| **echo** | Echo the STRING(s) to standart output. **-n** flag:
-do not output the trailing newline. |
+| **echo** | Echo the STRING(s) to standart output. **-n** flag: do not output the trailing newline. |
 | **cd** | Change the shell working directory	(with a relative or absolute path). |
 | **pwd** | Print name of current/working directory. |
 | **export** | Set export attribute for shell variables. |
@@ -106,6 +105,19 @@ commands and passes them to the operating system for execution.
 > Adding user input in history using add_history (Also read readline manual).
 
 ```c
+int		read_input(void)
+{
+	char	*input_readline; // string to save input
+	int		check_returns; // return values checker
+
+	check_returns = 0x1; //normal state return to work properly is 1, every other value is a form of error handling.
+	input_readline = readline("minishell$>");
+	if (!input_readline) // if input_readline == NULL return 0
+		return (0x0);
+	add_history(input_readline); // Add history to command line
+	free(input_readline);
+	return (check_returns);
+}
 
 void	ft_prompt(void)
 {
@@ -115,9 +127,10 @@ void	ft_prompt(void)
 	while (0x1)
 	{
 		check_return = read_input();
+		/*if return == 1 --> exit */
 		if (!check_return)
+			/* EXIT_MINISHELL is nothing but a define in the header file*/
 			write(2, EXIT_MINISHELL, sizeof(EXIT_MINISHELL));
-
 	}
 }
 
