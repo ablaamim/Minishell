@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:02:16 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/23 18:32:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/05/24 02:00:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <assert.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 /*
  * Definition of type codes
@@ -80,5 +83,6 @@ typedef	struct s_back_cmd
 */
 
 int	main(int argc, char **argv);
+int	get_cmd(char *buff, int nbuff);
 
 #endif
