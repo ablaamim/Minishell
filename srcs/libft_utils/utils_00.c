@@ -1,41 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils_00.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/24 10:28:59 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/24 19:34:05 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/05/24 19:16:35 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/05/24 19:18:24 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	ft_close_file_descriptors(void)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	int	fd;
+	size_t	i;
 
-	fd = open("console", O_RDWR);
-	while (fd >= 0)
+	i = 0;
+	while (i < n)
 	{
-		if (fd >= 3)
-			close(fd);
-		break ;
+		((unsigned char *)s)[i] = c;
+		i++;
 	}
-}
-
-int	main(int argc, char **argv)
-{
-	(void) argv;
-	if (argc == 1)
-	{
-		ft_close_file_descriptors();
-		ft_prompt();
-	}
-	else
-	{
-		write(2, ERROR_MSG_ARG, sizeof("ERROR_MSG_ARG"));
-	}
-	return (EXIT_SUCCESS);
+	return (s);
 }
