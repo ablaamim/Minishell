@@ -1,6 +1,6 @@
 
 <h1 align=center>
-	<b>Minishell</b>
+	<b>Minishell : As much beautiful as a shell !</b>
 </h1>
 
 
@@ -9,8 +9,6 @@
 <div align=center>
 <img src=https://github.com/ablaamim/Minishell/blob/master/img/minishellm.png />
 </div>
-
-As beautiful as a shell
 
 ---
 
@@ -38,13 +36,14 @@ problems people faced when Windows didn’t exist.
 
 | command | description  |
 |--- |--- |
-| **echo** | echo the STRING(s) to standart output. **-n** flag: do not output the trailing newline |
-| **cd** | change the shell working directory	(with a relative or absolute path)|
-| **pwd** | print name of current/working directory	|
-| **export** | set export attribute for shell variables |
-| **unset** | unset values of shell variables |
-| **env** | print the environment	|
-| **exit** | cause the shell to exit with the exit status specified |
+| **echo** | echo the STRING(s) to standart output. **-n** flag:
+do not output the trailing newline. |
+| **cd** | change the shell working directory	(with a relative or absolute path). |
+| **pwd** | print name of current/working directory. |
+| **export** | set export attribute for shell variables. |
+| **unset** | unset values of shell variables. |
+| **env** | print the environment. |
+| **exit** | cause the shell to exit with the exit status specified. |
 
 ---
 
@@ -55,6 +54,8 @@ problems people faced when Windows didn’t exist.
 
 ---
 
-* Prompt implementation
+* Arguments handling / Prompt implementation :
+
+> 
 
 ---
