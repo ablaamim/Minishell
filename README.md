@@ -70,11 +70,13 @@ problems people faced when Windows didn’t exist.
 ```
 ---
 
-* Arguments handling / Prompt implementation :
+#### Arguments handling / Prompt implementation :
 
-### main()
+> Entry point of our program in the main, we will handle errors starting from there.
 
-#### Arguments verification :
+#### main() function :
+
+###### Arguments verification :
 
 	* if argc == 1 : launch program.
 	* else (argc > 1 or argc < 1) : Error.
