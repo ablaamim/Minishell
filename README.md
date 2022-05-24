@@ -1,6 +1,6 @@
 
 <h1 align=center>
-	<b>Minishell : As much beautiful as a shell !</b>
+	<b> :skull:  Minishell : As much beautiful as a shell !</b>
 </h1>
 
 
@@ -20,7 +20,6 @@
 
 The objective of this project is to create a simple shell and learn a lot about
 processes and file descriptors.
-
 The existence of shells is linked to the very existence of IT.
 With Minishell project, we’ll be able to travel through time and come back to
 problems people faced when Windows didn’t exist.
@@ -28,7 +27,7 @@ problems people faced when Windows didn’t exist.
 ---
 
 <h1 align=center>
-	<b>Built-in functions to implement : </b>
+	<b> :cyclone: Built-in functions to implement : </b>
 </h1>
 
 
@@ -48,7 +47,7 @@ do not output the trailing newline. |
 ---
 
 <h1 align=center>
-	<b>Step by step : </b>
+	<b> :hourglass:  Step by step : </b>
 </h1>
 
 
