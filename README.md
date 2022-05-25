@@ -10,15 +10,13 @@
 
 <h1 align="center">
 	<b> Quotes : </b>
-<h1>
-
----
+</h1>
 
 ```
 
 $> echo “The Linux philosophy is 'to laugh in the face of danger".
 
-$> echo“All operating systems sucks, but Linux just sucks less.”
+$> echo “All operating systems sucks, but Linux just sucks less.”
 
 $> echo “An infinite number of monkeys typing into GNU emacs would never make a good program.”
 ```
