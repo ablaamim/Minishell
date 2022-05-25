@@ -13,12 +13,13 @@
 	<b> Quotes : </b>
 <h1>
 
-```
->$> echo “The Linux philosophy is 'to laugh in the face of danger".
+```sh
 
->$> echo“All operating systems sucks, but Linux just sucks less.”
+$> echo “The Linux philosophy is 'to laugh in the face of danger".
 
->$> “An infinite number of monkeys typing into GNU emacs would never make a good program.”
+$> echo“All operating systems sucks, but Linux just sucks less.”
+
+$> “An infinite number of monkeys typing into GNU emacs would never make a good program.”
 ```
 
 ---
