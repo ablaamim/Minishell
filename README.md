@@ -2,15 +2,17 @@
 <h1 align=center>
 	<b> :skull:  Minishell : How to succeed to fail and lose all your friends!</b>
 <h1>
-<h1 align=center>
-	<img src="https://github.com/ablaamim/Minishell/blob/master/img/127766732-743a1cf4-6d1e-4663-b8d6-1705f69c63dd.png" width="500">
-<h1/>
----
 
 </p>
 <p align="center">
-<img src="https://miro.medium.com/max/1000/1*VyyVo0PiByEqMMPUs4_QaQ.gif" width="500">
+	<img src="https://github.com/ablaamim/Minishell/blob/master/img/127766732-743a1cf4-6d1e-4663-b8d6-1705f69c63dd.png" width="500">
 <p/>
+
+---
+
+<h1 align="center">
+	<b> Quotes : </b>
+<h1>
 
 > “The Linux philosophy is 'to laugh in the face of danger".
 
