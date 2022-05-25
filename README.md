@@ -29,7 +29,6 @@
 </h1>
 
 ---
-	add_history(input_readline);
 
 The objective of this project is to create a simple shell and learn a lot about
 processes and file descriptors.
@@ -68,9 +67,12 @@ problems people faced when Windows didn’t exist.
 
 ```
 .
+.
 ├── includes/
 ├── srcs/
 ├── Makefile
+.
+.
 ```
 ---
 
