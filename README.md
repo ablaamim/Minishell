@@ -35,6 +35,14 @@ processes and file descriptors.
 The existence of shells is linked to the very existence of IT.
 With Minishell project, we’ll be able to travel through time and come back to
 problems people faced when Windows didn’t exist.
+Besides that it is meant to make you suffer, read a lot of documentations,
+lose your sanity and become bugs intact.
+
+This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html)
+
+<h1 align=center>
+<img src="https://64.media.tumblr.com/31402d1cf6ddb5c2db18cb3a5f258b54/tumblr_otyab9Gzzc1w4t58uo1_540.gifv" width="500">
+<h1>
 
 ---
 
