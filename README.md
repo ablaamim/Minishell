@@ -1,6 +1,7 @@
 
 <h1 align=center>
 	<b> :skull:  Minishell : How to succeed to fail and lose all your friends!</b>
+	<img src="" width="500">
 </h1>
 
 ---
@@ -35,6 +36,7 @@ processes and file descriptors.
 The existence of shells is linked to the very existence of IT.
 With Minishell project, we’ll be able to travel through time and come back to
 problems people faced when Windows didn’t exist.
+
 Besides that it is meant to make you suffer, read a lot of documentations,
 lose your sanity and become bugs intact.
 
