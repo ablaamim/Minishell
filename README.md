@@ -2,7 +2,6 @@
 	<b> :skull:  Minishell : How to succeed to fail and lose all your friends!</b>
 <h1>
 
-</p>
 <p align="center">
 	<img src="https://github.com/ablaamim/Minishell/blob/master/img/127766732-743a1cf4-6d1e-4663-b8d6-1705f69c63dd.png" width="500">
 <p/>
@@ -13,13 +12,13 @@
 	<b> Quotes : </b>
 <h1>
 
-```sh
+```
 
 $> echo “The Linux philosophy is 'to laugh in the face of danger".
 
 $> echo“All operating systems sucks, but Linux just sucks less.”
 
-$> “An infinite number of monkeys typing into GNU emacs would never make a good program.”
+$> echo “An infinite number of monkeys typing into GNU emacs would never make a good program.”
 ```
 
 ---
