@@ -1,7 +1,8 @@
 
 <h1 align=center>
 	<b> :skull:  Minishell : Untitled mini-HELL as well !</b>
-	<b> GUDIE : How to succeed to fail and lose all your friends!<b>
+
+	<b> FULL GUIDE : How to succeed to fail and lose all your friends!<b>
 </h1>
 
 ---
