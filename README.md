@@ -9,7 +9,7 @@
 ---
 
 <h1 align="center">
-	<b> Quotes : </b>
+	<b> :book: Quotes : </b>
 </h1>
 
 ```
