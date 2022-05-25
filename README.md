@@ -12,6 +12,8 @@
 	<b> Quotes : </b>
 <h1>
 
+---
+
 ```
 
 $> echo “The Linux philosophy is 'to laugh in the face of danger".
