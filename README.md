@@ -1,6 +1,7 @@
 
 <h1 align=center>
 	<b> :skull:  Minishell : Untitled mini-HELL as well !</b>
+	<b> GUDIE : How to succeed to fail and lose all your friends!<b>
 </h1>
 
 ---
@@ -80,12 +81,27 @@ problems people faced when Windows didn’t exist.
 
 #### main() function :
 
-###### Arguments verification :
+###### Arguments verification && closing file descriptors beyond fd == 2:
 
 	* if argc == 1 : launch program.
 	* else (argc > 1 or argc < 1) : Error.
 
 ```c
+/*Close all used file descriptors beyond fd == 2*/
+
+void	ft_close_file_descriptors(void)
+{
+	int	fd;
+
+	fd = open("console", O_RDWR);
+	while (fd >= 0)
+	{
+		if (fd >= 3)
+			close(fd);
+		break ;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	/* Normal behavior, since the executable doesnt take args dynamically */

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/24 10:35:21 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/05/24 19:00:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/05/25 18:27:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_prompt(void)
 	int	check_returns;
 
 	check_returns = 0x0;
-	while (0x1)
+	while (1337)
 	{
 		check_returns = read_input_buffer();
 		if (!check_returns)
