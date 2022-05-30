@@ -72,12 +72,12 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 ---
 
 <h1 align=center>
-	<b> :hourglass:  Step by step : </b>
+	<b> :hourglass:  Step by step guide : </b>
 </h1>
 
 ---
 
-:construction: Project Organization :
+:construction: Project Organization in root of the repository :
 
 ```
 .
@@ -92,7 +92,7 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 
 #### Arguments handling / Prompt implementation :
 
-> Entry point of our program is the main, we will handle errors starting from there.
+> Entry point of our program is the main function, we will handle errors starting from there.
 
 #### main() function :
 
