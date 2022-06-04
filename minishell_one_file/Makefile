@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/04 23:18:09 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/04 23:17:14 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,7 @@ FLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
 
 RM = rm -rf
 
-HEADER = ./includes/minishell.h
-
-SRC =
+SRC = ./minishell_one_file.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
@@ -31,7 +29,7 @@ bonus : $(NAME_B)
 $(NAME) : $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(FLAGS) -o $(NAME)
 
-%.o:	%.c Makefile $(HEADER)
+%.o:	%.c Makefile
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
