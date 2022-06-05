@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:21:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/05 00:47:11 by root             ###   ########.fr       */
+/*   Updated: 2022/06/05 01:31:38 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,77 @@
 
 #define ERROR_MINISHELL "Error : exit minishell\n"
 #define WARNING "NOT INLINE MODE\n!!!!!!"
+
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<<<<<<< LEXER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+*/
+
+/*
+ * All the possible char types. during the lexing phase the proper tokenizer
+ * will be called accordingly to the type encountered
+*/
+
+enum e_char_type
+{
+	ANY_CHAR,
+	NULL_CHAR,
+	SPACE_CHAR,
+	SQUOTE_CHAR,
+	DQUOTES_CHAR,
+	LESS_CHAR,
+	GREAT_CHAR,
+	AND_CHAR,
+	SEMICO_CHAR,
+	PIPE_CHAR,
+	OP_PARENTH_CHAR,
+	CLOSE_PARENTH_CHAR,
+	NB_CHAR_TYPE
+};
+
+/*
+ * All type of tokens handled by program
+*/
+
+enum e_token_type
+{
+	WORD_TOKEN,
+	PIPE_TOKEN,
+	OR_TOKEN,
+	AND_TOKEN,
+	SEMICO_TOKEN,
+	LESSER_TOKEN,
+	DOUBLE_LESSER_TOKEN,
+	GREATER_TOKEN,
+	DOUBLE_GREATER_TOKEN,
+	AMPERSAND_TOKEN,
+	OP_PARENTH_TOKEN,
+	CLOSE_PARENTH_TOKEN
+};
+
+/*
+ * Word rules
+*/
+
+enum e_char_rules
+{
+	NOT_ACCEPTED,
+	ACCEPTED,
+};
+
+/*
+ * TOKEN LINKED LIST
+*/
+
+typedef struct s_token
+{
+	char				*data;
+	enum e_token_type	type;
+	struct s_token		*next;
+}	t_token;
+
+/*
+ * <<<<<<<<<<<<<<<<<<<<<<<>><<<< PARSER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+*/
 
 /*
  * All code types of nodes that can be found in out AST,
@@ -91,6 +162,8 @@ typedef	struct s_node
 	enum e_node_type	type;
 	t_node_content		content;
 }	t_node;
+
+/*****************************************************************************/
 
 /*
  * Function to print content of env
