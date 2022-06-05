@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:21:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/05 01:31:38 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/05 02:42:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <fcntl.h>
 
 #define ERROR_MINISHELL "Error : exit minishell\n"
 #define WARNING "NOT INLINE MODE\n!!!!!!"
@@ -202,27 +203,71 @@ char	*read_line(bool inline_mode)
 	return (line);
 }
 
-/*
- * Lexer / Parser
-*/
+/*skip white spaces*/
 
-t_node	*lexer_parser(char *line)
+int	ft_skip_white_spaces(int c)
 {
-	t_node	*ast;
+	return (c == 32 || (c >= 7 && c <= 14));
 }
 
 /*
- * Save history, parse commands and executes them
+ *	Build the tokens linked chained linked list, from the scanned line,
+ *	all the white spaces are skipped, the lexer returns true on success,
+ *	false otherwise
 */
 
-void	execution(char *line, bool inline_mode)
+bool	lexer(char *scanned_line, t_token **token_list)
+{
+	int		i;
+	t_token	*new_token;
+
+	i = 0x0;
+	while (ft_skip_white_spaces(scanned_line[i]))
+		i++;
+	while (scanned_line[i])
+	{
+		// get_next_token() function
+	}
+	return (true);
+}
+
+/*
+ * Initialize structs with NULL and Lex/Parse
+*/
+
+t_node	*ft_lex_parse(char *line)
+{
+	t_node	*ast;
+	t_token	*token_list;
+
+	ast = NULL;
+	token_list = NULL;
+	//bool	ret = lexer(line, &token_list);
+	return (ast);
+}
+
+/*
+ * Function to save history using readline/history.h
+*/
+
+void	ft_add_history(char *line)
+{
+	add_history(line);
+}
+
+/*
+ * parse commands and executes them
+*/
+
+void	ft_executor(char *line, bool inline_mode)
 {
 	t_node	*ast;
 	//printf("line = %s\ninline_mode = %d\n", line, inline_mode);
+	ast = NULL;
 	if (line != NULL)
 	{
-		add_history(line);
-		ast = lexer_parser(line);
+		ft_add_history(line);
+		ast = ft_lex_parse(line);
 	}
 }
 
@@ -238,12 +283,32 @@ void	minishell(bool inline_mode)
 	while (true)
 	{
 		line = read_line(inline_mode);
-		execution(line, inline_mode);
+		ft_executor(line, inline_mode);
+	}
+}
+
+/*
+ * Free all filedescriptors beyond two
+*/
+
+void	ft_free_fd(void)
+{
+	int	fd;
+
+	fd = open("console", O_WRONLY);
+	while (fd >= 0)
+	{
+		if (fd >= 3)
+			close(fd);
+		break;
 	}
 }
 
 /*
  * Init minishell && launch all processes
+ * Our executable should not accept arguments dynamically
+ * if argc == 1 : launch program
+ * else : ERROR
 */
 
 int	main(int argc, char **argv, char **env)
@@ -253,6 +318,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc == 1)
 	{
 		//ft_print_envp(env);
+		ft_free_fd();
 		minishell(inline_mode);
 	}
 	else
