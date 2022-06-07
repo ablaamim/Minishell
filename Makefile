@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/04 23:18:09 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/07 11:22:50 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,16 @@ NAME = minishell
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-FLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
+RFLAGS = -lreadline
 
 RM = rm -rf
 
 HEADER = ./includes/minishell.h
 
-SRC =
+SRC = ./srcs/minishell.c \
+      ./srcs/debug.c \
+      ./srcs/ft_prompt.c \
+	  ./srcs/executor.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
@@ -29,7 +32,7 @@ all : $(NAME)
 bonus : $(NAME_B)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(FLAGS) -o $(NAME)
+	$(CC) $(RFLAGS) $(OBJ) $(CFLAGS) -o $(NAME)
 
 %.o:	%.c Makefile $(HEADER)
 	$(CC) $(FLAGS) -c $< -o $@

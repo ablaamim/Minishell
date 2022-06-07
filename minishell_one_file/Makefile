@@ -6,15 +6,15 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/04 23:17:14 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/07 10:56:12 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror
-FLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
+RLFLAGS = -lreadline
 
 RM = rm -rf
 
@@ -27,7 +27,7 @@ all : $(NAME)
 bonus : $(NAME_B)
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(FLAGS) -o $(NAME)
+	$(CC) $(RLFLAGS) $(OBJ) $(FLAGS) -o $(NAME)
 
 %.o:	%.c Makefile
 	$(CC) $(FLAGS) -c $< -o $@

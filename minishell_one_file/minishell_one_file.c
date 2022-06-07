@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:21:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/05 02:42:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/07 10:31:40 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,6 @@ enum e_char_rules	word_rules(enum e_char_type char_type)
 		[DQUOTES_CHAR] = ACCEPTED,
 		[LESS_CHAR] = NOT_ACCEPTED,
 		[GREAT_CHAR] = NOT_ACCEPTED,
-		[AND_CHAR] = NOT_ACCEPTED,
 		[SEMICO_CHAR] = NOT_ACCEPTED,
 		[PIPE_CHAR] = NOT_ACCEPTED,
 		[OP_PARENTH_CHAR] = NOT_ACCEPTED,
@@ -1073,6 +1072,7 @@ bool	parse_pipeline(t_token **tok_lst, t_node **ast, bool is_subshell)
 				tok_lst, &((*ast)->content.child.right), is_subshell) == false)
 			return (false);
 	}
+	return (true);
 	
 }
 /*
