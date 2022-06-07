@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/04 22:21:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 10:31:40 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/07 19:02:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ enum e_char_type
 };
 
 /*
- * All type of tokens handled by program
+ * All typesof of tokens handled by the program
 */
 
 enum e_token_type
@@ -73,17 +73,17 @@ enum e_token_type
 };
 
 /*
- * Word rules
+ * Word rules, its either accepted or not accepted
 */
 
 enum e_char_rules
 {
 	NOT_ACCEPTED,
-	ACCEPTED,
+	ACCEPTED
 };
 
 /*
- * TOKEN LINKED LIST
+ * Finally we need a tokens linked list
 */
 
 typedef struct s_token
@@ -98,7 +98,7 @@ typedef struct s_token
 */
 
 /*
- * All code types of nodes that can be found in out AST,
+ * All code types of nodes that can be found in our AST,
  * leaves are considered as nodes
 */
 
@@ -137,7 +137,7 @@ typedef struct s_simple_cmd
 }	t_simple_cmd;
 
 /*
- * A node in our AST always has children, one on the left, and one one
+ * A node in our AST, it always has children, one on the left, and one one
  * the right
 */
 
@@ -159,7 +159,7 @@ typedef union u_node_content
 }	t_node_content;
 
 /*
- * A member of the AST contains a node_type and a content which can be a
+ * A member of the AST (node) contains a node_type and a content which can be a
  * simple command or a child
 */
 
@@ -181,6 +181,29 @@ typedef struct s_garbage_lst
 
 bool	build_abstract_syntax_tree(t_token **tok_lst, t_node **ast, bool is_subshell);
 
+void	ft_display_ast(t_node *ast, int level)
+{
+	int		i;
+
+	if (ast == NULL)
+		return ;
+	i = 0x0;
+	while (i < level)
+	{
+		printf("\t\t");
+		i++;
+	}
+	if (ast->type == SIMPLE_CMD)
+		printf("SIMPLE_CMD\n");
+	else if (ast->type == PIPE_NODE)
+		printf("PIPE_NODE\n");
+	else if (ast->type == SEMICO_NODE)
+		printf("SEMICO_NODE\n");
+	else
+		printf("UNKNOWN COMMAND\n");
+	ft_display_ast(ast->content.child.left, level + 1);
+    ft_display_ast(ast->content.child.right, level + 1);
+}
 /*
  * Function to print content of env
 */
@@ -1164,6 +1187,7 @@ t_node	*ft_lex_parse(char *line)
 				write(2, SYNTAX_ERROR_LEX, sizeof(SYNTAX_ERROR_LEX));
 			printf("To be continued\n");
 		}
+		ft_display_ast(ast, 0);
 	}
 	else
 	{

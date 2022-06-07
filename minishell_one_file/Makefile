@@ -6,19 +6,19 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/07 10:56:12 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/07 17:59:49 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = clang
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 RLFLAGS = -lreadline
 
 RM = rm -rf
 
-SRC = ./minishell_one_file.c
+SRC = ./minishell_one_file.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
