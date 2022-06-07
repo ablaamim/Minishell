@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 12:04:17 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/07 12:42:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		//ft_print_env(env);
 		ft_free_fd();
-		ft_prompt(inline_mode);
+		ft_minishell(inline_mode);
 	}
 	else
 	{

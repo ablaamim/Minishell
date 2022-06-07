@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 12:07:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/07 12:42:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,26 @@ char	*read_line(bool inline_mode)
 	return (line);
 }
 
+char	*ft_prompt(bool inline_mode)
+{
+	char	*line;
+
+	line = read_line(inline_mode);
+	return (line);
+}
+
 /*
  * Read command input via readline() inside the read_line program and runs
  * another program to continue the work
 */
 
-void	ft_prompt(bool inline_mode)
+void	ft_minishell(bool inline_mode)
 {
 	char	*line;
 
 	while (true)
 	{
-		line = read_line(inline_mode);
+		line = ft_prompt(inline_mode);
 		ft_executor(line, inline_mode);
 	}
 }
