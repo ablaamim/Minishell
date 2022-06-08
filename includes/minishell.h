@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 17:28:46 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/08 17:36:58 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ typedef struct s_node
  * Main funnctions.
 */
 
-int		main(int argc, char **argv, char **env);
 void	ft_minishell(bool inline_mode);
 char	*ft_prompt(bool inline_mode);
 char	*read_line(bool inline_mode);
@@ -176,9 +175,16 @@ void	ft_print_env(char **env);
 void	ft_display_ast(t_node *ast, int level);
 
 /*
- * Function responsible of initializing my AST, then build it.
+ * Function responsible of initializing my AST, by initializing token list,
+ * and building a tree representation in memory.
 */
 
 t_node *ft_lexer_parser_program(char *line);
+
+/*
+ * 
+*/
+
+bool	constructor_token_list(char *in_characters, t_token **token_list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 17:20:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/08 16:32:57 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void	ft_executor(char *line, bool inline_mode)
 	{
 		ft_add_history(line);
 		ast = ft_lexer_parser_program(line);
+		{
+			if (ast != 0x0)
+				printf("To be continued ...\n");
+		}
 	}
 	else
 	{
