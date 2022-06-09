@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/08 17:36:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:46:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 
 # define ARGV_ERROR "Error : invalid argument\n"
 # define WARNING "Error : outline mode\n"
-
+# define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
+# define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
 /*
  * LEXER ABSTRACTION.
 */
@@ -45,9 +46,13 @@ enum e_char_type
 	SPACE_CHAR,
 	SQUOTE_CHAR,
 	DQUOTE_CHAR,
+	LESS_CHAR,
 	GREAT_CHAR,
+	AND_CHAR,
 	SEMICO_CHAR,
 	PIPE_CHAR,
+	OP_PARENTH_CHAR,
+	CLOSE_PARENTH_CHAR,
 	NB_CHAR_TYPE
 };
 
@@ -59,8 +64,16 @@ enum e_token_type
 {
 	WORD_TOKEN,
 	PIPE_TOKEN,
+	OR_TOKEN,
+	AND_TOKEN,
 	SEMICO_TOKEN,
-	GREATER_TOKEN
+	LESSER_TOKEN,
+	DLESSER_TOKEN,
+	GREATER_TOKEN,
+	DGREATER_TOKEN,
+	AMPERSAND_TOKEN,
+	OP_PARENTH_TOKEN,
+	CLOSE_PARENTH_TOKEN,
 };
 
 /*
@@ -97,17 +110,22 @@ enum e_node_type
 {
 	SIMPLE_CMD,
 	PIPE_NODE,
+	OR_NODE,
+	AND_NODE,
 	SEMICO_NODE
 };
 
 /*
  * All possible types of redirection that we can encounter in a simple
- * command. [To be continued]
+ * command
 */
 
 enum e_redirection_type
 {
+	INPUT_REDIR,
+	HEREDOC_REDIR,
 	OUTPUT_REDIR,
+	APPEND_OUTPUT_REDIR,
 	NO_REDIR
 };
 
@@ -158,33 +176,67 @@ typedef struct s_node
 }	t_node;
 
 /*
+ * Garbage memory collection data struct, it is a linked list.
+*/
+
+typedef struct s_garbage_list
+{
+	void					*ptr;
+	struct s_garbage_list	*next;
+}	t_garbage_list;
+
+/*
  * Main funnctions.
 */
 
-void	ft_minishell(bool inline_mode);
-char	*ft_prompt(bool inline_mode);
-char	*read_line(bool inline_mode);
-void	ft_executor(char *line, bool inline_mode);
-void	ft_add_history(char *line);
+void				ft_minishell(bool inline_mode);
+char				*ft_prompt(bool inline_mode);
+char				*read_line(bool inline_mode);
+void				ft_executor(char *line, bool inline_mode);
+void				ft_add_history(char *line);
 
 /*
- * Functions to debug states of output
+ * Functions to debug and track states of output :
 */
 
-void	ft_print_env(char **env);
-void	ft_display_ast(t_node *ast, int level);
+void				ft_print_env(char **env);
+void				ft_print_token(t_token *token);
+/*
+ * LEXER FUNCTIONS :
+*/
+
+t_node				*ft_lexer_parser_program(char *line);
+bool				constructor_token_list(char *in_characters, \
+		t_token **token_list);
+t_token				*retrieve_next_token(char *in_characters, int *i);
+t_token				*tokenize_word(char *in_characters, int *i);
+enum e_char_type	define_char_type(char c);
+enum e_char_rules	apply_rules(enum e_char_type char_types);
+t_token				*token_generator(char *data, enum e_token_type type);
+void				append_token(t_token *new_token, t_token **token_list);
+/*
+ * Garbage Memory collection functions, to allocate, initialize, delete...
+*/
+
+void				*garbage_malloc(size_t size);
+t_garbage_list		**get_garbage_list(void);
+void				garbage_bzero(void *memory, size_t n);
+void				garbage_memdel(void **memory);
+void				garbage_free(void **garbage_to_free);
 
 /*
- * Function responsible of initializing my AST, by initializing token list,
- * and building a tree representation in memory.
+ * PARSER FUNCTIONS :
 */
 
-t_node *ft_lexer_parser_program(char *line);
+bool				ast_constructor(t_token **token_list, t_node **ast, \
+		bool is_subshell); //[To be continued]
 
 /*
- * 
+ * Libft utils :
 */
 
-bool	constructor_token_list(char *in_characters, t_token **token_list);
+char				*ft_strndup(const char *str, size_t n);
+size_t				ft_strnlen(char const *str, size_t max_len);
+void				*ft_memcpy(void *dest, void const *src, size_t n);
 
 #endif
