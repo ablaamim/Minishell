@@ -6,14 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/07 12:42:36 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 16:49:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Function to free all file descriptors beyond 2
+ * Function to free all file descriptors beyond 2.
 */
 
 void	ft_free_fd(void)
@@ -28,6 +28,10 @@ void	ft_free_fd(void)
 		break ;
 	}
 }
+
+/*
+ * Entry point of my program.
+*/
 
 int	main(int argc, char **argv, char **env)
 {

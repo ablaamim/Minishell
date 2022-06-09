@@ -6,11 +6,62 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 13:06:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:33:45 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+size_t	ft_strlen(char const *str)
+{
+	size_t	len;
+
+	if (str == 0x0)
+		return (0x0);
+	len = 0x0;
+	while (str[len])
+		len++;
+	return (len);
+}
+
+/*
+ * Copy l character from source string to destination string.
+*/
+
+size_t	ft_strlcpy(char *dest, char const *src, size_t destsize)
+{
+	size_t	len_src;
+
+	len_src = ft_strlen(src);
+	if (destsize > len_src)
+		ft_memcpy(dest, src, len_src + 1);
+	else if (destsize)
+	{
+		ft_memcpy(dest, src, destsize - 1);
+		dest[destsize - 1] = '\0';
+	}
+	return (len_src);
+}
+/*
+#include <string.h>
+int	main(void)
+{
+	char	dest[] = "to be filled     !";
+	char	src[] = "copy";
+	char	dest1[] = "to be filled      !";
+	char	src1[] = "copy";
+
+	printf("|%zu|\n", ft_strlcpy(dest, src, 3));
+	printf("|%s|\n", dest);
+	printf("|%zu|\n", strlcpy(dest1, src1, 3));
+	printf("|%s|\n", dest1);
+	return (EXIT_SUCCESS);
+}
+*/
+
+/*
+ * Calculate max_len delimiter of a string.
+*/
 
 size_t	ft_strnlen(char const *str, size_t max_len)
 {

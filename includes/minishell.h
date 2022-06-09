@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 16:46:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 17:57:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define WARNING "Error : outline mode\n"
 # define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
 # define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
+# define SIZEOF_ONE_CHAR_STRING 2
+# define SIZEOF_TWO_CHAR_STRING 3
 /*
  * LEXER ABSTRACTION.
 */
@@ -214,6 +216,8 @@ enum e_char_type	define_char_type(char c);
 enum e_char_rules	apply_rules(enum e_char_type char_types);
 t_token				*token_generator(char *data, enum e_token_type type);
 void				append_token(t_token *new_token, t_token **token_list);
+t_token				*tokenize_lesser(char *in_characters, int *i);
+t_token				*tokenize_greater(char *in_characters, int *i);
 /*
  * Garbage Memory collection functions, to allocate, initialize, delete...
 */
@@ -238,5 +242,7 @@ bool				ast_constructor(t_token **token_list, t_node **ast, \
 char				*ft_strndup(const char *str, size_t n);
 size_t				ft_strnlen(char const *str, size_t max_len);
 void				*ft_memcpy(void *dest, void const *src, size_t n);
+size_t				ft_strlen(char const *str);
+size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 
 #endif
