@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 18:03:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:53:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ t_token	*retrieve_next_token(char	*in_characters, int *i)
 	tokenizer[DQUOTE_CHAR] = &tokenize_word;
 	tokenizer[LESS_CHAR] = &tokenize_lesser;
 	tokenizer[GREAT_CHAR] = &tokenize_greater;
+	tokenizer[AND_CHAR] = &tokenize_and;
+	tokenizer[SEMICO_CHAR] = &tokenize_semicolon;
+	tokenizer[PIPE_CHAR] = &tokenize_pipe;
+	tokenizer[OP_PARENTH_TOKEN] = &tokenize_parentheses;
+	tokenizer[CLOSE_PARENTH_TOKEN] = &tokenize_parentheses;
 	return (tokenizer[define_char_type(in_characters[*i])](in_characters, i));
 }
 

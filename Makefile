@@ -6,14 +6,14 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/09 18:00:21 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/09 19:49:21 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 # MACOS FLAG 
 # RFLAGS = -lreadline
 # LINUX FLAG
@@ -35,6 +35,7 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/libft_utils.c \
 	  ./srcs/append_token.c \
 	  ./srcs/tokenize_redirections.c \
+	  ./srcs/tokenize_separators.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 

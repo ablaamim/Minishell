@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:57:08 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 19:51:23 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define WARNING "Error : outline mode\n"
 # define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
 # define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
+# define ERROR_AND "minishell : the '&' is not handled by program\n"
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
 /*
@@ -218,6 +219,10 @@ t_token				*token_generator(char *data, enum e_token_type type);
 void				append_token(t_token *new_token, t_token **token_list);
 t_token				*tokenize_lesser(char *in_characters, int *i);
 t_token				*tokenize_greater(char *in_characters, int *i);
+t_token				*tokenize_parentheses(char *in_characters, int *i);
+t_token				*tokenize_and(char *in_characters, int *i);
+t_token				*tokenize_semicolon(char *in_characters, int *i);
+t_token				*tokenize_pipe(char *in_characters, int *i);
 /*
  * Garbage Memory collection functions, to allocate, initialize, delete...
 */
