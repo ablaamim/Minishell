@@ -6,18 +6,22 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:59:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 15:51:42 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 22:41:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * Add the new_token to the linked list.
+*/
 
 void	append_token(t_token *new_token, t_token **token_list)
 {
 	t_token	*current;
 
 	if (*token_list == 0x0)
-		return ;
+		*token_list = new_token;
 	else
 	{
 		current = *token_list;
@@ -25,5 +29,4 @@ void	append_token(t_token *new_token, t_token **token_list)
 			current = current->next;
 		current->next = new_token;
 	}
-	ft_print_token(*token_list);
 }

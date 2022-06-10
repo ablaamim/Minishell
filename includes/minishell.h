@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 19:51:23 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/10 12:49:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,8 +238,13 @@ void				garbage_free(void **garbage_to_free);
 */
 
 bool				ast_constructor(t_token **token_list, t_node **ast, \
-		bool is_subshell); //[To be continued]
-
+		bool is_subshell);
+bool				check_logical_operators(enum e_token_type type);
+bool				logical_operators_parser(t_token **token_list, t_node \
+		**ast, bool is_subshell);
+void				token_devour(t_token **token_list);
+bool				pipe_parser(t_token **token_list, t_node **ast, \
+		bool is_subshell);
 /*
  * Libft utils :
 */
@@ -249,5 +254,7 @@ size_t				ft_strnlen(char const *str, size_t max_len);
 void				*ft_memcpy(void *dest, void const *src, size_t n);
 size_t				ft_strlen(char const *str);
 size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
+void				ft_bzero(void *memory, size_t size);
+void				*ft_memset(void *s, int c, size_t n);
 
 #endif

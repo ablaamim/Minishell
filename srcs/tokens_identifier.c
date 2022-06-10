@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_token_generator.c                               :+:      :+:    :+:   */
+/*   tokens_identifier.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 13:10:36 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 22:39:20 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/09 23:15:36 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/10 11:37:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Create a new token filled with type and allocated data.
+ * returns true if the token is either "&&", "||" or ";", else false.
 */
 
-t_token	*token_generator(char *data, enum e_token_type type)
+bool	check_logical_operators(enum e_token_type type)
 {
-	t_token	*new_token;
-
-	new_token = garbage_malloc(sizeof(*new_token));
-	new_token->data = data;
-	new_token->type = type;
-	new_token->next = 0x0;
-	return (new_token);
+	return (type == SEMICO_TOKEN || type == OR_TOKEN || type == AND_TOKEN);
 }

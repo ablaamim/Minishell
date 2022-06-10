@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 15:51:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/09 23:35:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ t_node	*ft_lexer_parser_program(char *line)
 	t_token	*token_list;
 	t_token	*tmp;
 
-	ast = NULL;
-	token_list = NULL;
+	ast = 0x0;
+	token_list = 0x0;
 	if (constructor_token_list(line, &token_list) == true)
 	{
-		token_list = tmp;
-		printf("\nBuilding TOKEN LIST ...\n\n");
+		ft_print_token(token_list);
+		printf("\n\nBuilding TOKEN LIST ...\n\n");
 		sleep(1);
 		//if (ast_constructor(&token_list, &ast, false) == false || \
 				token_list != 0x0 )
