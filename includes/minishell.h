@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 12:49:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/10 17:34:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@
 # include <fcntl.h>
 
 /*
- * error defines
+ * Error defines :
 */
 
 # define ARGV_ERROR "Error : invalid argument\n"
 # define WARNING "Error : outline mode\n"
 # define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
 # define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
-# define ERROR_AND "minishell : the '&' is not handled by program\n"
+# define ERROR_AND "Minishell : the '&' is not handled by program\n"
+# define ERROR_TOKEN "Error : syntax error near unexpected token\n"
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
 /*
@@ -76,7 +77,7 @@ enum e_token_type
 	DGREATER_TOKEN,
 	AMPERSAND_TOKEN,
 	OP_PARENTH_TOKEN,
-	CLOSE_PARENTH_TOKEN,
+	CLOSE_PARENTH_TOKEN
 };
 
 /*
@@ -245,6 +246,15 @@ bool				logical_operators_parser(t_token **token_list, t_node \
 void				token_devour(t_token **token_list);
 bool				pipe_parser(t_token **token_list, t_node **ast, \
 		bool is_subshell);
+bool				simple_command_parser(t_token **token, t_node **ast, \
+		bool is_subshell);
+bool				identify_leaf(enum e_token_type type);
+bool				identify_redirection(enum e_token_type type);
+bool				identify_parenthesis(enum e_token_type type);
+bool				convert_list_to_array(t_token **token_list, t_node \
+		*simple_cmd, bool is_subshell);
+bool				printerror_and_falsify(bool is_subshell);
+bool				check_errors(t_token *token_list);
 /*
  * Libft utils :
 */
@@ -256,5 +266,6 @@ size_t				ft_strlen(char const *str);
 size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 void				ft_bzero(void *memory, size_t size);
 void				*ft_memset(void *s, int c, size_t n);
+char				*ft_strdup(char *str);
 
 #endif

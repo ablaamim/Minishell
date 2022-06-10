@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:26:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 12:41:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/10 17:38:25 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	token_devour(t_token **token_list)
 * will be recursively called by the parser_of_parentheses(),
 * on success ast_constructor returns true, else false.
 */
-bool	ast_constructor(t_token **token_list, t_node **ast, bool is_subshel)
+bool	ast_constructor(t_token **token_list, t_node **ast, bool is_subshell)
 {
 	bool	return_value;
 
@@ -51,10 +51,11 @@ bool	ast_constructor(t_token **token_list, t_node **ast, bool is_subshel)
 		{
 			if (*ast == 0x0)
 				return (false);
-			return_value = 
+			return_value = logical_operators_parser(token_list, ast, \
+					is_subshell);
 		}
 		else
-			return_value =
+			return_value = pipe_parser(token_list, ast, is_subshell);
 		if (return_value == false)
 			return (false);
 	}

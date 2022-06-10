@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/09 22:30:41 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/10 17:49:36 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,14 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/libft_utils.c \
 	  ./srcs/append_token.c \
 	  ./srcs/tokenize_redirections.c \
-	  ./srcs/tokenize_separators.c
+	  ./srcs/tokenize_separators.c \
+	  ./srcs/libft_utils_2.c \
+	  ./srcs/logical_operators_parser.c \
+	  ./srcs/simple_command_parser.c \
+	  ./srcs/memory_utils.c \
+	  ./srcs/pipe_parser.c \
+	  ./srcs/ast_constructor.c \
+	  ./srcs/tokens_identifier.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
