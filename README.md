@@ -85,14 +85,3 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 .
 ```
 ---
-
-### STEP 00 : ENTRY POINT (AKA MAIN FUNC)!
-
----
-
-## HELL IS UPON US !!!
-
-main() function is my entry point, it does a couple of error handling,
-and also launchs the core program of my minishell.
-
----
