@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:24:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/10 17:59:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,3 +30,11 @@ char	*ft_strdup(char *str)
 	new[i] = '\0';
 	return (new);
 }
+/*
+int	main()
+{
+	char	str[] = "this is to dup";
+
+	printf("|%s|\n", ft_strdup(str));
+}
+*/

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 09:11:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 12:11:44 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/10 19:22:06 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	garbage_free(void **garbage_to_free)
 			*garbage_list = current->next;
 		else
 			previous->next = current->next;
-		garbage_memdel((void **) &current->next);
 		garbage_memdel((void **) &current->ptr);
+		garbage_memdel((void **) &current);
 		*garbage_to_free = 0x0;
 	}
 }

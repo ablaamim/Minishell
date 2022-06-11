@@ -6,14 +6,14 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/10 17:49:36 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/11 08:42:47 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 # MACOS FLAG 
 # RFLAGS = -lreadline
 # LINUX FLAG

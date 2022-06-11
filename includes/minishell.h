@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:34:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:04:59 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,10 +160,13 @@ typedef struct s_child
 /*
  * A member of the AST that contains a node_type and a content,
  * which can be a simple command or a child.
+ * - If content is a simple_cmd the type is 1.
+ * - If content is a pipe, the type will be 2.
 */
 
-typedef union u_node_content
+typedef struct s_node_content
 {
+	int					type;
 	struct s_simple_cmd	simple_cmd;
 	struct s_child		child;
 }	t_node_content;
@@ -205,6 +208,7 @@ void				ft_add_history(char *line);
 
 void				ft_print_env(char **env);
 void				ft_print_token(t_token *token);
+void				disp_tree(t_node *tree, int lev);
 /*
  * LEXER FUNCTIONS :
 */

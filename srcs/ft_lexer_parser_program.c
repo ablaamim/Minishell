@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:41:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/11 08:54:51 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,26 @@ t_node	*ft_lexer_parser_program(char *line)
 	token_list = 0x0;
 	if (constructor_token_list(line, &token_list) == true)
 	{
-		ft_print_token(token_list);
-		printf("\n\nBuilding TOKEN LIST ...\n\n");
+		printf("Welcome to minishell program !\n\n");
 		sleep(1);
+		printf("LINKED LIST OF TOKENS : \n\n");
+		ft_print_token(token_list);
 		if (ast_constructor(&token_list, &ast, false) == false || \
 				token_list != 0x0 )
 		{
+			disp_tree(ast, 0);
+			if (ast == 0x0)
+				printf("YOU FUCKED UP PLENTY !!");
 			if (token_list != 0x0)
-			{
-				printf("To be continued ...\n");
-			}
+				write(2, ERROR_TOKEN, sizeof(ERROR_TOKEN));
+			printf("to be continued ...\n");
 		}
 		
 	}
 	else
 		printf("To be continued ...\n");
+	printf("\n\nBuilding AST ...\n\n");
+	sleep(1);
+	disp_tree(ast, 0);
 	return (ast);
 }

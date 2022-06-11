@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:41:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/11 08:17:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,30 @@ bool	convert_list_to_array(t_token	**token_list, t_node	\
 
 	i = 0x0;
 	simple_command->content.simple_cmd.argv = garbage_malloc(sizeof(char *) * 
-			(calculate_number_of_args(*token_list) + 1));
+			((calculate_number_of_args(*token_list) + 1)));
 	ft_bzero(simple_command->content.simple_cmd.argv,
 			sizeof(simple_command->content.simple_cmd.argv));
 	while (*token_list != 0x0 && identify_leaf((*token_list)->type) == true)
 	{
+		//printf("NANI THE FUCK!!!\n");
 		if (identify_redirection((*token_list)->type) == true &&\
 				((*token_list)->next == 0x0 || (*token_list)->next->type \
 				!= WORD_TOKEN))
 		{
 			token_devour(token_list);
-			if (token_list == 0x0)
+			if (*token_list == 0x0)
 				return(printerror_and_falsify(is_subshell));
 			if ((*token_list)->type != WORD_TOKEN)
 				return (false);
 		}
 		simple_command->content.simple_cmd.argv[i++] = \
 				ft_strdup(((*token_list)->data));
+		//printf("%s\n", (*token_list)->data);
+		//printf("ALLO ALLOOOO ?\n");
+		token_devour(token_list);
 	}
 	simple_command->content.simple_cmd.argv[i] = 0x0;
+	//printf("ANNIE ARE YOU OK? ARE YOU OK ANNIE !\n");
 	return (true);
 }
 
@@ -102,6 +107,7 @@ bool	simple_command_parser(t_token	**token_list, t_node	**ast, \
 	simple_command->type = SIMPLE_CMD;
 	simple_command->content.simple_cmd.fd_in = 0;
 	simple_command->content.simple_cmd.fd_out = 1;
+	simple_command->content.type = 1;
 	if (convert_list_to_array(token_list, simple_command, is_subshell) == \
 			false)
 		return (false);

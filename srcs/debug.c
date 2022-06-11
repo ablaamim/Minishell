@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 23:37:49 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/11 09:12:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ void	ft_print_token(t_token *token)
 	if (token == 0x0)
 		printf("Linked list is empty\n");
 	current_token = garbage_malloc(sizeof(token));
-	if (!token)
-	{
-		garbage_memdel((void **) &token);
-		write(2, MALLOC_ERROR, sizeof(MALLOC_ERROR));
-	}
 	current_token = token;
 	while (current_token != 0x0)
 	{
@@ -76,4 +71,46 @@ void	ft_print_token(t_token *token)
 	}
 	if (current_token == 0x0)
 		printf("(NULL)");
+}
+
+void	disp_tree(t_node	*tree, int	lev)
+{
+	if (tree == 0x0)
+		return ;
+	//if (tree != 0x0)
+	//	printf("All good !\n");
+	//[INORDER NODE TRAVERSAL]
+	//disp_tree(tree->content.child.left, lev + 1);
+	//disp_tree(tree->content.child.right, lev + 1);
+	for (int i = 0; i < lev; i++)
+		printf("\t\t");
+	if (tree->type == OR_NODE )
+		printf("OR_NODE\n");
+	else if (tree->type == AND_NODE)
+		printf("AND_NODE\n");
+	else if (tree->type == PIPE_NODE)
+		printf("PIPE_NODE\n");
+	else if (tree->type == SEMICO_NODE)
+		printf("SEMICO_NODE\n");
+	else if (tree->type == SIMPLE_CMD && tree->content.type == 1)
+	{
+		if(tree->content.simple_cmd.argv != NULL)
+		{
+			printf("SIMPLE_CMD: ");
+			for (int i = 0; tree->content.simple_cmd.argv[i]; i++)
+			{
+				printf("%s", tree->content.simple_cmd.argv[i]);
+			}
+			printf("\n");
+		}
+	}
+	else
+	{
+		printf("UNKOWN\n");
+		exit(EXIT_FAILURE);
+	}
+	//[PREORDER NODE TRAVERSAL]
+	disp_tree(tree->content.child.left, lev + 1);
+	disp_tree(tree->content.child.right, lev + 1);
+	printf("\n");
 }
