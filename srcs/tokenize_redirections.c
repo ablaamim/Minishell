@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:55:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 17:55:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 12:57:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*tokenize_lesser(char *in_characters, int *i)
 	char				*data;
 	enum e_token_type	type;
 
-	if (define_char_type(in_characters[++(*i)] == LESS_CHAR))
+	if (define_char_type(in_characters[++(*i)] = LESS_CHAR))
 	{
 		data = garbage_malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
 		ft_strlcpy(data, "<<", sizeof(SIZEOF_TWO_CHAR_STRING));

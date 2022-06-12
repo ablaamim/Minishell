@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 10:12:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 12:36:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ enum e_pipe
 */
 
 void				execute_ast_data(t_node *ast, bool inline_mode);
-void				ft_exec_cmd(t_node *ast);
+void				ft_complex_exec(t_node *ast);
+void				ft_exec_simple_cmd(t_simple_cmd cmd);
 
 #endif
