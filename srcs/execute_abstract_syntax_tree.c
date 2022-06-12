@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 12:49:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 13:31:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,19 @@
  * execute a simple command.
 */
 
-/*
 void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 {
 	pid_t	pid;
 
-
-	if ()
+	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0)
 	{
-		
+		pid = fork();
+		if (pid == -1)
+			exit(EXIT_FAILURE);
+		else if (pid == 0)
+			exec_in_child(cmd);
 	}
 }
-*/
 
 /*
  * Execute a simple command.
@@ -48,7 +49,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 
 void	ft_complex_exec(t_node	*ast)
 {
-	//ft_exec_simple_cmd(ast->content.simple_cmd);
+	ft_exec_simple_cmd(ast->content.simple_cmd);
 }
 /*
  * Core function of my executor.

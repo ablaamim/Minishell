@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 09:12:46 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 13:08:04 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	disp_tree(t_node	*tree, int	lev)
 		exit(EXIT_FAILURE);
 	}
 	//[PREORDER NODE TRAVERSAL]
-	disp_tree(tree->content.child.left, lev + 1);
 	disp_tree(tree->content.child.right, lev + 1);
+	disp_tree(tree->content.child.left, lev + 1);
 	printf("\n");
 }
