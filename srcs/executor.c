@@ -6,14 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/08 16:32:57 by root             ###   ########.fr       */
+/*   Updated: 2022/06/12 09:48:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Function to save history input from stdin in our CLI.
+ * Function to save history input from stdin in my CLI, without termcaps.
 */
 
 void	ft_add_history(char *line)
@@ -22,8 +22,8 @@ void	ft_add_history(char *line)
 }
 
 /*
- * initialize my AST, lex and parse [Syntax analyzer] the input read,
- * Build my ASY and execute it.
+ * initialize my AST, lex and parse [Syntax analyzer + Recursive descent 
+ * parser] the input read, Build my ASY and execute it.
 */
 
 void	ft_executor(char *line, bool inline_mode)
@@ -37,12 +37,16 @@ void	ft_executor(char *line, bool inline_mode)
 		ast = ft_lexer_parser_program(line);
 		{
 			if (ast != 0x0)
-				printf("To be continued ...\n");
+			{
+				printf("\n\nEXECUTION GONE PRRRRR : \n\n");
+				execute_ast_data(ast, inline_mode);
+				sleep(1);
+			}
 		}
 	}
 	else
 	{
-		printf("To be continued ...\n");
+		printf("To be continued [STAGE 00]...\n");
 		exit(EXIT_FAILURE);
 	}
 }

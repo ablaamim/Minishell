@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/11 09:12:36 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 09:12:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	disp_tree(t_node	*tree, int	lev)
 			printf("SIMPLE_CMD: ");
 			for (int i = 0; tree->content.simple_cmd.argv[i]; i++)
 			{
-				printf("%s", tree->content.simple_cmd.argv[i]);
+				printf("%s ", tree->content.simple_cmd.argv[i]);
 			}
 			printf("\n");
 		}

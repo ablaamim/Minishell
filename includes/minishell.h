@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/11 09:04:59 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/12 10:12:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 
 /*
- * Error defines :
+ * Error defines, i display them in stderr using write() with fd == 2.
 */
 
 # define ARGV_ERROR "Error : invalid argument\n"
@@ -34,13 +34,15 @@
 # define ERROR_TOKEN "Error : syntax error near unexpected token\n"
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
+
 /*
  * LEXER ABSTRACTION.
 */
 
 /*
  * Must contain all char types, during the lexing phase the proper
- * Tokenizer will be called accordingly to the type encountred.
+ * Tokenizer will be called accordingly to the type encountred whle scanning
+ * input read by readline(), and apply Lexing rules.
 */
 
 enum e_char_type
@@ -61,7 +63,7 @@ enum e_char_type
 };
 
 /*
- * All types of tokens handled by the prgram.
+ * All types of tokens handled by the prgram, this will simplify parsing.
 */
 
 enum e_token_type
@@ -91,7 +93,8 @@ enum e_char_rules
 };
 
 /*
- * Finally we need a tokens linked list.
+ * Finally we need a tokens linked list to reperesent data in memory, also
+ * debug it in order to test.
 */
 
 typedef struct s_token
@@ -106,8 +109,8 @@ typedef struct s_token
 */
 
 /*
- * All code types of nodes that can be found in our AST,
- * leaves are considered as nodes.
+ * All code types of nodes that can be found in my AST,
+ * leaves are considered as nodes too.
 */
 
 enum e_node_type
@@ -121,7 +124,7 @@ enum e_node_type
 
 /*
  * All possible types of redirection that we can encounter in a simple
- * command
+ * command, I/O - Append - Heredoc
 */
 
 enum e_redirection_type
@@ -162,6 +165,7 @@ typedef struct s_child
  * which can be a simple command or a child.
  * - If content is a simple_cmd the type is 1.
  * - If content is a pipe, the type will be 2.
+ * [Union didnt work well] So im using a simple struct now.
 */
 
 typedef struct s_node_content
@@ -193,7 +197,7 @@ typedef struct s_garbage_list
 }	t_garbage_list;
 
 /*
- * Main funnctions.
+ * Core functions :.
 */
 
 void				ft_minishell(bool inline_mode);
@@ -209,6 +213,7 @@ void				ft_add_history(char *line);
 void				ft_print_env(char **env);
 void				ft_print_token(t_token *token);
 void				disp_tree(t_node *tree, int lev);
+
 /*
  * LEXER FUNCTIONS :
 */
@@ -228,6 +233,7 @@ t_token				*tokenize_parentheses(char *in_characters, int *i);
 t_token				*tokenize_and(char *in_characters, int *i);
 t_token				*tokenize_semicolon(char *in_characters, int *i);
 t_token				*tokenize_pipe(char *in_characters, int *i);
+
 /*
  * Garbage Memory collection functions, to allocate, initialize, delete...
 */
@@ -259,6 +265,7 @@ bool				convert_list_to_array(t_token **token_list, t_node \
 		*simple_cmd, bool is_subshell);
 bool				printerror_and_falsify(bool is_subshell);
 bool				check_errors(t_token *token_list);
+
 /*
  * Libft utils :
 */
@@ -271,5 +278,22 @@ size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 void				ft_bzero(void *memory, size_t size);
 void				*ft_memset(void *s, int c, size_t n);
 char				*ft_strdup(char *str);
+
+/*
+ * Pipe streams define
+*/
+
+enum e_pipe
+{
+	OUTPUT,
+	INPUT
+};
+
+/*
+ * EXECUTION ABSTRACTION :
+*/
+
+void				execute_ast_data(t_node *ast, bool inline_mode);
+void				ft_exec_cmd(t_node *ast);
 
 #endif
