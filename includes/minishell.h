@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 17:50:53 by root             ###   ########.fr       */
+/*   Updated: 2022/06/15 18:21:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,11 @@ char				*ft_strstr(const char *big, const char *little);
 char				*ft_strchr(const char *s, int c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
 char				**ft_split(const char *s, char c);
-char				*ft_strjoin(char const *s1, char const *s2, char const *sep);
+char				*ft_strcat(char *dest, char *src);
+char				*ft_strcpy(char *dest, char *src);
+char				*ft_strjoin(char const *s1, char const *s2, \
+		char const *sep);
+void				ft_free_arrays(char **arrays);
 
 /*
  * Pipe streams define

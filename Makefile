@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/15 17:51:46 by root             ###   ########.fr        #
+#    Updated: 2022/06/15 18:24:48 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,9 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/system_run.c \
 	  ./srcs/env_utils.c \
 	  ./srcs/libft_utils_3.c \
-	  ./srcs/ft_split_strjoin.c
+	  ./srcs/ft_split_strjoin.c \
+	  ./srcs/ft_free_arrays.c \
+	  ./srcs/copy_concatenate_utils.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 13:40:02 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 13:41:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 18:28:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strjoin(char const *s1, char const *s2, char const *sep)
 	size = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep);
 	if (s1[0] == '\0' && s2[0] == '\0')
 		return (ft_strdup(""));
-	strnew = gc_malloc(sizeof(char) * (size + 1));
+	strnew = garbage_malloc(sizeof(char) * (size + 1));
 	ft_strcpy(strnew, (char *)s1);
 	ft_strcat(strnew, (char *)sep);
 	ft_strcat(strnew, (char *)s2);

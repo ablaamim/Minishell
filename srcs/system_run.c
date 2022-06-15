@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 18:04:59 by root             ###   ########.fr       */
+/*   Updated: 2022/06/15 18:35:45 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,13 @@ char	*retrieve_bin_path(const char	*binary)
 		return (0x0);
 	while (paths[i])
 	{
-		binary_path = ft_strjoin(paths[i], binary);
+		binary_path = ft_strjoin(paths[i], binary, "/");
+		printf("%s\n", binary_path);
+		return (binary_path);
+		i++;
 	}
+	ft_free_arrays(paths);
+	return (0x0);
 }
 
 /*
@@ -57,5 +62,11 @@ int	system_run(char	**argv)
 	ft_print_simple_cmd(argv);
 	env = get_bash_env();
 	binary_path = verify_bin_path(argv);
+	//ret = execution_manager(binary_path, argv[0]);
+	//if (ret != EXIT_SUCCESS)
+	//	return (ret);
+	if (execve(binary_path, argv, *env) == -1)
+		printf("ERROR MANAGING SHOULD BE DONE.\n");
+	garbage_free((void **)&binary_path);
 	return (EXIT_SUCCESS);
 }
