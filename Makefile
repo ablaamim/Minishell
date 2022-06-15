@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/12 09:59:10 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/15 11:45:49 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/pipe_parser.c \
 	  ./srcs/ast_constructor.c \
 	  ./srcs/tokens_identifier.c \
-	  ./srcs/execute_abstract_syntax_tree.c
+	  ./srcs/execute_abstract_syntax_tree.c \
+	  ./srcs/system_run.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 

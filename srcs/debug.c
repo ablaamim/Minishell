@@ -6,11 +6,28 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 13:08:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 12:10:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * Display simple command content.
+*/
+
+void	ft_print_simple_cmd(char	**argv)
+{
+	int	argc;
+
+	argc = 0x0;
+	while (argv[argc])
+	{
+		printf("%s  ", argv[argc]);
+		argc++;
+	}
+	printf("\n\n");
+}
 
 /*
  * Function to print all of the env variables

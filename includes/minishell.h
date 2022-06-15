@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 12:36:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 12:34:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ void				ft_add_history(char *line);
 void				ft_print_env(char **env);
 void				ft_print_token(t_token *token);
 void				disp_tree(t_node *tree, int lev);
+void				ft_print_simple_cmd(char **argv);
 
 /*
  * LEXER FUNCTIONS :
@@ -278,7 +279,8 @@ size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 void				ft_bzero(void *memory, size_t size);
 void				*ft_memset(void *s, int c, size_t n);
 char				*ft_strdup(char *str);
-
+char				*ft_strstr(const char *big, const char *little);
+char				*ft_strchr(const char *s, int c);
 /*
  * Pipe streams define
 */
@@ -296,5 +298,16 @@ enum e_pipe
 void				execute_ast_data(t_node *ast, bool inline_mode);
 void				ft_complex_exec(t_node *ast);
 void				ft_exec_simple_cmd(t_simple_cmd cmd);
+int					system_run(char **argv);
+char				*verify_bin_path(char **argv);
+char				*retrieve_bin_path(const char *binary);
 
+/*
+ * env utils :
+*/
+
+typedef char	**t_env;
+
+t_env				*get_bash_env(void);
+int					env_length(t_env env);
 #endif
