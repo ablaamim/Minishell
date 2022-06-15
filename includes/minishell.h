@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 12:34:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 13:29:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ void				*ft_memset(void *s, int c, size_t n);
 char				*ft_strdup(char *str);
 char				*ft_strstr(const char *big, const char *little);
 char				*ft_strchr(const char *s, int c);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
 /*
  * Pipe streams define
 */
@@ -297,6 +298,7 @@ enum e_pipe
 
 void				execute_ast_data(t_node *ast, bool inline_mode);
 void				ft_complex_exec(t_node *ast);
+void				exec_in_child(t_simple_cmd cmd);
 void				ft_exec_simple_cmd(t_simple_cmd cmd);
 int					system_run(char **argv);
 char				*verify_bin_path(char **argv);
@@ -309,5 +311,8 @@ char				*retrieve_bin_path(const char *binary);
 typedef char	**t_env;
 
 t_env				*get_bash_env(void);
-int					env_length(t_env env);
+int					env_length(t_env env);\
+char				*get_env(const char *var);
+int					ft_in_env(const char *var);
+
 #endif

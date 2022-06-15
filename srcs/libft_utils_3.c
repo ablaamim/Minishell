@@ -6,11 +6,21 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:17:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 12:28:47 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 13:08:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		ft_strncmp(const char	*s1, const char	*s2, size_t	n)
+{
+	int	i;
+
+	i = 0x0;
+	while (s1[i] && s2[i] && s1[i] == s2[i] && i < (int) n - 1)
+		i++;
+	return (s1[i] - s2[i]);
+}
 
 char	*ft_strstr(const char	*big, const char	*little)
 {

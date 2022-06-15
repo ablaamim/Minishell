@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 12:36:43 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 13:38:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@
 
 char	*retrieve_bin_path(const char	*binary)
 {
-	
+	char	**paths;
+	int		i;
+	char	*binary_path;
+
+	paths = ft_split(get_env("PATH", ':'));
 }
 
 /*
