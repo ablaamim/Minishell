@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/15 13:28:10 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/15 17:51:46 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,11 @@ RM = rm -rf
 HEADER = ./includes/minishell.h
 
 SRC = ./srcs/minishell.c \
-      ./srcs/debug.c \
-      ./srcs/ft_prompt.c \
-      ./srcs/executor.c \
-      ./srcs/ft_lexer_parser_program.c \
-      ./srcs/contructor_token_list.c \
+	  ./srcs/debug.c \
+	  ./srcs/ft_prompt.c \
+	  ./srcs/executor.c \
+	  ./srcs/ft_lexer_parser_program.c \
+	  ./srcs/contructor_token_list.c \
 	  ./srcs/define_char_type.c \
 	  ./srcs/ft_token_generator.c \
 	  ./srcs/garbage_memory_collection_library.c \
@@ -48,6 +48,7 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/system_run.c \
 	  ./srcs/env_utils.c \
 	  ./srcs/libft_utils_3.c \
+	  ./srcs/ft_split_strjoin.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
