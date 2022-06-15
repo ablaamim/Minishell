@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 09:28:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:22:20 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ void	ft_free_fd(void)
 }
 
 /*
+ * Verify if its inline_mode.
+*/
+
+bool	initialize_term(void)
+{
+	if (isatty(1) == 0)
+		return (true);
+	return(false);
+}
+
+/*
  * Entry point of my program.
 */
 
@@ -39,6 +50,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc == 1)
 	{
+		inline_mode = initialize_term();
 		//ft_print_env(env);
 		ft_free_fd();
 		ft_minishell(inline_mode);
