@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 13:26:40 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 19:00:04 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Return index of var in environment, returns -1 if not found.
 */
 
-int	ft_in_env(const char *var)
+int	ft_in_env(const char	*var)
 {
 	int		i;
 	int		len;
@@ -24,17 +24,22 @@ int	ft_in_env(const char *var)
 	t_env	*env;
 
 	i = 0x0;
+	printf("NANI THE FUCK ?????\n\n");
 	len = ft_strlen(var);
 	env = get_bash_env();
+	printf("ANNIE ARE YOU OK ?\n\n");
 	temp = *env;
 	while (temp[i])
 	{
+		printf("keskeuuu!");
 		if (ft_strncmp(temp[i], var, len) == 0x0)
 		{
 			if (temp[i][len] == '=' || temp[i][len] == '\0')
 				return (i);
 		}
+		i++;
 	}
+	printf("ALLO !\n\n");
 	return (-1);
 }
 
@@ -53,8 +58,6 @@ char	*get_env(const char *var)
 		return (0x0);
 	env = get_bash_env();
 	temp = *env;
-	printf("\n\n ENV : \n\n");
-	printf("%s\n", *temp);
 	return (&temp[i][ft_strlen(var) + 1]);
 }
 

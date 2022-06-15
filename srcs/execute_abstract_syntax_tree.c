@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 13:31:08 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/15 18:42:34 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		if (pid == -1)
 			exit(EXIT_FAILURE);
 		else if (pid == 0)
+		{
 			exec_in_child(cmd);
+			printf("Hello from child process\n");
+		}
 	}
 }
 
@@ -50,6 +53,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 void	ft_complex_exec(t_node	*ast)
 {
 	ft_exec_simple_cmd(ast->content.simple_cmd);
+	printf("WHATSAPP ???\n\n");
 }
 /*
  * Core function of my executor.
