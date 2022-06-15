@@ -12,32 +12,31 @@
 
 #include "../includes/minishell.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2, char const *sep)
 {
-  char	*joined;
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
+	int		size;
+	char	*strnew;
 
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	joined = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (joined == NULL)
-		return (NULL);
 	i = 0;
 	j = 0;
-	while (s1[j] != '\0')
+	if (!s1)
 	{
-		joined[i++] = s1[j];
-		j++;
+		if (!s2)
+			return (NULL);
+		return (ft_strjoin(sep, s2, ""));
 	}
-	j = 0;
-	while (s2[j] != '\0')
-	{
-		joined[i++] = s2[j];
-		j++;
-	}
-	joined[i] = '\0';
-	return (joined);
+	if (!s2)
+		return (ft_strjoin(s1, sep, ""));
+	size = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(sep);
+	if (s1[0] == '\0' && s2[0] == '\0')
+		return (ft_strdup(""));
+	strnew = gc_malloc(sizeof(char) * (size + 1));
+	ft_strcpy(strnew, (char *)s1);
+	ft_strcat(strnew, (char *)sep);
+	ft_strcat(strnew, (char *)s2);
+	return (strnew);
 }
 
 static int	ft_count_words(char const *s, char c)
