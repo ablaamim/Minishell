@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 18:42:34 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 14:55:00 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,29 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		else if (pid == 0)
 		{
 			exec_in_child(cmd);
-			printf("Hello from child process\n");
+			printf("Hello from child process\n\n");
+		}
+		else
+		{
+			wait(0x0);
+			printf("Hello from parent process\n\n");
 		}
 	}
 }
 
 /*
  * Execute a simple command.
+ * [BUGGY TOO.]
 */
 
 void	ft_complex_exec(t_node	*ast)
 {
 	ft_exec_simple_cmd(ast->content.simple_cmd);
-	printf("WHATSAPP ???\n\n");
+	//printf("WHATSAPP ???\n\n");
 }
 /*
  * Core function of my executor.
+ * [SURgICAL DEBUGGING]
 */
 
 void	execute_ast_data(t_node	*ast, bool	inline_mode)
@@ -66,7 +73,7 @@ void	execute_ast_data(t_node	*ast, bool	inline_mode)
 		write(2, "\n\r", 2);
 	if (ast->type == SIMPLE_CMD)
 	{
-		printf("SIMPLE CMD EXECUTION : \n\n");
+		printf("\n\n=====> SIMPLE CMD EXECUTION : \n\n");
 		ft_complex_exec(ast);
 	}
 	else

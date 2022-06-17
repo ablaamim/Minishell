@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 18:21:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/17 18:09:58 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,13 +312,24 @@ char				*verify_bin_path(char **argv);
 char				*retrieve_bin_path(const char *binary);
 
 /*
- * env utils :
+ * Env utils :
 */
 
 typedef char	**t_env;
 
+/*
+ * Init shell environment.
+*/
+
+int					init_bash_env(char *shell, t_env env);
+void				init_env_variables(char *bash);
+char				*get_true_filepath(char const *filepath);
+char				*path_extracter(char const *filepath);
+char				*realpath_helper(char const *path);
+char				*file_extract(char *filepath);
+
 t_env				*get_bash_env(void);
-int					env_length(t_env env);\
+int					env_length(t_env env);
 char				*get_env(const char *var);
 int					ft_in_env(const char *var);
 

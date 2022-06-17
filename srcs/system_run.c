@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 18:35:45 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/17 15:11:16 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
  * Return the path of binary, Null if not found.
+ * [THESE FUNCTIONS ARE BUGGY].
 */
 
 char	*retrieve_bin_path(const char	*binary)
@@ -26,13 +27,16 @@ char	*retrieve_bin_path(const char	*binary)
 	paths = ft_split(get_env("PATH"), ':');
 	if (paths == 0x0)
 		return (0x0);
+	ft_print_env(paths);
 	while (paths[i])
 	{
 		binary_path = ft_strjoin(paths[i], binary, "/");
 		printf("%s\n", binary_path);
 		return (binary_path);
+		garbage_free((void **) &binary_path);
 		i++;
 	}
+	//printf("%s\n", binary_path);
 	ft_free_arrays(paths);
 	return (0x0);
 }

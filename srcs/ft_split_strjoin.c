@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 13:40:02 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 18:28:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/17 13:42:52 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static char	**ft_split_words(char **res, char const *s, char c, int word_ct)
 		word_ln = 0;
 		i++;
 	}
-	res[i] = '\0';
+	res[i] = NULL;
 	return (res);
 }
 

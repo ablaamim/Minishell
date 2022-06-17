@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:22:20 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 18:10:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc == 1)
 	{
+		init_bash_env(file_extract(argv[0]), env);
 		inline_mode = initialize_term();
 		//ft_print_env(env);
 		ft_free_fd();

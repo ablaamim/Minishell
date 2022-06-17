@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_concatenate_utils.c                           :+:      :+:    :+:   */
+/*   file_extract.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/15 18:18:43 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 13:43:43 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/17 18:10:15 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/17 18:13:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_strcat(char *dest, char *src)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	i = ft_strlen(dest);
-	while (src[j])
-	{
-		dest[i + j] = src[j];
-		j++;
-	}
-	dest[i + j] = '\0';
-	return (dest);
-}
-
-char	*ft_strcpy(char *dest, char *src)
+char	*file_extract(char *filepath)
 {
 	int	i;
 
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
+	if (filepath == 0x0)
+		return (0x0);
+	if (ft_strchr(filepath, '/') == 0x0)
+		return (filepath);
+	i = ft_strlen(filepath);
+	while (i > 0 && filepath[i] != '/')
+		i--;
+	return (&filepath[i + 1]);
 }

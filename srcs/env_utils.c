@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 19:00:04 by root             ###   ########.fr       */
+/*   Updated: 2022/06/17 15:09:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int	ft_in_env(const char	*var)
 	printf("NANI THE FUCK ?????\n\n");
 	len = ft_strlen(var);
 	env = get_bash_env();
+	ft_print_env(*env);
 	printf("ANNIE ARE YOU OK ?\n\n");
 	temp = *env;
+	printf("%s\n", *temp);
 	while (temp[i])
 	{
 		printf("keskeuuu!");
@@ -58,6 +60,7 @@ char	*get_env(const char *var)
 		return (0x0);
 	env = get_bash_env();
 	temp = *env;
+	printf("%s\n", *temp);
 	return (&temp[i][ft_strlen(var) + 1]);
 }
 
