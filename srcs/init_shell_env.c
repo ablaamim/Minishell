@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 13:41:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 14:54:26 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*path_extracter(char const	*filepath)
 	i = ft_strlen(filepath);
 	while (i > 0 && filepath[i] != '/')
 		i--;
-	printf("%s\n", filepath);
+	//printf("%s\n", filepath);
 	return (ft_strndup(filepath, i));
 }
 
@@ -38,7 +38,7 @@ char	*realpath_helper(char const	*path)
 	real_path = getcwd(0x0, 0x0);
 	if (real_path == 0x0)
 	{
-		printf("EXIT SHELL\n");
+		printf("EXIT SHELL : FAILED TO GET PWD\n");
 		exit(EXIT_FAILURE);
 	}
 	return (real_path);
@@ -57,7 +57,7 @@ char	*get_true_filepath(char const	*filepath)
 	if (real_path == 0x0)
 		return (0x0);
 	binary_path = ft_strjoin(real_path, &filepath[ft_strlen(path)], "");
-	printf("%s\n", binary_path);
+	//printf("%s\n", binary_path);
 	garbage_free((void **) &path);
 	free(real_path);
 	return (binary_path);
@@ -65,6 +65,7 @@ char	*get_true_filepath(char const	*filepath)
 
 /*
  * Init all environment variable and save them in accessible memory.
+ * [SEGV CASE CLOSED, DIN DYMAK!]
 */
 
 void	init_env_variables(char	*shell)
@@ -90,9 +91,12 @@ void	init_env_variables(char	*shell)
 	//GOTTA CREATE A SET_ENV() FUNCTION.
 	ft_set_env_var("SHLVL", shlvl_value, 1);
 	ft_set_env_var("SHELL", shell_path, 1);
+	//printf("\n\n=====> DAFUQ \n\n");
+	//exit(EXIT_FAILURE);
 	if (getenv("PATH") == 0x0)
 		ft_set_env_var("PATH", PATH_AS_DEFAULT, 1);
-	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
+	//printf("\n\n====> DAFUQ!! \n\n");
+	//cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:11:16 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:09:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ char	*retrieve_bin_path(const char	*binary)
 	paths = ft_split(get_env("PATH"), ':');
 	if (paths == 0x0)
 		return (0x0);
-	ft_print_env(paths);
 	while (paths[i])
 	{
 		binary_path = ft_strjoin(paths[i], binary, "/");
-		printf("%s\n", binary_path);
 		return (binary_path);
 		garbage_free((void **) &binary_path);
 		i++;
@@ -63,14 +61,25 @@ int	system_run(char	**argv)
 	t_env	*env;
 	int		ret;
 
+	printf("-----------------------------------------------------------\n\n");
 	ft_print_simple_cmd(argv);
+	printf("-----------------------------------------------------------\n\n");
 	env = get_bash_env();
 	binary_path = verify_bin_path(argv);
 	//ret = execution_manager(binary_path, argv[0]);
 	//if (ret != EXIT_SUCCESS)
 	//	return (ret);
+	/*
+	 * I HAVE TO FIX THIS SHIT !
+	*/
+	printf("%s\n", binary_path);
+	printf("====> BINARY PATH CORRUPTED DUH...\n\n");
+	/*
+	 * ENABLE TO PRINT ENV VALUES !!
+	*/
+	//ft_print_env(*env);
 	if (execve(binary_path, argv, *env) == -1)
-		printf("ERROR MANAGING SHOULD BE DONE.\n");
+		printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
 	garbage_free((void **)&binary_path);
 	return (EXIT_SUCCESS);
 }

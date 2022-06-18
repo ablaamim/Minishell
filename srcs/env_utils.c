@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 13:53:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 14:59:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
  * TO DO : SET_ENV FUNC()
  * - SET VAR VALUE IF IT DOES NOT EXIST.
  * - Replace.
+ *  [ALL GOOD IN THIS MODULE]
 */
 
 void	ft_set_env_var(const char	*name, const char	*val, \
@@ -28,8 +29,8 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	env = get_bash_env();
 	temp = *env;
 	i = ft_in_env(name);
-	/* DEBUG
-	printf("\n\n===> IN_ENV VAL : %d\n\n", i);
+	//printf("\n\n===> IN_ENV VAL : %d\n\n", i);
+	/*
 	while (env[i])
 	{
 		printf("%s\n", *env[i]);
@@ -40,12 +41,14 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	{
 		//printf("TSAP\n\n");
 		//exit(EXIT_FAILURE);
-		garbage_free((void **) &temp[i]);
-		printf("SALAM SEGV IS THAT YOU ??? \n\n");
+		//garbage_free((void **) &temp[i]);
+		//printf("SALAM SEGV IS THAT YOU ??? \n\n"); [CASE CLOSED]
+		//exit(EXIT_FAILURE);
 		if (val == 0x0)
 			temp[i] = ft_strjoin(name, val, "");
 		else
 			temp[i] = ft_strjoin(name, val, "=");
+		//printf("%s\n", temp[i]);
 	}
 	else
 	{
