@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 12:43:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 13:41:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ void	init_env_variables(char	*shell)
 	//exit(EXIT_FAILURE);
 	shell_path = get_true_filepath(temp_path);
 	//printf("==> SHLVL VALUE : %s\n", shlvl_value);
+	//printf("==> SHELL_PATH : %s", shell_path);
 	//exit(EXIT_FAILURE);
 	//GOTTA CREATE A SET_ENV() FUNCTION.
-	exit(EXIT_FAILURE);
-	if (get_env("PATH") == 0x0)
-	{
-		printf("Problematic!!");
-		exit(EXIT_FAILURE);
-	}
+	ft_set_env_var("SHLVL", shlvl_value, 1);
+	ft_set_env_var("SHELL", shell_path, 1);
+	if (getenv("PATH") == 0x0)
+		ft_set_env_var("PATH", PATH_AS_DEFAULT, 1);
+	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
 
 /*

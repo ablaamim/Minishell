@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 12:36:02 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 13:37:19 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,6 +301,9 @@ enum e_pipe
 	INPUT
 };
 
+# define PATH_AS_DEFAULT \
+	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+
 /*
  * EXECUTION ABSTRACTION :
 */
@@ -329,10 +332,15 @@ char				*get_true_filepath(char const *filepath);
 char				*path_extracter(char const *filepath);
 char				*realpath_helper(char const *path);
 char				*file_extract(char *filepath);
-
 t_env				*get_bash_env(void);
 int					env_length(t_env env);
 char				*get_env(const char *var);
 int					ft_in_env(const char *var);
+void				ft_set_env_var(const char *name, const char*val, \
+		int replace);
+char				**ft_add_up_in_env(const char *name, const char *val, \
+		t_env env);
+void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
+		char *shelvl_value);
 
 #endif

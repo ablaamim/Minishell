@@ -6,11 +6,53 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 12:16:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 13:53:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * TO DO : SET_ENV FUNC()
+ * - SET VAR VALUE IF IT DOES NOT EXIST.
+ * - Replace.
+*/
+
+void	ft_set_env_var(const char	*name, const char	*val, \
+		int	replace)
+{
+	int		i;
+	t_env	*env;
+	t_env	temp;
+
+	env = get_bash_env();
+	temp = *env;
+	i = ft_in_env(name);
+	/* DEBUG
+	printf("\n\n===> IN_ENV VAL : %d\n\n", i);
+	while (env[i])
+	{
+		printf("%s\n", *env[i]);
+		i++;
+	}
+	*/
+	if (i >= 0x0 && replace != 0x0)
+	{
+		//printf("TSAP\n\n");
+		//exit(EXIT_FAILURE);
+		garbage_free((void **) &temp[i]);
+		printf("SALAM SEGV IS THAT YOU ??? \n\n");
+		if (val == 0x0)
+			temp[i] = ft_strjoin(name, val, "");
+		else
+			temp[i] = ft_strjoin(name, val, "=");
+	}
+	else
+	{
+		*env = ft_add_up_in_env(name, val, temp);
+		garbage_free((void **) &temp);
+	}
+}
 
 /*
  * Return index of var in environment, returns -1 if not found.
