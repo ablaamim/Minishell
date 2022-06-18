@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 15:51:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 18:24:52 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,9 @@ enum e_pipe
 };
 
 # define PATH_AS_DEFAULT \
-	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+	"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define CMD_ERROR "Minishell : cmd error\n"
+# define EXIT_COMMAND_NOT_FOUND 127
 
 /*
  * EXECUTION ABSTRACTION :
@@ -315,8 +317,10 @@ void				ft_exec_simple_cmd(t_simple_cmd cmd);
 int					system_run(char **argv);
 char				*verify_bin_path(char **argv);
 char				*retrieve_bin_path(const char *binary);
-
-
+int					ft_exec_manager(char *binary_path, char *cmd);
+int					error_manager(char *binary_path, char *cmd, char *error,
+		int exit_val);
+bool				ft_is_executable(char *binary_path);
 /*
  * Env typedef :
 */

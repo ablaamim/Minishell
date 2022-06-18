@@ -6,14 +6,14 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/18 15:00:54 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/18 18:10:58 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 # MACOS FLAG 
 # RFLAGS = -lreadline
 # LINUX FLAG
@@ -56,6 +56,7 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/ft_itoi_atoi.c \
 	  ./srcs/ft_add_up_in_env.c \
 	  ./srcs/mr_propre_cleaner.c \
+	  ./srcs/ft_is_executable.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
