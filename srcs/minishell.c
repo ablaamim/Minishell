@@ -6,14 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 18:10:02 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 12:13:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Function to free all file descriptors beyond 2.
+ * Function to free all file descriptors beyond or equal to 3.
 */
 
 void	ft_free_fd(void)
@@ -30,18 +30,23 @@ void	ft_free_fd(void)
 }
 
 /*
- * Verify if its inline_mode.
+ * Verify if its inline_mode/outline mode.
 */
 
 bool	initialize_term(void)
 {
-	if (isatty(1) == 0)
-		return (true);
-	return(false);
+	return(isatty(1) == 0);
 }
 
 /*
- * Entry point of my program.
+ * Entry point of my program, init and launch all process.
+ *
+ * ===> if argc == 1 (prgm name)
+ * - Init env.
+ * - recognize inline/Outline mode using istty() fuction 
+ * - Free all filedescriptors beyond or equal to 3.
+ * - Init my minishell.
+ * ===> Else ERROR
 */
 
 int	main(int argc, char **argv, char **env)

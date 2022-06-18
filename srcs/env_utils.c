@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:09:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 12:16:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ int	ft_in_env(const char	*var)
 	t_env	*env;
 
 	i = 0x0;
-	printf("NANI THE FUCK ?????\n\n");
+	//printf("NANI THE FUCK ?????\n\n");
 	len = ft_strlen(var);
 	env = get_bash_env();
-	ft_print_env(*env);
-	printf("ANNIE ARE YOU OK ?\n\n");
+	//ft_print_env(*env);
+	//printf("ANNIE ARE YOU OK ?\n\n");
 	temp = *env;
-	printf("%s\n", *temp);
+	//printf("%s\n", *temp);
 	while (temp[i])
 	{
-		printf("keskeuuu!");
+		//printf("keskeuuu!");
 		if (ft_strncmp(temp[i], var, len) == 0x0)
 		{
 			if (temp[i][len] == '=' || temp[i][len] == '\0')
@@ -41,7 +41,7 @@ int	ft_in_env(const char	*var)
 		}
 		i++;
 	}
-	printf("ALLO !\n\n");
+	//printf("ALLO !\n\n");
 	return (-1);
 }
 
@@ -56,16 +56,18 @@ char	*get_env(const char *var)
 	t_env	*env;
 
 	i = ft_in_env(var);
+	//printf("ALLO ???");
 	if (i == -1)
 		return (0x0);
 	env = get_bash_env();
 	temp = *env;
-	printf("%s\n", *temp);
+	//printf("%s\n", *temp);
 	return (&temp[i][ft_strlen(var) + 1]);
 }
 
 /*
  * Rerturn address of environment.
+ * [AKA WANNA BE GLOBAL //HACK IT ITS FINE]
 */
 
 t_env	*get_bash_env(void)

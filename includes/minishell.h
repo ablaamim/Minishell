@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 18:09:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 12:36:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,8 @@ char				*ft_strcpy(char *dest, char *src);
 char				*ft_strjoin(char const *s1, char const *s2, \
 		char const *sep);
 void				ft_free_arrays(char **arrays);
+char				*ft_itoa(int n);
+int					ft_atoi(const char *s);
 
 /*
  * Pipe streams define
@@ -312,7 +314,7 @@ char				*verify_bin_path(char **argv);
 char				*retrieve_bin_path(const char *binary);
 
 /*
- * Env utils :
+ * Env typedef :
 */
 
 typedef char	**t_env;

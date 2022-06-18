@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/17 18:14:00 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/18 12:21:39 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/copy_concatenate_utils.c \
 	  ./srcs/init_shell_env.c \
 	  ./srcs/file_extract.c \
+	  ./srcs/ft_itoi_atoi.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 

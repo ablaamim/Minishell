@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 18:20:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 12:43:15 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,31 @@ char	*get_true_filepath(char const	*filepath)
 	return (binary_path);
 }
 
-void	init_env_variables(char *shell)
+/*
+ * Init all environment variable and save them in accessible memory.
+*/
+
+void	init_env_variables(char	*shell)
 {
 	char	*temp_path;
 	char	*shell_path;
+	char	*shlvl;
+	char	*shlvl_value;
 
+	shlvl = get_env("SHLVL");
+	if (shlvl == 0x0)
+		shlvl = "0";
+	//printf("%s\n", shlvl); [DEBUG CURRENT DATA]
+	//exit(EXIT_FAILURE);
+	shlvl_value = ft_itoa(ft_atoi(shlvl) + 1);
 	temp_path = ft_strjoin("./", shell, "");
+	//printf("==> TEMP_PATH : %s\n", temp_path);
+	//exit(EXIT_FAILURE);
 	shell_path = get_true_filepath(temp_path);
+	//printf("==> SHLVL VALUE : %s\n", shlvl_value);
+	//exit(EXIT_FAILURE);
+	//GOTTA CREATE A SET_ENV() FUNCTION.
+	exit(EXIT_FAILURE);
 	if (get_env("PATH") == 0x0)
 	{
 		printf("Problematic!!");
@@ -77,7 +95,11 @@ void	init_env_variables(char *shell)
 	}
 }
 
-int	init_bash_env(char *shell, t_env	env)
+/*
+ * Save environment data in memory so i can access it.
+*/
+
+int	init_bash_env(char	*shell, t_env	env)
 {
 	t_env	*shell_env;
 	int		len;
@@ -89,11 +111,15 @@ int	init_bash_env(char *shell, t_env	env)
 	shell_env = get_bash_env();
 	if (*shell_env == 0x0)
 	{
-		tmp[i] = ft_strdup(env[i]);
-		i++;
+		tmp = garbage_malloc(sizeof(char *) * (len + 1));
+		while (env[i])
+		{
+			tmp[i] = ft_strdup(env[i]);
+			i++;
+		}
+		tmp[i] = 0x0;
+		*shell_env = tmp;
 	}
-	tmp[i] = 0x0;
-	*shell_env = tmp;
 	init_env_variables(shell);
 	return (0x0);
 }
