@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 14:47:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:15:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_complex_exec(t_node	*ast)
 }
 /*
  * Core function of my executor.
- * [SURgICAL DEBUGGING]
+ * [SURGICAL DEBUGGING ALL OVER!]
 */
 
 void	execute_ast_data(t_node	*ast, bool	inline_mode)

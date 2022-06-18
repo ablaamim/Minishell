@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 14:54:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:33:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*path_extracter(char const	*filepath)
 	i = ft_strlen(filepath);
 	while (i > 0 && filepath[i] != '/')
 		i--;
-	//printf("%s\n", filepath);
+	//printf("===> FILE PATH : %s\n", filepath);
 	return (ft_strndup(filepath, i));
 }
 
@@ -101,6 +101,9 @@ void	init_env_variables(char	*shell)
 
 /*
  * Save environment data in memory so i can access it.
+ * [STUPID MISTAKE IN STRDUP, I REPLACED IT]
+ * [THIS IS FUCKED UP, FOCUCE BROSKI]
+ * [CASE CLOSED FINALLY.]
 */
 
 int	init_bash_env(char	*shell, t_env	env)
@@ -119,11 +122,13 @@ int	init_bash_env(char	*shell, t_env	env)
 		while (env[i])
 		{
 			tmp[i] = ft_strdup(env[i]);
+			//printf("%s\n", tmp[i]); // CASE CLOSED.
 			i++;
 		}
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
+	//printf("==> SHELL : %s\n", shell);
 	init_env_variables(shell);
 	return (0x0);
 }

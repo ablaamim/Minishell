@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 15:09:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:52:39 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,20 @@ char	*retrieve_bin_path(const char	*binary)
 	char	*binary_path;
 
 	i = 0x0;
+	//printf("PATH=%s\n", get_env("PATH"));
 	paths = ft_split(get_env("PATH"), ':');
 	if (paths == 0x0)
 		return (0x0);
 	while (paths[i])
 	{
+		printf("===================| DATA DEBUG |=======================\n\n");
+		printf("====> PATHS %s %d\n\n", paths[i], i);
 		binary_path = ft_strjoin(paths[i], binary, "/");
+		//printf("==> BINARY PATH : %s\n", binary_path);
 		return (binary_path);
 		garbage_free((void **) &binary_path);
 		i++;
 	}
-	//printf("%s\n", binary_path);
 	ft_free_arrays(paths);
 	return (0x0);
 }
@@ -79,7 +82,14 @@ int	system_run(char	**argv)
 	*/
 	//ft_print_env(*env);
 	if (execve(binary_path, argv, *env) == -1)
+	{
 		printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
+		// TO DO : 
+		/*
+		return (ft_error_manager(binary_path, argv[0], strerror(errno), \
+					EXEC_ERROR));
+		*/
+	}
 	garbage_free((void **)&binary_path);
 	return (EXIT_SUCCESS);
 }

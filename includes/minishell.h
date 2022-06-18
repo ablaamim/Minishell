@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 13:37:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:51:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
-
+# include <string.h>
 /*
  * Error defines, i display them in stderr using write() with fd == 2.
 */
@@ -278,7 +278,7 @@ size_t				ft_strlen(char const *str);
 size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 void				ft_bzero(void *memory, size_t size);
 void				*ft_memset(void *s, int c, size_t n);
-char				*ft_strdup(char *str);
+char				*ft_strdup(const char *s);
 char				*ft_strstr(const char *big, const char *little);
 char				*ft_strchr(const char *s, int c);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -302,7 +302,7 @@ enum e_pipe
 };
 
 # define PATH_AS_DEFAULT \
-	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki"
+	"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 /*
  * EXECUTION ABSTRACTION :
@@ -316,6 +316,7 @@ int					system_run(char **argv);
 char				*verify_bin_path(char **argv);
 char				*retrieve_bin_path(const char *binary);
 
+
 /*
  * Env typedef :
 */
@@ -327,7 +328,7 @@ typedef char	**t_env;
 */
 
 int					init_bash_env(char *shell, t_env env);
-void				init_env_variables(char *bash);
+void				init_env_variables(char *shell);
 char				*get_true_filepath(char const *filepath);
 char				*path_extracter(char const *filepath);
 char				*realpath_helper(char const *path);

@@ -6,12 +6,35 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:59:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/18 15:23:37 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+char	*ft_strdup(const char *s)
+{
+	int		len;
+	char	*dest;
+	int		i;
+
+	i = 0;
+	len = ft_strlen(s);
+	if (s == NULL)
+		return (NULL);
+	dest = (char *) malloc(sizeof (*s) * (len + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		dest[i] = s[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+/*
 char	*ft_strdup(char *str)
 {
 	int		i;
@@ -22,7 +45,7 @@ char	*ft_strdup(char *str)
 		return (0x0);
 	i = -1;
 	len = ft_strlen(str);
-	new = (char *) malloc(sizeof(str) + 1);
+	new = (char *) malloc(sizeof(char) + 1);
 	if (new == 0x0)
 		return (0x0);
 	while (++i < len)
@@ -30,6 +53,7 @@ char	*ft_strdup(char *str)
 	new[i] = '\0';
 	return (new);
 }
+*/
 /*
 int	main()
 {
