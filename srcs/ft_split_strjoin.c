@@ -39,78 +39,71 @@ char	*ft_strjoin(char const *s1, char const *s2, char const *sep)
 	return (strnew);
 }
 
-static int	ft_count_words(char const *s, char c)
+static int	ft_nb_split(char *str, char c)
 {
 	int	i;
-	int	count;
+	int	nb;
+	int	bl;
 
 	i = 0;
-	count = 0;
-	while (s[i])
+	nb = 0;
+	while (str[i])
 	{
-		if (s[i] == c)
+		bl = 0;
+		while (str[i] == c && str[i])
 			i++;
-		else
+		while (str[i] != c && str[i])
 		{
-			count++;
-			while (s[i] && s[i] != c)
-				i++;
+			if (!bl)
+				nb += 1;
+			bl = 1;
+			i++;
 		}
 	}
-	return (count);
+	return (nb);
 }
 
-static char	*ft_make_words(char *word, char const *s, int j, int word_ln)
+static char	*ft_cut_split(char *str, char c, int *i)
 {
-	int	i;
+	int		j;
+	int		len;
+	char	*strnew;
 
-	i = 0;
-	while (word_ln > 0)
-		word[i++] = s[j - word_ln--];
-	word[i] = '\0';
-	return (word);
-}
-
-static char	**ft_split_words(char **res, char const *s, char c, int word_ct)
-{
-	int	i;
-	int	j;
-	int	word_ln;
-
-	i = 0;
-	j = 0 ;
-	word_ln = 0;
-	while (s[j] && i < word_ct)
+	j = 0;
+	len = 0;
+	while (str[*i] == c && str[*i])
+		*i += 1;
+	while (str[*i + len] != c && str[*i + len])
+		len++;
+	strnew = gc_malloc(sizeof(char) * (len + 1));
+	while (j < len)
 	{
-		while (s[j] && s[j] == c)
-			j++;
-		while (s[j] && s[j] != c)
-		{
-			j++;
-			word_ln++;
-		}
-		res[i] = (char *)malloc(sizeof(char) * (word_ln + 1));
-		if (!res[i])
-			return (NULL);
-		ft_make_words (res[i], s, j, word_ln);
-		word_ln = 0;
+		strnew[j] = str[*i];
+		j++;
+		*i += 1;
+	}
+	strnew[j] = '\0';
+	return (strnew);
+}
+
+char	**ft_split(char const *str, char c)
+{
+	int		i;
+	char	**tab;
+	int		offset;
+	int		tab_size;
+
+	i = 0;
+	offset = 0;
+	if (!str)
+		return (NULL);
+	tab_size = ft_nb_split((char *)str, c);
+	tab = gc_malloc(sizeof(char *) * (tab_size + 1));
+	while (i < tab_size)
+	{
+		tab[i] = ft_cut_split((char *)str, c, &offset);
 		i++;
 	}
-	res[i] = NULL;
-	return (res);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	int		word_ct;
-	char	**res;
-
-	if (s == NULL)
-		return (NULL);
-	word_ct = ft_count_words(s, c);
-	res = (char **)malloc(sizeof(char *) * (word_ct + 1));
-	if (!res)
-		return (NULL);
-	ft_split_words (res, s, c, word_ct);
-	return (res);
+	tab[i] = NULL;
+	return (tab);
 }
