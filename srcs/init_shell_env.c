@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:54:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:29:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,9 @@ int	init_bash_env(char	*bash, t_env	env)
 		while (env[i])
 		{
 			tmp[i] = ft_strdup(env[i]);
-	//		printf("%s\n", tmp[i]); // CASE CLOSED.
+			//printf("%s\n", tmp[i]); // CASE CLOSED.
 			i++;
 		}
-		//free(env[i]);
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
