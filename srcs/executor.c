@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 12:13:41 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 16:30:23 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,19 @@ void	ft_executor(char *line, bool inline_mode)
 			{
 				printf("\n\nEXECUTION GONE PRRRRR : \n\n");
 				execute_ast_data(ast, inline_mode);
+				/*
+				 * TO DO : FREE AST DATA.
+				*/
 				sleep(1);
 			}
 		}
 	}
 	else
 	{
-		printf("To be continued [STAGE 00]...\n");
+		/*
+		 * TO DO : SIGNAL HANDLING
+		*/
+		variadic_error_printer(2, "ERROR : HANDLE SIGNALS");
 		exit(EXIT_FAILURE);
 	}
 }

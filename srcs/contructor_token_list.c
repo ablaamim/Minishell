@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 09:33:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:08:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ t_token	*tokenize_word(char *in_characters, int *i)
 	if (in_characters[*i + j] == '\0'\
 			&& (s_quotes_found == true || d_quotes_found == true))
 	{
-		write(2, ERROR_MINISHELL_EOF, sizeof(ERROR_MINISHELL_EOF));
-		garbage_free((void **) &data);
+		variadic_error_printer(2, "\nMinishell : Syntax error: Unexpexted\
+		end of file.\n");
+		free(data);
+		//garbage_free((void **) &data);
 		return (NULL);
 	}
 	data = ft_strndup(in_characters + *i, j);

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 14:26:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:38:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:11:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ void	token_devour(t_token **token_list)
 	if (*token_list == 0x0)
 		return ;
 	*token_list = (*token_list)->next;
-	garbage_free((void **) &temp->data);
-	garbage_free((void **) &temp);
+	free(temp->data);
+	free(temp);
+	//garbage_free((void **) &temp->data);
+	//garbage_free((void **) &temp);
 }
 
 /*

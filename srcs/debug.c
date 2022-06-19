@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 15:03:47 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:01:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_print_token(t_token *token)
 		current_token = current_token->next;
 	}
 	if (current_token == 0x0)
-		printf("(NULL)");
+		printf("(NULL)\n\n");
 }
 
 void	disp_tree(t_node	*tree, int	lev)

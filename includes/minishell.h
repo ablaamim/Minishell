@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:38:11 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 16:55:33 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@
 # define ERROR_TOKEN "Error : syntax error near unexpected token\n"
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
-
+# define SYNTAX_ERROR_EXIT 2
 /*
  * LEXER ABSTRACTION.
 */
@@ -395,5 +395,13 @@ void				convert_percent(t_buffering *fmt, va_list ap);
 void				convert_c(t_buffering *fmt, va_list ap);
 void				convert_s(t_buffering *fmt, va_list ap);
 void				convert_d(t_buffering *fmt, va_list ap);
+
+/*
+ * LEAKS FIGHTING :
+*/
+
+void	ast_clearing(t_node **ast);
+void	simple_cmd_clearing(t_node **simple_cmd);
+void	tokens_clearing(t_token **token_list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 14:59:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:10:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	else
 	{
 		*env = ft_add_up_in_env(name, val, temp);
-		garbage_free((void **) &temp);
+		free(temp);
+		//garbage_free((void **) &temp);
 	}
 }
 

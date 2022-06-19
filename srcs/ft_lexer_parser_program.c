@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/12 09:31:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 17:02:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,16 @@ t_node	*ft_lexer_parser_program(char *line)
 			//if (ast == 0x0)
 			//	printf("YOU FUCKED UP PLENTY !!");
 			if (token_list != 0x0)
-				write(2, ERROR_TOKEN, sizeof(ERROR_TOKEN));
+				variadic_error_printer(2, "\nMinishell : Syntax error near \
+			unexpected token %s\n", token_list->data);
+			exit_value_set(SYNTAX_ERROR_EXIT);
+			ast_clearing(&ast);
 			//printf("to be continued ...\n");
-			exit(EXIT_FAILURE);
 		}
-		
 	}
 	else
-		printf("To be continued [STAGE 01]...\n");
-	printf("\n\nBuilding AST ...\n\n");
-	sleep(1);
-	disp_tree(ast, 0);
+		exit_value_set(SYNTAX_ERROR_EXIT);
+	tokens_clearing(&token_list);
+	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }
