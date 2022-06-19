@@ -6,11 +6,23 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:17:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 13:15:44 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 19:02:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	retrieve_len_array(char **array)
+{
+	int	len;
+
+	len = 0x0;
+	while ((array)[len] != 0x0)
+	{
+		++len;
+	}
+	return (len);
+}
 
 int	ft_putstr_fd(char const	*s, int	fd)
 {

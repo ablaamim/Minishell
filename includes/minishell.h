@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 16:55:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 19:32:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdarg.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 
 /*
  * Error defines, i display them in stderr using write() with fd == 2.
@@ -330,6 +333,8 @@ int					ft_exec_manager(char *binary_path, char *cmd);
 int					error_manager(char *binary_path, char *cmd, char *error, \
 int exit_val);
 bool				ft_is_executable(char *binary_path);
+void				exec_in_parent(int pid);
+
 /*
  * Env typedef :
 */
@@ -356,6 +361,7 @@ char				**ft_add_up_in_env(const char *name, const char *val, \
 		t_env env);
 void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
 		char *shelvl_value);
+int					retrieve_len_array(char **array);
 
 /*
  * Minishell exit ==> return exit_status and free all data.

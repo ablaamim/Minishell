@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 16:01:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 19:44:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 
 char	*retrieve_bin_path(const char	*binary)
 {
-	char	**paths;
-	int		i;
-	char	*binary_path;
+	char		**paths;
+	int			i;
+	char		*binary_path;
+	struct stat	buff;
 
 	i = 0x0;
 	//printf("PATH=%s\n", get_env("PATH"));
@@ -31,11 +32,24 @@ char	*retrieve_bin_path(const char	*binary)
 	while (paths[i])
 	{
 		printf("===================| DATA DEBUG |=======================\n\n");
-		printf("====> PATHS %s %d\n\n", paths[i], i);
+
+		printf("=====> All paths : \n\n");
+		int	param = 0x0;
+		while(paths[param])
+		{
+			printf("%s\n", paths[param]);
+			param++;
+		}
+
 		binary_path = ft_strjoin(paths[i], binary, "/");
 		//printf("==> BINARY PATH : %s\n", binary_path);
-		return (binary_path);
-		garbage_free((void **) &binary_path);
+		if (stat(binary_path, &buff) == 0)
+		{
+			ft_free_arrays(paths);
+			return (binary_path);
+		}
+		//garbage_free((void **) &binary_path);
+		free(binary_path);
 		i++;
 	}
 	ft_free_arrays(paths);
@@ -48,7 +62,9 @@ char	*retrieve_bin_path(const char	*binary)
 
 char	*verify_bin_path(char **argv)
 {
-	if (ft_strchr(argv[0], '/') != 0x0)
+	if (ft_strchr(argv[0], "./" != 0x0))
+		return (get_true_filepath(argv[0]));
+	else if (ft_strchr(argv[0], '/') != 0x0)
 		return (ft_strdup(argv[0]));
 	else
 		return (retrieve_bin_path(argv[0]));
@@ -90,7 +106,9 @@ int	ft_exec_manager(char	*binary_path, char	*cmd)
 }
 
 /*
- * Check path validity and execute cmd in child process.
+ * Check path validity and execute cmd in child process if path of binary
+ * is valid.
+ * else ==> print error on stderr.
 */
 
 int	system_run(char	**argv)
@@ -117,9 +135,10 @@ int	system_run(char	**argv)
 	*/
 	//ft_print_env(*env);
 	//printf("%s\n", argv[0]);
+	printf("\n\n===> BINARY_PATH SENT TO EXECVE : %s\n\n", binary_path);
 	if (execve(binary_path, argv, *env) == -1)
 	{
-		printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
+		//printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
 		// TO DO : 
 		return (error_manager(binary_path, argv[0], strerror(errno), \
 					EXIT_COMMAND_NOT_FOUND));

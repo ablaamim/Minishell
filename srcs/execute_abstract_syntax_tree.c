@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:17:42 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 19:38:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 	{
 		pid = fork();
 		if (pid == -1)
-			exit(EXIT_FAILURE);
+			shell_exit(EXIT_FAILURE, strerror(errno));
 		else if (pid == 0)
 		{
 			exec_in_child(cmd);
@@ -46,7 +46,8 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		else
 		{
 			//wait(0x0);
-			printf("Hello from parent process\n\n");
+			exec_in_parent(pid);
+			//printf("Hello from parent process\n\n");
 		}
 	}
 }
@@ -58,7 +59,11 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 
 void	ft_complex_exec(t_node	*ast)
 {
-	ft_exec_simple_cmd(ast->content.simple_cmd);
+	if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
+	&& ast->content.simple_cmd.argv[0][0] == '\0')
+		exit_value_set(EXIT_SUCCESS);
+	else
+		ft_exec_simple_cmd(ast->content.simple_cmd);
 	//printf("WHATSAPP ???\n\n");
 }
 /*
@@ -70,12 +75,15 @@ void	execute_ast_data(t_node	*ast, bool	inline_mode)
 {
 	//printf("%d\n", inline_mode);
 	if (inline_mode == false)
-		write(2, "\n\r", 2);
+		ft_putstr_fd("\n\r", 2);
 	if (ast->type == SIMPLE_CMD)
 	{
 		printf("\n\n=====> SIMPLE CMD EXECUTION : \n\n");
 		ft_complex_exec(ast);
 	}
+	/*
+	 * MORE CASES TO HANDLE.
+	*/
 	else
 		printf("To be continued [EXECUTION STAGE]...\n");
 }
