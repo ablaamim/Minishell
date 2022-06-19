@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 18:18:43 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/17 13:43:43 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 14:15:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,20 @@ char	*ft_strcpy(char *dest, char *src)
 
 	i = 0;
 	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strncpy(char *dest, char *src, int size)
+{
+	int	i;
+
+	i = 0x0;
+	while (src[i] && i < size)
 	{
 		dest[i] = src[i];
 		i++;
