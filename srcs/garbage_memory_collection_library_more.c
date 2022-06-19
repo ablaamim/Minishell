@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:48:04 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 12:56:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 14:40:25 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	garbage_exit(int	status, char *msg)
 {
 	if (msg != 0x0)
 	{
-		if (status == EXIT_FAILURE);
+		if (status == EXIT_FAILURE)
 			write(2, "Error : ", sizeof("Error : "));
 		write(2, msg, sizeof(msg));
 		write(2, "\n", 1);

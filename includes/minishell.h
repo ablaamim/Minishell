@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 13:42:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 14:31:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 /*
  * Error defines, i display them in stderr using write() with fd == 2.
+ * [WARNING !!! ALL ERROR DEFINES WILL BE USELESS!!!!!!!!!!!!!!!!!!!!!!!]
+ * [SOLUTION : VARIADIC_ERROR_PRINTER() FUNCTIONALITY.]
 */
 
 # define ARGV_ERROR "Error : invalid argument\n"
@@ -248,6 +250,7 @@ void				garbage_memdel(void **memory);
 void				garbage_free(void **garbage_to_free);
 void				garbage_free_everything(void);
 void				garbage_exit(int status, char *msg);
+void				garbage_putstr_fd(int fd, char const *str);
 
 /*
  * PARSER FUNCTIONS :
@@ -295,6 +298,7 @@ void				ft_free_arrays(char **arrays);
 char				*ft_itoa(int n);
 int					ft_atoi(const char *s);
 int					ft_putstr_fd(char const *s, int fd);
+char				*ft_strncpy(char *dest, char *src, int size);
 
 /*
  * Pipe streams define
@@ -306,8 +310,8 @@ enum e_pipe
 	INPUT
 };
 
-# define PATH_AS_DEFAULT \
-	"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# define PATH_AS_DEFAULT "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:\
+/sbin:/bin"
 # define CMD_ERROR "Minishell : cmd error\n"
 # define EXIT_COMMAND_NOT_FOUND 127
 
@@ -323,8 +327,8 @@ int					system_run(char **argv);
 char				*verify_bin_path(char **argv);
 char				*retrieve_bin_path(const char *binary);
 int					ft_exec_manager(char *binary_path, char *cmd);
-int					error_manager(char *binary_path, char *cmd, char *error,
-		int exit_val);
+int					error_manager(char *binary_path, char *cmd, char *error, \
+int exit_val);
 bool				ft_is_executable(char *binary_path);
 /*
  * Env typedef :
@@ -357,15 +361,15 @@ void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
  * Minishell exit ==> return exit_status and free all data.
 */
 
-void			shell_exit(int status, char *msg);
-int				*retrieve_exit_status(void);
-void			exit_value_set(int exit_value);
+void				shell_exit(int status, char *msg);
+int					*retrieve_exit_status(void);
+void				exit_value_set(int exit_value);
 
 /*
  * Variadic function to print arbitrary number of errors on given fd stream
 */
 
-int				variadic_error_printer(int fd, const char *fmt, ...);
+int					variadic_error_printer(int fd, const char *fmt, ...);
 
 /*
  * variadic defines and utils :
@@ -382,9 +386,14 @@ typedef struct s_buffering
 typedef struct s_converter
 {
 	char	type;
-	void	(*function) (t_buffering *, va_list);
+	void	(*function)(t_buffering *, va_list);
 }	t_converter;
 
-char			*variadic_format(const char *str, va_list ap);
-int				type_recognizer(char type, va_list ap, t_buffering *fmt);
+char				*variadic_format(const char *str, va_list ap);
+int					type_recognizer(char type, va_list ap, t_buffering *fmt);
+void				convert_percent(t_buffering *fmt, va_list ap);
+void				convert_c(t_buffering *fmt, va_list ap);
+void				convert_s(t_buffering *fmt, va_list ap);
+void				convert_d(t_buffering *fmt, va_list ap);
+
 #endif
