@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 14:31:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 15:38:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ void				garbage_free(void **garbage_to_free);
 void				garbage_free_everything(void);
 void				garbage_exit(int status, char *msg);
 void				garbage_putstr_fd(int fd, char const *str);
-
+void				ft_free_all_leaks(void);
 /*
  * PARSER FUNCTIONS :
 */

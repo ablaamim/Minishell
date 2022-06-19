@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variadic_error_printer.c                           :+:      :+:    :+:   */
+/*   ft_free_all_leaks.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 13:08:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:47:04 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/19 15:35:12 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/19 15:37:28 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	variadic_error_printer(int	fd, const char	*fmt, ...)
+void	ft_free_all_leaks(void)
 {
-	int		len;
-	char	*s;
-	va_list	ap;
-
-	va_start(ap, fmt);
-	s = variadic_format(fmt, ap);
-	len = ft_putstr_fd(s, fd);
-	free(s);
-	return (len);
+	garbage_free_everything();
 }
-
-/*
-int	main(void)
-{
-	variadic_error_printer(2, "EXIT MINISHELL\n");
-	return (EXIT_SUCCESS);
-}
-*/

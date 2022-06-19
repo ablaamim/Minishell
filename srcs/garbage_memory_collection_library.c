@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 09:11:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:01:00 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 15:16:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	garbage_free(void **garbage_to_free)
 		current = *garbage_list;
 		while (current->ptr != *garbage_to_free)
 		{
-			printf("NANIIII ???????");
 			previous = current;
 			current = current->next;
 		}

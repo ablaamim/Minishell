@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/19 12:52:08 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/19 15:41:24 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,9 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/ft_is_executable.c \
 	  ./srcs/garbage_memory_collection_library_more.c \
 	  ./srcs/shell_exit.c \
+	  ./srcs/variadic_error_printer.c \
+	  ./srcs/variadic_format.c \
+	  ./srcs/variadic_types_converter.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
@@ -69,7 +72,7 @@ bonus : $(NAME_B)
 # MAC OS COMPILATION
 
 $(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(RFLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(RFLAGS) -o $(NAME)
 
 # LINUX COMPILATION
 

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 12:31:58 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:54:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	init_env_variables(char	*shell)
 	if (getenv("PATH") == 0x0)
 		ft_set_env_var("PATH", PATH_AS_DEFAULT, 1);
 	//printf("\n\n====> DAFUQ!! \n\n");
-	//cleaner_mr_propre(temp_path, shell_path, shlvl_value);
+	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
 
 /*
@@ -130,6 +130,7 @@ int	init_bash_env(char	*bash, t_env	env)
 	//		printf("%s\n", tmp[i]); // CASE CLOSED.
 			i++;
 		}
+		//free(env[i]);
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}

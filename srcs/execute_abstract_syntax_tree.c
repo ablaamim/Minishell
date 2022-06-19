@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 10:40:18 by root             ###   ########.fr       */
+/*   Updated: 2022/06/19 15:17:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		else if (pid == 0)
 		{
 			exec_in_child(cmd);
-			printf("Hello from child process\n\n");
+			//printf("Hello from child process\n\n");
 		}
 		else
 		{
