@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 18:24:52 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 13:42:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <string.h>
+# include <stdarg.h>
+
 /*
  * Error defines, i display them in stderr using write() with fd == 2.
 */
@@ -244,6 +246,8 @@ t_garbage_list		**get_garbage_list(void);
 void				garbage_bzero(void *memory, size_t n);
 void				garbage_memdel(void **memory);
 void				garbage_free(void **garbage_to_free);
+void				garbage_free_everything(void);
+void				garbage_exit(int status, char *msg);
 
 /*
  * PARSER FUNCTIONS :
@@ -290,6 +294,7 @@ char				*ft_strjoin(char const *s1, char const *s2, \
 void				ft_free_arrays(char **arrays);
 char				*ft_itoa(int n);
 int					ft_atoi(const char *s);
+int					ft_putstr_fd(char const *s, int fd);
 
 /*
  * Pipe streams define
@@ -348,4 +353,38 @@ char				**ft_add_up_in_env(const char *name, const char *val, \
 void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
 		char *shelvl_value);
 
+/*
+ * Minishell exit ==> return exit_status and free all data.
+*/
+
+void			shell_exit(int status, char *msg);
+int				*retrieve_exit_status(void);
+void			exit_value_set(int exit_value);
+
+/*
+ * Variadic function to print arbitrary number of errors on given fd stream
+*/
+
+int				variadic_error_printer(int fd, const char *fmt, ...);
+
+/*
+ * variadic defines and utils :
+*/
+
+# define BUFFERING 4096
+
+typedef struct s_buffering
+{
+	int		i;
+	char	buffer[BUFFERING];
+}	t_buffering;
+
+typedef struct s_converter
+{
+	char	type;
+	void	(*function) (t_buffering *, va_list);
+}	t_converter;
+
+char			*variadic_format(const char *str, va_list ap);
+int				type_recognizer(char type, va_list ap, t_buffering *fmt);
 #endif

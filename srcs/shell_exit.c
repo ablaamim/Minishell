@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command_in_child_process.c                 :+:      :+:    :+:   */
+/*   shell_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/12 13:31:24 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 10:37:07 by root             ###   ########.fr       */
+/*   Created: 2022/06/19 12:36:01 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/19 12:42:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
- * Execute simple commands in child process.
-*/
-
-void	exec_in_child(t_simple_cmd	cmd)
+int	*retrieve_exit_status(void)
 {
-	int	ret;
+	static int	exit_value = 0x0;
 
-	ret = system_run(cmd.argv);
-	//printf("EXIT_CHILD VAL : %d\n\n", ret);
-	exit(ret);
+	return (&exit_value);
+}
+
+void	exit_value_set(int	exit_value)
+{
+	*retrieve_exit_status() = exit_value;
+}
+
+void	shell_exit(int	status, char *msg)
+{
+	exit_value_set(status);
+	garbage_exit(status, msg);
 }

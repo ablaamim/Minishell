@@ -6,13 +6,23 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:17:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/15 13:08:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 13:15:44 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_strncmp(const char	*s1, const char	*s2, size_t	n)
+int	ft_putstr_fd(char const	*s, int	fd)
+{
+	int	len;
+
+	len = ft_strlen(s);
+	if (s)
+		write(fd, s, len);
+	return (len);
+}
+
+int	ft_strncmp(const char	*s1, const char	*s2, size_t	n)
 {
 	int	i;
 

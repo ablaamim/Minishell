@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command_in_child_process.c                 :+:      :+:    :+:   */
+/*   variadic_error_printer.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/12 13:31:24 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 10:37:07 by root             ###   ########.fr       */
+/*   Created: 2022/06/19 13:08:57 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/19 13:43:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
- * Execute simple commands in child process.
-*/
-
-void	exec_in_child(t_simple_cmd	cmd)
+int	variadic_error_printer(int	fd, const char	*fmt, ...)
 {
-	int	ret;
+	int		len;
+	char	*s;
+	va_list	ap;
 
-	ret = system_run(cmd.argv);
-	//printf("EXIT_CHILD VAL : %d\n\n", ret);
-	exit(ret);
+	va_start(ap, fmt);
+	s = variadic_format(fmt, ap);
+	len = ft_putstr_fd(s, fd);
+	garbage_free((void **) &s);
+	return (len);
+}
+
+int	main(void)
+{
+	variadic_error_printer(2, "%c", 'a');
+	return (EXIT_SUCCESS);
 }

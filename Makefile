@@ -6,18 +6,18 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/18 18:10:58 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/19 12:52:08 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 # MACOS FLAG 
-# RFLAGS = -lreadline
+#RFLAGS = -lreadline
 # LINUX FLAG
-RFLAGS = -L/usr/local/lib -I/usr/local/inclue -lreadline
+RFLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
 
 RM = rm -rf
 
@@ -53,10 +53,12 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/copy_concatenate_utils.c \
 	  ./srcs/init_shell_env.c \
 	  ./srcs/file_extract.c \
-	  ./srcs/ft_itoi_atoi.c \
+	  ./srcs/ft_itoa_atoi.c \
 	  ./srcs/ft_add_up_in_env.c \
 	  ./srcs/mr_propre_cleaner.c \
 	  ./srcs/ft_is_executable.c \
+	  ./srcs/garbage_memory_collection_library_more.c \
+	  ./srcs/shell_exit.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
@@ -67,7 +69,7 @@ bonus : $(NAME_B)
 # MAC OS COMPILATION
 
 $(NAME) : $(OBJ)
-	$(CC) $(RFLAGS) $(OBJ) $(CFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(RFLAGS) $(OBJ) -o $(NAME)
 
 # LINUX COMPILATION
 

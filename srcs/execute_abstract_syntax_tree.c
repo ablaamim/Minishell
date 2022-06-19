@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 15:15:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 10:40:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		}
 		else
 		{
-			wait(0x0);
+			//wait(0x0);
 			printf("Hello from parent process\n\n");
 		}
 	}
 }
 
 /*
- * Execute a simple command.
+ * Execute a simple command in child process using execve().
  * [BUGGY TOO.]
 */
 
