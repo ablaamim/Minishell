@@ -14,6 +14,31 @@
 
 char	*ft_strdup(const char *s)
 {
+	int		i;
+	int		size;
+	char	*dup;
+
+	i = 0;
+	if (s == NULL)
+		size = 1;
+	else
+		size = ft_strlen(s);
+	dup = garbage_malloc(sizeof(char) * (size + 1));
+	if (s != NULL)
+	{
+		while (s[i])
+		{
+			dup[i] = s[i];
+			i++;
+		}
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+/*
+char	*ft_strdup(const char *s)
+{
 	int		len;
 	char	*dest;
 	int		i;
@@ -33,6 +58,7 @@ char	*ft_strdup(const char *s)
 	dest[i] = '\0';
 	return (dest);
 }
+*/
 
 /*
 char	*ft_strdup(char *str)
