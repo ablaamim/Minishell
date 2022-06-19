@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 22:13:00 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 00:49:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,29 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 	 * To do :
 	 * Create a function that will close fd.
 	*/
-	printf("\n\n===> input_stream = %d / output_stream = %d\n\n", \
+	printf("\n\n INPUT_STREAM = %d / OUTPUT_STREAM = %d\n\n", \
 	saver.input_stream, saver.output_stream);
 	ft_close_fd(saver);
 }
 
 /*
  * Execute a simple command in child process using execve().
- * [BUGGY TOO.]
+ * [BUGGY TOO.] [CASE CLOSED]
+ * [TO DO : IMPLEMENT REDIRECTIONS]
 */
 
 void	ft_complex_exec(t_node	*ast)
 {
-	if (execute_redirections(ast) == true)
-	{
+	//if (execute_redirections(ast) == true)
+	//{
 		if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
 		&& ast->content.simple_cmd.argv[0][0] == '\0')
 			exit_value_set(EXIT_SUCCESS);
 		else
 			ft_exec_simple_cmd(ast->content.simple_cmd);
-	}
-	else
-		exit_value_set(EXIT_FAILURE);
+	//}
+	//else
+		//exit_value_set(EXIT_FAILURE);
 }
 /*
  * Core function of my executor.
@@ -93,7 +94,7 @@ void	execute_ast_data(t_node	*ast, bool	inline_mode)
 		ft_putstr_fd("\n\r", 2);
 	if (ast->type == SIMPLE_CMD)
 	{
-		printf("\n\n=====> SIMPLE CMD EXECUTION : \n\n");
+		printf("\n\nSIMPLE CMD EXECUTION : \n\n");
 		ft_complex_exec(ast);
 	}
 	/*

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 17:02:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 00:45:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ t_node	*ft_lexer_parser_program(char *line)
 	token_list = 0x0;
 	if (constructor_token_list(line, &token_list) == true)
 	{
-		printf("Welcome to minishell program !\n\n");
-		sleep(1);
-		printf("LINKED LIST OF TOKENS : \n\n");
+		printf("============> Welcome to minishell program <===============\n\n");
+		printf("================> LINKED LIST OF TOKENS <==================\n\n");
 		ft_print_token(token_list);
 		if (ast_constructor(&token_list, &ast, false) == false || \
 				token_list != 0x0 )
@@ -52,6 +51,7 @@ t_node	*ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
+	printf("====================> DISPLAY TREE <========================\n\n");
 	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }

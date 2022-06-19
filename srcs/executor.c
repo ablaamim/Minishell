@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 16:30:23 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 00:50:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ void	ft_executor(char *line, bool inline_mode)
 		{
 			if (ast != 0x0)
 			{
-				printf("\n\nEXECUTION GONE PRRRRR : \n\n");
+				printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
 				execute_ast_data(ast, inline_mode);
 				/*
 				 * TO DO : FREE AST DATA.
+				 * [CASE CLOSED]
 				*/
-				sleep(1);
+				ast_clearing(&ast);
 			}
 		}
 	}

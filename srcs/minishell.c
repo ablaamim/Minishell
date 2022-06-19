@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 19:38:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 23:40:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	main(int argc, char **argv, char **env)
 	{
 		init_bash_env(file_extract(argv[0]), env);
 		inline_mode = initialize_term();
+		printf("MODE = %d\n\n", inline_mode);
+		printf("============================================================\n\n");
 		//printf("\n\nLEAKS FREE CODE\n\n");
 		//ft_print_env(env);
 		ft_free_fd();
