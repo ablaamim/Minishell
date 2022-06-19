@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 19:38:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 22:13:00 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,13 @@
 
 void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 {
-	pid_t	pid;
+	pid_t				pid;
+	t_io_streams_file	saver;
 
+	saver.input_stream = dup(0);
+	saver.output_stream = dup(1);
+	dup2(cmd.fd_in, 0);
+	dup2(cmd.fd_out, 1);
 	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0)
 	{
 		pid = fork();
@@ -45,11 +50,17 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		}
 		else
 		{
-			//wait(0x0);
 			exec_in_parent(pid);
 			//printf("Hello from parent process\n\n");
 		}
 	}
+	/*
+	 * To do :
+	 * Create a function that will close fd.
+	*/
+	printf("\n\n===> input_stream = %d / output_stream = %d\n\n", \
+	saver.input_stream, saver.output_stream);
+	ft_close_fd(saver);
 }
 
 /*
@@ -59,12 +70,16 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 
 void	ft_complex_exec(t_node	*ast)
 {
-	if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
-	&& ast->content.simple_cmd.argv[0][0] == '\0')
-		exit_value_set(EXIT_SUCCESS);
+	if (execute_redirections(ast) == true)
+	{
+		if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
+		&& ast->content.simple_cmd.argv[0][0] == '\0')
+			exit_value_set(EXIT_SUCCESS);
+		else
+			ft_exec_simple_cmd(ast->content.simple_cmd);
+	}
 	else
-		ft_exec_simple_cmd(ast->content.simple_cmd);
-	//printf("WHATSAPP ???\n\n");
+		exit_value_set(EXIT_FAILURE);
 }
 /*
  * Core function of my executor.

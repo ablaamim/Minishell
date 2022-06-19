@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 19:32:02 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/19 21:52:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -409,5 +409,21 @@ void				convert_d(t_buffering *fmt, va_list ap);
 void	ast_clearing(t_node **ast);
 void	simple_cmd_clearing(t_node **simple_cmd);
 void	tokens_clearing(t_token **token_list);
+
+/*
+ * I/O streams file struct :
+*/
+
+typedef struct s_io_streams_file
+{
+	int	input_stream;
+	int	output_stream;
+}	t_io_streams_file;
+
+/*
+ * IO_STREAMS UTILS :
+*/
+
+void	ft_close_fd(t_io_streams_file saver);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/19 19:09:39 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/19 22:06:48 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/simple_cmd_clearing.c \
 	  ./srcs/tokens_clearing.c \
 	  ./srcs/exec_in_parent.c \
+	  ./srcs/ft_io_utils.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
