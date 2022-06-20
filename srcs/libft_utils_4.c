@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_clearing.c                                     :+:      :+:    :+:   */
+/*   libft_utils_4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 16:32:23 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 11:12:05 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/20 12:34:20 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/20 12:36:41 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ast_clearing(t_node	**ast)
+int	ft_strcmp(char *s1, char *s2)
 {
-	if (*ast == 0x0)
-		return ;
-	if ((*ast)->type == SIMPLE_CMD)
-		simple_cmd_clearing(ast);
-	else
-	{
-		ast_clearing(&(*ast)->content.child.left);
-		ast_clearing(&(*ast)->content.child.right);
-		free(*ast);
-	}
+	int	i;
+
+	i = 0x0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 21:52:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 13:07:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ typedef struct s_simple_cmd
 	char	**argv;
 	int		fd_in;
 	int		fd_out;
-	bool	input_stream_has_quotes;
+	bool	input_has_quotes;
 }	t_simple_cmd;
 
 /*
@@ -302,6 +302,7 @@ char				*ft_itoa(int n);
 int					ft_atoi(const char *s);
 int					ft_putstr_fd(char const *s, int fd);
 char				*ft_strncpy(char *dest, char *src, int size);
+int					ft_strcmp(char *s1, char *s2);
 
 /*
  * Pipe streams define
@@ -425,5 +426,17 @@ typedef struct s_io_streams_file
 */
 
 void	ft_close_fd(t_io_streams_file saver);
+
+/*
+ * EXECUTE REDIRRECTONS : 
+*/
+
+bool	execute_redirections(t_node *ast);
+bool	scan_open__redirections(char **argv, int *fd_input, int *ft_output,\
+		 bool input_has_quotes);
+bool	arg_content_is_redirected(char *arguments);
+bool	is_redirection(char **arguments, int *fd_input, int *fd_output, bool \
+		input_has_quotes);
+bool	input_stream_redirection();
 
 #endif

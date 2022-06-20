@@ -6,24 +6,11 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 00:49:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 12:12:19 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
- * To do :
-*/
-
-/*
- * Define my execution core function, use it in inline_mode.
-*/
-
-/*
- * I will start by executing a simple command, then try to execute redir, pipes
- * and so on ...
-*/
 
 /*
  * execute a simple command.

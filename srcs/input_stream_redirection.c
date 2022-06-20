@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_clearing.c                                     :+:      :+:    :+:   */
+/*   input_stream_redirection.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 16:32:23 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 11:12:05 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/20 13:07:06 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/20 13:07:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ast_clearing(t_node	**ast)
+bool	input_stream_redirection()
 {
-	if (*ast == 0x0)
-		return ;
-	if ((*ast)->type == SIMPLE_CMD)
-		simple_cmd_clearing(ast);
-	else
-	{
-		ast_clearing(&(*ast)->content.child.left);
-		ast_clearing(&(*ast)->content.child.right);
-		free(*ast);
-	}
+	
 }
