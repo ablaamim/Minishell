@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 13:19:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 23:44:41 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,7 @@ void	ft_close_fd(t_io_streams_file saver);
 */
 
 bool				execute_redirections(t_node *ast);
-bool				scan_open__redirections(char **argv, int *fd_input, \
+bool				scan_open_redirections(char **argv, int *fd_input, \
 		int *ft_output, bool input_has_quotes);
 bool				arg_content_is_redirected(char *arguments);
 bool				is_redirection(char **arguments, int *fd_input, \

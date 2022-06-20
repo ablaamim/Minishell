@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 22:12:39 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 13:18:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 23:51:28 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	is_redirection(char **arguments, int *fd_input, int *fd_output, \
 		 *
 		 * HANDLE OUTPUT REDIRECTIONS
 		*/
-		*fd_output = output_stream_redirection(*(arguments + 1));
+		*fd_output = output_stream_redirection(arguments);
 		if (*fd_output == -1)
 			return (false);
 	}
@@ -107,7 +107,7 @@ bool	execute_redirections(t_node *ast)
 {
 	if (ast->type == SIMPLE_CMD)
 	{
-		return (scan_open__redirections(ast->content.simple_cmd.argv, \
+		return (scan_open_redirections(ast->content.simple_cmd.argv, \
 					&ast->content.simple_cmd.fd_in, \
 					&ast->content.simple_cmd.fd_out, \
 					ast->content.simple_cmd.input_has_quotes));
@@ -117,8 +117,14 @@ bool	execute_redirections(t_node *ast)
 		/*
 		 * TO DO :
 		 *
-		 * EXEC REDIRECTIONS ON LEFT AND RIGHT OF THE AST.
+		 * EXEC REDIRECTIONS ON LEFT AND RIGHT OF THE AST RECURSIVELY.
 		*/
+		if (ast->content.child.left != 0x0)
+			if (execute_redirections(ast->content.child.left) == false)
+				return (false);
+		if (ast->content.child.right != 0x0)
+			if (execute_redirections(ast->content.child.right) == false)
+				return (false);
 		return (true);
 	}
 }
