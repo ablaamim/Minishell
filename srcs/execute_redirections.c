@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 22:12:39 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 13:09:02 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/20 13:18:15 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	is_redirection(char **arguments, int *fd_input, int *fd_output, \
 		 *
 		 * HANDLE OUTPUT REDIRECTIONS
 		*/
-		//*fd_output = output_stream_redirection());
+		*fd_output = output_stream_redirection(*(arguments + 1));
 		if (*fd_output == -1)
 			return (false);
 	}

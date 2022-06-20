@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/20 12:37:02 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/20 13:23:27 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/exec_in_parent.c \
 	  ./srcs/ft_io_utils.c \
 	  ./srcs/libft_utils_4.c \
+	  ./srcs/execute_redirections.c \
+	  ./srcs/input_stream_redirection.c \
+	  ./srcs/output_stream_redirection.c
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
