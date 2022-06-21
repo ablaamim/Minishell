@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 19:53:08 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:38:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,25 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 
 void	ft_complex_exec(t_node *ast, bool pipe)
 {
-	if (execute_redirections(ast) == true)
+	if (shell_expansions(ast) == true)
 	{
-		if (pipe == false)
+		if (execute_redirections(ast) == true)
 		{
-			//printf("IS REDIRECTION A VALID STEP ??\n\n");
-			if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
-			&& ast->content.simple_cmd.argv[0][0] == '\0')
-				exit_value_set(EXIT_SUCCESS);
+			if (pipe == false)
+			{
+				//printf("IS REDIRECTION A VALID STEP ??\n\n");
+				if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
+					&& ast->content.simple_cmd.argv[0][0] == '\0')
+					exit_value_set(EXIT_SUCCESS);
+				else
+					ft_exec_simple_cmd(ast->content.simple_cmd);
+			}
 			else
-				ft_exec_simple_cmd(ast->content.simple_cmd);
+				//printf("IS THERE A PROB HERE ?\n\n");
+				execute_pipes(ast);
 		}
 		else
-		{
-			//printf("IS THERE A PROB HERE ?\n\n");
-			execute_pipes(ast);
-		}
+			exit_value_set(EXIT_FAILURE);
 	}
 	else
 		exit_value_set(EXIT_FAILURE);

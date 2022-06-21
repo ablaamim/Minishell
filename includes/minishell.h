@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 20:02:03 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 21:46:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -461,5 +461,6 @@ void	execute_commands_list(t_node *ast);
 void	execute_logical_and_node(t_node *ast);
 void	execute_logical_or_nodee(t_node *ast);
 void	execute_semicolon_node(t_node *ast);
+bool	shell_expansions(t_node *ast);
 
 #endif
