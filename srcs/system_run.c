@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 19:44:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:51:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,9 +117,7 @@ int	system_run(char	**argv)
 	t_env	*env;
 	int		ret;
 
-	printf("-----------------------------------------------------------\n\n");
 	ft_print_simple_cmd(argv);
-	printf("-----------------------------------------------------------\n\n");
 	env = get_bash_env();
 	binary_path = verify_bin_path(argv);
 	ret = ft_exec_manager(binary_path, argv[0]);
@@ -138,11 +136,13 @@ int	system_run(char	**argv)
 	printf("\n\n===> BINARY_PATH SENT TO EXECVE : %s\n\n", binary_path);
 	if (execve(binary_path, argv, *env) == -1)
 	{
-		//printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
+		printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
 		// TO DO : 
 		return (error_manager(binary_path, argv[0], strerror(errno), \
 					EXIT_COMMAND_NOT_FOUND));
 	}
+	else
+		printf("===> WHAT THE FUQ ??????????\n\n");
 	free(binary_path);
 	//garbage_free((void **)&binary_path);
 	return (EXIT_SUCCESS);

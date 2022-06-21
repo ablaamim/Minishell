@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 14:54:39 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 16:49:37 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ void	ft_complex_exec(t_node *ast, bool pipe)
 				ft_exec_simple_cmd(ast->content.simple_cmd);
 		}
 		else
+		{
+			//printf("IS THERE A PROB HERE ?\n\n");
 			execute_pipes(ast);
+		}
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
@@ -99,12 +102,14 @@ void	execute_ast_data(t_node *ast, bool inline_mode)
 	 * TO DO :
 	 * EXEC PIPES.
 	*/
-	else
+	else if (ast->type == PIPE_NODE)
 	{
 		ft_pipe_setter(true);
 		ft_complex_exec(ast, true);
 		ft_pipe_setter(false);
 	}
+	else
+		printf("MAZAL MASALITI ASAT\n\n");
 	/*
 	 * TO DO :
 	 * GOTTA HANDLE A LIST OF COMMANDS.

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 14:58:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 15:27:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,8 +311,8 @@ int					ft_strcmp(const char *s1, const char *s2);
 
 enum e_pipe
 {
-	INPUT,
-	OUTPUT
+	OUTPUT,
+	INPUT
 };
 
 # define PATH_AS_DEFAULT "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:\
