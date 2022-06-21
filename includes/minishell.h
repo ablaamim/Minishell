@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:44:41 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 03:42:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ char				*ft_itoa(int n);
 int					ft_atoi(const char *s);
 int					ft_putstr_fd(char const *s, int fd);
 char				*ft_strncpy(char *dest, char *src, int size);
-int					ft_strcmp(char *s1, char *s2);
+int					ft_strcmp(const char *s1, const char *s2);
 
 /*
  * Pipe streams define
@@ -324,8 +324,7 @@ enum e_pipe
 */
 
 void				execute_ast_data(t_node *ast, bool inline_mode);
-void				ft_complex_exec(t_node *ast);
-void				exec_in_child(t_simple_cmd cmd);
+void				ft_complex_exec(t_node *ast, bool pipe);
 void				ft_exec_simple_cmd(t_simple_cmd cmd);
 int					system_run(char **argv);
 char				*verify_bin_path(char **argv);
@@ -439,5 +438,15 @@ bool				is_redirection(char **arguments, int *fd_input, \
 		int *fd_output, bool input_has_quotes);
 int					input_stream_redirection(char const *io_stream);
 int					output_stream_redirection(char **arguments);
+void				delete_redirections_in_argv(char **arguments);
+t_io_streams_file	*retrieve_io(void);
+void				exec_in_child(t_simple_cmd cmd, t_io_streams_file saver);
+
+/*
+ * PIPES :
+*/
+
+void				ft_pipe_setter(bool val);
+bool				*ft_pipe_getter(void);
 
 #endif

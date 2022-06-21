@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_io_utils.c                                      :+:      :+:    :+:   */
+/*   pipe_setter_getter.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 21:48:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 03:20:37 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/06/21 03:38:48 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/06/21 03:44:51 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
- * Init input_stream/output_stream statically in data area.
-*/
-
-t_io_streams_file	*retrieve_io(void)
+bool	*ft_pipe_getter(void)
 {
-	static t_io_streams_file	save =
-	{
-		.input_stream = -1,
-		.output_stream = -1
-	};
+	static bool	piped = false;
 
-	return (&save);
+	return (&piped);
 }
 
-/*
- * Duplicate fds and close them.
- *
- * [ TEST WITH lsof | grep "minishell" ]
-*/
-
-void	ft_close_fd(t_io_streams_file saver)
+void	ft_pipe_setter(bool val)
 {
-	dup2(saver.input_stream, 0);
-	dup2(saver.output_stream, 1);
-	close(saver.input_stream);
-	close(saver.output_stream);
+	bool	*piped;
+
+	piped = ft_pipe_getter();
+	*piped = val;
 }

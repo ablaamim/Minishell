@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 13:18:30 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:44:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 01:15:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	output_stream_redirection(char **arguments)
 	else
 		mark = O_APPEND;
 	++arguments;
-	file_descriptor = open(*arguments, O_WRONLY | O_CREAT | mark |\
+	file_descriptor = open(*arguments, O_WRONLY | O_CREAT | mark, \
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-	if (file_descriptor < 0x0)
+	if (file_descriptor < 0)
 	{
 		variadic_error_printer(2, "Minishell : %s : No such file\
 				or directory\n", *arguments);

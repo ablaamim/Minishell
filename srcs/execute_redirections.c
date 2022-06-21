@@ -6,11 +6,28 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 22:12:39 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 23:51:28 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 02:49:06 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * Delete redirections from argv content.
+*/
+
+void	delete_redirections_in_argv(char **arguments)
+{
+	int	i;
+
+	i = 2;
+	while (arguments[i] != 0x0)
+	{
+		arguments[i - 2] = arguments[i];
+		++i;
+	}
+	arguments[i - 2] = arguments[i];
+}
 
 /*
  * - IF FD CONTENT IS -1 CLOSE FD.
@@ -20,8 +37,10 @@
 bool	is_redirection(char **arguments, int *fd_input, int *fd_output, \
 		bool input_has_quotes)
 {
+	//printf("Salam!!\n\n");
 	if (ft_strcmp("<", *arguments) == 0x0)
 	{
+		//printf("FD_INPUT = %d\n\n", *fd_input);
 		if (*fd_input != 0x0)
 			close(*fd_input);
 		*fd_input = input_stream_redirection(*(arguments + 1));
@@ -30,13 +49,14 @@ bool	is_redirection(char **arguments, int *fd_input, int *fd_output, \
 	}
 	else
 	{
-		if (*fd_output != 0x0)
+		if (*fd_output != 1)
 			close(*fd_output);
 		/*
 		 * TO DO :
 		 *
 		 * HANDLE OUTPUT REDIRECTIONS
 		*/
+		//printf("FD_OUTPUT = %d\n\n", *fd_output);
 		*fd_output = output_stream_redirection(arguments);
 		if (*fd_output == -1)
 			return (false);
@@ -76,6 +96,7 @@ bool	scan_open_redirections(char **argv, int *fd_input, int *fd_output, \
 	/*
 	 * SCANNER AUTOMATA
 	*/
+	//printf("ARE YOU OK ?\n\n");
 	while (argv[i] != 0x0)
 	{
 		if (arg_content_is_redirected(argv[i]) == true)
@@ -92,9 +113,11 @@ bool	scan_open_redirections(char **argv, int *fd_input, int *fd_output, \
 			if (is_redirection(&argv[i], fd_input, fd_output, input_has_quotes\
 						) == false)
 				return (false);
+			delete_redirections_in_argv(&argv[i]);
 		}
 		else
 			++i;
+		//printf("IS SCAN AUTOMATA OK ??\n\n");
 	}
 	return (true);
 }
@@ -107,6 +130,7 @@ bool	execute_redirections(t_node *ast)
 {
 	if (ast->type == SIMPLE_CMD)
 	{
+		//printf("ARE YOU OK ??\n\n");
 		return (scan_open_redirections(ast->content.simple_cmd.argv, \
 					&ast->content.simple_cmd.fd_in, \
 					&ast->content.simple_cmd.fd_out, \

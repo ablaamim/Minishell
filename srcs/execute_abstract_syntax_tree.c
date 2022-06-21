@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 12:12:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 03:44:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 			shell_exit(EXIT_FAILURE, strerror(errno));
 		else if (pid == 0)
 		{
-			exec_in_child(cmd);
+			exec_in_child(cmd, saver);
 			//printf("Hello from child process\n\n");
 		}
 		else
@@ -45,7 +45,7 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 	 * To do :
 	 * Create a function that will close fd.
 	*/
-	printf("\n\n INPUT_STREAM = %d / OUTPUT_STREAM = %d\n\n", \
+	//printf("\n\n INPUT_STREAM = %d / OUTPUT_STREAM = %d\n\n", \
 	saver.input_stream, saver.output_stream);
 	ft_close_fd(saver);
 }
@@ -56,25 +56,26 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
  * [TO DO : IMPLEMENT REDIRECTIONS]
 */
 
-void	ft_complex_exec(t_node	*ast)
+void	ft_complex_exec(t_node *ast, bool pipe)
 {
-	//if (execute_redirections(ast) == true)
-	//{
+	if (execute_redirections(ast) == true)
+	{
+		//printf("IS REDIRECTION A VALID STEP ??\n\n");
 		if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
 		&& ast->content.simple_cmd.argv[0][0] == '\0')
 			exit_value_set(EXIT_SUCCESS);
 		else
 			ft_exec_simple_cmd(ast->content.simple_cmd);
-	//}
-	//else
-		//exit_value_set(EXIT_FAILURE);
+	}
+	else
+		exit_value_set(EXIT_FAILURE);
 }
 /*
  * Core function of my executor.
  * [SURGICAL DEBUGGING ALL OVER!]
 */
 
-void	execute_ast_data(t_node	*ast, bool	inline_mode)
+void	execute_ast_data(t_node *ast, bool inline_mode)
 {
 	//printf("%d\n", inline_mode);
 	if (inline_mode == false)
@@ -82,11 +83,17 @@ void	execute_ast_data(t_node	*ast, bool	inline_mode)
 	if (ast->type == SIMPLE_CMD)
 	{
 		printf("\n\nSIMPLE CMD EXECUTION : \n\n");
-		ft_complex_exec(ast);
+		ft_complex_exec(ast, false);
+		//printf("MAMAMIYAAAA\n\n");
 	}
 	/*
 	 * MORE CASES TO HANDLE.
+	 * PIPES GONE PRRRRRR.
 	*/
 	else
-		printf("To be continued [EXECUTION STAGE]...\n");
+	{
+		ft_pipe_setter(true);
+		ft_complex_exec(ast, true);
+		ft_pipe_setter(false);
+	}
 }

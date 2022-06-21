@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/20 23:12:09 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/21 03:45:09 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,8 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/libft_utils_4.c \
 	  ./srcs/execute_redirections.c \
 	  ./srcs/input_stream_redirection.c \
-	  ./srcs/output_stream_redirection.c
+	  ./srcs/output_stream_redirection.c \
+	  ./srcs/pipe_setter_getter.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 
