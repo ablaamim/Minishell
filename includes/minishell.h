@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 15:27:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 20:02:03 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -452,5 +452,14 @@ bool				*ft_pipe_getter(void);
 void				execute_pipes(t_node *ast);
 void				pipe_child_process(t_node *ast, int file_descriptor[2], \
 t_io_streams_file *saver);
+
+/*
+ * COMMAND LIST :
+*/
+
+void	execute_commands_list(t_node *ast);
+void	execute_logical_and_node(t_node *ast);
+void	execute_logical_or_nodee(t_node *ast);
+void	execute_semicolon_node(t_node *ast);
 
 #endif

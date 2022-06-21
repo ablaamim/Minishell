@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:49:37 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 19:53:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,10 @@ void	execute_ast_data(t_node *ast, bool inline_mode)
 		ft_pipe_setter(false);
 	}
 	else
-		printf("MAZAL MASALITI ASAT\n\n");
+	//printf("MAZAL MASALITI ASAT\n\n");
 	/*
 	 * TO DO :
 	 * GOTTA HANDLE A LIST OF COMMANDS.
 	*/
+	execute_commands_list(ast);
 }
