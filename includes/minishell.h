@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 03:42:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/21 14:58:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,12 +306,13 @@ int					ft_strcmp(const char *s1, const char *s2);
 
 /*
  * Pipe streams define
+ * I had enums flipped LOL
 */
 
 enum e_pipe
 {
-	OUTPUT,
-	INPUT
+	INPUT,
+	OUTPUT
 };
 
 # define PATH_AS_DEFAULT "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:\
@@ -448,5 +449,8 @@ void				exec_in_child(t_simple_cmd cmd, t_io_streams_file saver);
 
 void				ft_pipe_setter(bool val);
 bool				*ft_pipe_getter(void);
+void				execute_pipes(t_node *ast);
+void				pipe_child_process(t_node *ast, int file_descriptor[2], \
+t_io_streams_file *saver);
 
 #endif
