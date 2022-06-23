@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 21:38:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:46:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,8 @@ void	ft_complex_exec(t_node *ast, bool pipe)
  * [CASE CLOSED]
 */
 
-void	execute_ast_data(t_node *ast, bool inline_mode)
+void	execute_ast_data(t_node *ast)
 {
-	//printf("%d\n", inline_mode);
-	if (inline_mode == false)
-		ft_putstr_fd("\n\r", 2);
 	if (ast->type == SIMPLE_CMD)
 	{
 		printf("\n\nSIMPLE CMD EXECUTION : \n\n");

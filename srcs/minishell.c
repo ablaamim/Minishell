@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 23:40:55 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:44:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,6 @@ void	ft_free_fd(void)
 }
 
 /*
- * Verify if its inline_mode/outline mode.
-*/
-
-bool	initialize_term(void)
-{
-	return(isatty(1) == 0);
-}
-
-/*
  * Entry point of my program, init and launch all process.
  *
  * ===> if argc == 1 (prgm name)
@@ -51,18 +42,14 @@ bool	initialize_term(void)
 
 int	main(int argc, char **argv, char **env)
 {
-	bool	inline_mode;
-
 	if (argc == 1)
 	{
 		init_bash_env(file_extract(argv[0]), env);
-		inline_mode = initialize_term();
-		printf("MODE = %d\n\n", inline_mode);
 		printf("============================================================\n\n");
 		//printf("\n\nLEAKS FREE CODE\n\n");
 		//ft_print_env(env);
 		ft_free_fd();
-		ft_minishell(inline_mode);
+		ft_minishell();
 	}
 	else
 	{

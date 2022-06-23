@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 19:54:29 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 20:06:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:48:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,23 @@
 
 void	execute_semicolon_node(t_node *ast)
 {
-	execute_ast_data(ast->content.child.left, true);
+	execute_ast_data(ast->content.child.left);
 	if (ast->content.child.right != 0x0)
-		execute_ast_data(ast->content.child.right, true);
+		execute_ast_data(ast->content.child.right);
 }
 
 void	execute_logical_or_node(t_node *ast)
 {
-	execute_ast_data(ast->content.child.left, true);
+	execute_ast_data(ast->content.child.left);
 	if (*retrieve_exit_status() != 0x0)
-		execute_ast_data(ast, true);
+		execute_ast_data(ast);
 }
 
 void	execute_logical_and_node(t_node *ast)
 {
-	execute_ast_data(ast->content.child.left, true);
+	execute_ast_data(ast->content.child.left);
 		if (*retrieve_exit_status() == 0x0)
-			execute_ast_data(ast->content.child.right, true);
+			execute_ast_data(ast->content.child.right);
 }
 
 void	execute_commands_list(t_node *ast)

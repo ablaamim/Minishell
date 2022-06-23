@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 00:50:35 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:46:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_add_history(char *line)
  * parser] the input read, Build my ASY and execute it.
 */
 
-void	ft_executor(char *line, bool inline_mode)
+void	ft_executor(char *line)
 {
 	t_node	*ast;
 
@@ -39,7 +39,7 @@ void	ft_executor(char *line, bool inline_mode)
 			if (ast != 0x0)
 			{
 				printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
-				execute_ast_data(ast, inline_mode);
+				execute_ast_data(ast);
 				/*
 				 * TO DO : FREE AST DATA.
 				 * [CASE CLOSED]

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 21:46:35 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:44:01 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,10 +207,10 @@ typedef struct s_garbage_list
  * Core functions :.
 */
 
-void				ft_minishell(bool inline_mode);
-char				*ft_prompt(bool inline_mode);
-char				*read_line(bool inline_mode);
-void				ft_executor(char *line, bool inline_mode);
+void				ft_minishell();
+char				*ft_prompt();
+char				*read_line();
+void				ft_executor(char *line);
 void				ft_add_history(char *line);
 
 /*
@@ -324,7 +324,7 @@ enum e_pipe
  * EXECUTION ABSTRACTION :
 */
 
-void				execute_ast_data(t_node *ast, bool inline_mode);
+void				execute_ast_data(t_node *ast);
 void				ft_complex_exec(t_node *ast, bool pipe);
 void				ft_exec_simple_cmd(t_simple_cmd cmd);
 int					system_run(char **argv);

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 14:16:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 17:29:13 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/23 23:47:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_io_streams_file *saver)
 	saver->input_stream = -1;
 	close(saver->output_stream);
 	saver->output_stream = -1;
-	execute_ast_data(ast->content.child.left, true);
+	execute_ast_data(ast->content.child.left);
 	close(1);
 	close(0);
 	close(2);
@@ -48,7 +48,7 @@ t_io_streams_file *saver)
 	close(file_descriptor[INPUT]);
 	dup2(file_descriptor[OUTPUT], 0);
 	close(file_descriptor[OUTPUT]);
-	execute_ast_data(ast->content.child.right, true);
+	execute_ast_data(ast->content.child.right);
 	close(0);
 	wait(0x0);
 	dup2(saver->input_stream, 0);
