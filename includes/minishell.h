@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/23 23:44:01 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/24 10:39:16 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,17 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdarg.h>
+# include <signal.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <termios.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
 
 /*
  * Error defines, i display them in stderr using write() with fd == 2.
+ * ===> Useless eight now, i will delete then later.
  * [WARNING !!! ALL ERROR DEFINES WILL BE USELESS!!!!!!!!!!!!!!!!!!!!!!!]
  * [SOLUTION : VARIADIC_ERROR_PRINTER() FUNCTIONALITY.]
 */
@@ -207,9 +212,11 @@ typedef struct s_garbage_list
  * Core functions :.
 */
 
-void				ft_minishell();
-char				*ft_prompt();
-char				*read_line();
+void				ft_minishell(void);
+int					argv_error_handler(char *argv);
+void					ft_free_fd(void);
+char				*ft_prompt(void);
+char				*read_line(void);
 void				ft_executor(char *line);
 void				ft_add_history(char *line);
 
@@ -457,10 +464,18 @@ t_io_streams_file *saver);
  * COMMAND LIST :
 */
 
-void	execute_commands_list(t_node *ast);
-void	execute_logical_and_node(t_node *ast);
-void	execute_logical_or_nodee(t_node *ast);
-void	execute_semicolon_node(t_node *ast);
-bool	shell_expansions(t_node *ast);
+void				execute_commands_list(t_node *ast);
+void				execute_logical_and_node(t_node *ast);
+void				execute_logical_or_nodee(t_node *ast);
+void				execute_semicolon_node(t_node *ast);
+bool				shell_expansions(t_node *ast);
+
+/*
+ * SIGNALS :
+*/
+
+void				terminal_initialization(int status);
+void				reset_term(struct termios	*terminal);
+void				ignoring_signals(int signal);
 
 #endif
