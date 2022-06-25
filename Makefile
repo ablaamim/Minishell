@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/24 10:38:03 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/25 01:29:33 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,8 +76,6 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/execute_commands_list.c \
 	  ./srcs/shell_expansions.c \
 	  ./srcs/argv_error.c \
-	  ./srcs/termios.c \
-	  ./srcs/ignoring_signals.c \
 
 OBJ = $(patsubst %.c,%.o,$(SRC))
 

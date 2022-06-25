@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/24 10:39:16 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/25 01:27:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,10 @@ int					ft_atoi(const char *s);
 int					ft_putstr_fd(char const *s, int fd);
 char				*ft_strncpy(char *dest, char *src, int size);
 int					ft_strcmp(const char *s1, const char *s2);
+void				ft_putendl(char *s);
+void				ft_putchar_fd(char c, int fd);
+void				ft_putendl_fd(char *s, int fd);
+char				*ft_stringjoin(char const *s1, char const *s2);
 
 /*
  * Pipe streams define
@@ -326,6 +330,7 @@ enum e_pipe
 /sbin:/bin"
 # define CMD_ERROR "Minishell : cmd error\n"
 # define EXIT_COMMAND_NOT_FOUND 127
+# define ENV_FILE "/tmp/.env"
 
 /*
  * EXECUTION ABSTRACTION :
@@ -370,6 +375,11 @@ char				**ft_add_up_in_env(const char *name, const char *val, \
 void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
 		char *shelvl_value);
 int					retrieve_len_array(char **array);
+char				**env_reader(char *name);
+int					ft_read_char_arr_fd(char ***array, int fd);
+char				*get_env_array(char *name, char **envp);
+char				*search_for_env_val(char *var, char *name);
+void				free_chararray(char **array);
 
 /*
  * Minishell exit ==> return exit_status and free all data.
@@ -471,11 +481,17 @@ void				execute_semicolon_node(t_node *ast);
 bool				shell_expansions(t_node *ast);
 
 /*
- * SIGNALS :
+ * SIGNALS HANDLING:
 */
 
 void				terminal_initialization(int status);
 void				reset_term(struct termios	*terminal);
 void				ignoring_signals(int signal);
+void				signal_receiver(int signal, siginfo_t *infos, void *opt);
+void				wait_for_signals(int signal, void (*handler)(int, \
+			siginfo_t *, void *));
+void				toggle_signals(int toggle);
+void				handling_sigquit(int signal);
+void				handling_sigint(int signal, siginfo_t *info, void *ctx);
 
 #endif

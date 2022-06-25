@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/24 10:37:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/25 01:29:04 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ int	main(int argc, char **argv, char **env)
 		 * TO DO :
 		 * Init terminal, block display of ctrl+c, ctrl+d ... (^C, ^D ...)
 		*/
-		terminal_initialization(0x0);
-		ignoring_signals(SIGQUIT);
-		ignoring_signals(SIGTSTP);
-		ignoring_signals(SIGTTIN);
-		ignoring_signals(SIGTTOU);
-		ignoring_signals(SIGTERM);
-		ignoring_signals(SIGHUP);
+		//terminal_initialization(0x0);
+		//ignoring_signals(SIGQUIT);
+		//ignoring_signals(SIGTSTP);
+		//ignoring_signals(SIGTTIN);
+		//ignoring_signals(SIGTTOU);
+		//ignoring_signals(SIGTERM);
+		//ignoring_signals(SIGHUP);
 		/*
 		 * Init bash environment.
 		*/

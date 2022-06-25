@@ -6,11 +6,39 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/18 15:23:37 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/25 01:06:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_stringjoin(char const *s1, char const *s2)
+{
+	char	*joined;
+	size_t	i;
+	size_t	j;
+
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	joined = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (joined == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[j] != '\0')
+	{
+		joined[i++] = s1[j];
+		j++;
+	}
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		joined[i++] = s2[j];
+		j++;
+	}
+	joined[i] = '\0';
+	return (joined);
+}
 
 char	*ft_strdup(const char *s)
 {
