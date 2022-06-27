@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 15:37:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 17:11:37 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	main(int argc, char **argv, char **env)
 	if (argc == 1)
 	{
 		init_bash_env(file_extract(argv[0]), env);
+		signal(SIGINT, signal_command);
+		signal(SIGQUIT, SIG_IGN);
 		printf("============================================================\n\n");
 		ft_free_fd();
 		ft_minishell();

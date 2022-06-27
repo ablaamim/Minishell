@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 15:57:52 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 17:12:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,14 +487,6 @@ bool				shell_expansions(t_node *ast);
  * SIGNALS HANDLING:
 */
 
-void				terminal_initialization(int status);
-void				reset_term(struct termios	*terminal);
-void				ignoring_signals(int signal);
-void				signal_receiver(int signal, siginfo_t *infos, void *opt);
-void				wait_for_signals(int signal, void (*handler)(int, \
-			siginfo_t *, void *));
-void				toggle_signals(int toggle);
-void				handling_sigquit(int signal);
-void				handling_sigint(int signal, siginfo_t *info, void *ctx);
+void			signal_command(int sig);
 
 #endif
