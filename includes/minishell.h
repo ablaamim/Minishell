@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/25 01:27:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:57:52 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,10 @@ void				ft_putendl(char *s);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char *s, int fd);
 char				*ft_stringjoin(char const *s1, char const *s2);
-
+int					get_next_line(int fd, char **line);
+char				*ft_append_char(char *str, char c);
+int					ft_isprint(int c);
+int					ft_striter(char *str, int (*function) (int));
 /*
  * Pipe streams define
  * I had enums flipped LOL

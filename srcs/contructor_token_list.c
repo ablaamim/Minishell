@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 17:08:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 16:17:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_token	*tokenize_word(char *in_characters, int *i)
 		variadic_error_printer(2, "\nMinishell : Syntax error: Unexpexted\
 		end of file.\n");
 		free(data);
-		//garbage_free((void **) &data);
 		return (NULL);
 	}
 	data = ft_strndup(in_characters + *i, j);
@@ -159,7 +158,6 @@ bool	constructor_token_list(char *in_characters, t_token **token_list)
 		if (new_token == 0x0)
 			return (false);
 		append_token(new_token, token_list);
-		//printf("NB OF SKIPPED WHITESPACES IN BEGENING : %d\n", i);
 		while (ft_iswhite_space(in_characters[i]))
 			++i;
 	}

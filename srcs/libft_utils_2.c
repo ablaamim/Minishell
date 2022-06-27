@@ -6,11 +6,29 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/25 01:06:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:59:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_striter(char *str, int (*function) (int))
+{
+	int	i;
+
+	i = 0x0;
+	while (str[i] != '\0')
+	{
+		if (function(str[i++]) == 0)
+			return (0x0);
+	}
+	return (0x1);
+}
+
+int	ft_isprint(int c)
+{
+	return (c >= ' ' && c <= '~');
+}
 
 char	*ft_stringjoin(char const *s1, char const *s2)
 {

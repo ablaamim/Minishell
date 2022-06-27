@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/10 17:20:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 15:52:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*ft_strndup(const char *str, size_t n)
 	new[max_len] = '\0';
 	return (ft_memcpy(new, str, max_len));
 }
+
 /*
 int	main()
 {

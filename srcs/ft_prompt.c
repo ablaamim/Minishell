@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/23 23:50:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 16:08:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,27 @@
 
 /*
  * read_line function reads from input using readline, saves it in a char *
- * then it returns it to be used in next program
+ * then it returns it to be used in next program.
+ * -> ALSO filter history.
 */
 
-char	*read_line()
+char	*read_line(void)
 {
 	char	*line;
 
 	line = readline("Minishell$>");
-	if (line == 0x0 && line[0] == EOF)
-	{
-		variadic_error_printer(2, "Error : CTRL + D Should be handled\n");
-		exit(EXIT_FAILURE);
-	}
+	//if (get_next_line(0, &line) == -1 || ft_striter(line, &ft_isprint) \
+			== 0x0)
+	//	shell_exit(*retrieve_exit_status(), 0x0);
 	return (line);
 }
-
-/*
-char	*ft_prompt(bool inline_mode)
-{
-	char	*line;
-
-	line = 0x0;
-	if (inline_mode == false)
-	{
-		line = read_line(inline_mode);
-	}
-	return (line);
-}
-*/
 
 /*
  * Read command input via readline() inside the read_line program and runs
  * another program to continue the work
 */
 
-void	ft_minishell()
+void	ft_minishell(void)
 {
 	char	*line;
 

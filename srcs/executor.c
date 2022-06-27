@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/23 23:46:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 16:15:45 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,5 @@ void	ft_executor(char *line)
 				ast_clearing(&ast);
 			}
 		}
-	}
-	else
-	{
-		/*
-		 * TO DO : SIGNAL HANDLING
-		*/
-		variadic_error_printer(2, "ERROR : HANDLE SIGNALS");
-		exit(EXIT_FAILURE);
 	}
 }

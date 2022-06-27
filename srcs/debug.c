@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 17:01:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/27 16:18:52 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	disp_tree(t_node	*tree, int	lev)
 	}
 	else
 	{
-		printf("UNKOWN\n");
+		variadic_error_printer(2, "ERROR : UNKNOWN DATA\n");
 		exit(EXIT_FAILURE);
 	}
 	//[PREORDER NODE TRAVERSAL]
