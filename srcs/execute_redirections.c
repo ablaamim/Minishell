@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 22:12:39 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 02:49:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:14:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,23 @@ bool	is_redirection(char **arguments, int *fd_input, int *fd_output, \
 		if (*fd_input == -1)
 			return (false);
 	}
+	else if (ft_strcmp("<<", *arguments) == 0x0)
+	{
+		if (*fd_input != 0x0)
+			close(*fd_input);
+		*fd_input = heredoc_redir(*(arguments + 1), \
+				input_has_quotes);
+		if (*fd_input == -1)
+			return (false);
+	}
 	else
 	{
 		if (*fd_output != 1)
 			close(*fd_output);
-		/*
-		 * TO DO :
-		 *
-		 * HANDLE OUTPUT REDIRECTIONS
-		*/
-		//printf("FD_OUTPUT = %d\n\n", *fd_output);
 		*fd_output = output_stream_redirection(arguments);
 		if (*fd_output == -1)
 			return (false);
 	}
-	/*
-	 * TO DO :
-	 *
-	 * HANDLE HEREDOC.
-	*/
 	return (true);
 }
 

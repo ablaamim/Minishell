@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:34:20 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/25 00:07:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:55:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ft_putendl(char *s)
 {
 	size_t	i;
 
+	i = 0x0;
 	if (!s)
 		return;
 	while (s[i])

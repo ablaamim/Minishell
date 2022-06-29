@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 16:20:05 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:51:17 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 	 * Create a function that will close fd.
 	 * [CASE CLOSED]
 	*/
-	//printf("\n\n INPUT_STREAM = %d / OUTPUT_STREAM = %d\n\n", \
-	saver.input_stream, saver.output_stream);
 	ft_close_fd(saver);
 }
 

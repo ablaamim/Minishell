@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:53:41 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:15:00 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:50:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,13 @@ t_token	*tokenize_parentheses(char *in_characters, int *i)
 
 t_token	*tokenize_semicolon(char *in_characters, int *i)
 {
-	enum e_token_type	type;
 	char				*data;
 
-	if (in_characters[*i] == ';')
-	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
-		ft_strlcpy(data, ";", SIZEOF_ONE_CHAR_STRING);
-		type = SEMICO_TOKEN;
-		++(*i);
-	}
-	return (token_generator(data, type));
+	(void) in_characters;
+	data = garbage_malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
+	ft_strlcpy(data, ";", SIZEOF_ONE_CHAR_STRING);
+	++(*i);
+	return (token_generator(data, SEMICO_TOKEN));
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:09:59 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 16:14:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,16 +488,12 @@ bool				shell_expansions(t_node *ast);
 */
 
 void			signal_command(int sig);
-void			ft_init_terminal(int state);
-void			ft_reset_terminal(struct termios *terminal);
-void			ft_receive_sig(int signal, siginfo_t *info, void *ctx);
-void			toggle_signals(int toggle);
-void			handling_sigint(int signal, siginfo_t *info, void *ctx);
-void			handling_sigquit(int signal);
-void			ft_ignore_signal(int signal);
-void			ft_wait_4_sig(int sig, void (*handler)(int, siginfo_t *, void *));
 
+/*
+ * Heredocument :
+*/
 
+int					heredoc_redir(char const *stream, bool input_has_quotes);
 
 
 

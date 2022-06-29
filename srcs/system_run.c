@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 16:51:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:54:31 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	error_manager(char	*binary_path, char	*cmd, char	*error, int	exit_val)
 
 int	ft_exec_manager(char	*binary_path, char	*cmd)
 {
-	int	ret_val;
+//	int	ret_val;
 
 	if (binary_path == 0x0)
 	{
@@ -93,9 +93,8 @@ int	ft_exec_manager(char	*binary_path, char	*cmd)
 	}
 	//ret_val = ft_is_dir(binary_path); // GOTTA VERIFY THIS LATER
 	//printf("ALLO ???\n\n");
-	if (ret_val == -1)
-		return (error_manager(binary_path, cmd, strerror(errno), \
-					EXIT_COMMAND_NOT_FOUND));
+	//if (ret_val == -1)
+	//	return (error_manager(binary_path, cmd, strerror(errno), EXIT_COMMAND_NOT_FOUND));
 	if (ft_is_executable(binary_path) == false)
 	{
 		//printf("\n\n==> ACCESS FAILED\n\n");

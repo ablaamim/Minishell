@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/29 15:43:16 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/29 16:09:43 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC = gcc
 
 RDLINE := -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
 
-CFLAGS = #-Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \
@@ -71,6 +71,7 @@ SRC = ./srcs/debug.c \
 	  ./srcs/shell_expansions.c \
 	  ./srcs/argv_error.c \
 	  ./srcs/get_next_line.c \
+	  ./srcs/heredocument_redirection.c \
 
 OBJ = $(SRC:.c=.o)
 
