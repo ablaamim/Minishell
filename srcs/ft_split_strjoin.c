@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 13:40:02 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 17:20:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 17:39:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 char	*ft_strjoin(char const *s1, char const *s2, char const *sep)
 {
-	int		i;
-	int		j;
 	int		size;
 	char	*strnew;
 
-	i = 0;
-	j = 0;
 	if (!s1)
 	{
 		if (!s2)

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 16:17:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:38:25 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,6 @@ t_token	*retrieve_next_token(char	*in_characters, int *i)
 	tokenizer[CLOSE_PARENTH_TOKEN] = &tokenize_parentheses;
 	return (tokenizer[define_char_type(in_characters[*i])](in_characters, i));
 }
-
-/*
-int	main(void)
-{
-	char	str[] = "lel haha   \tESCAPE ME            \n";
-	int	i = 0x0;
-	printf("%s\n", str);
-	while (str[i])
-	{
-		if (ft_iswhite_space(str[i]))
-			str[i] = '-';
-		i++;
-	}
-	printf("%s\n", str);
-}
-*/
 
 /*
  * This particular constructor will build the tokens linked list based on

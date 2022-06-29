@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:36:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 17:52:13 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*read_line(void)
 	if (line == 0x0)
 	{
 		variadic_error_printer(2, "exit\n");
-		exit(EXIT_SUCCESS);
+		shell_exit(*retrieve_exit_status(), 0x0);
 	}
 	return (line);
 }
@@ -36,7 +36,6 @@ char	*read_line(void)
 void	signal_command(int sig)
 {
 	g_exit_status += sig;
-	//printf("%d\n", sig);
 	if (sig == SIGINT)
 	{
 		g_exit_status = 130;

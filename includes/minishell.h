@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 16:14:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 19:11:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,15 +488,20 @@ bool				shell_expansions(t_node *ast);
 */
 
 void			signal_command(int sig);
+void			set_signumber(int signal);
+int				*retrieve_signumber(void);
+void			ft_ignore_signals(void);
+void			handle_signals(void);
+void			sigint_handler(int signal);
+bool			sigint_catcher(char *doc, char *line);
 
 /*
  * Heredocument :
 */
 
 int					heredoc_redir(char const *stream, bool input_has_quotes);
-
-
-
-
+char				*here_document(char const *delimiter);
+bool				heredocument_control(char const *delimiter, char *line);
+void				append_input_heredoc(char **doc, char *line);
 
 #endif

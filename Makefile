@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/29 16:09:43 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/29 18:53:00 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ USER = ablaamim
 
 CC = gcc
 
-RDLINE := -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
+RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
+
+LINUX_RDLINE = -lreadline
 
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
@@ -72,13 +74,16 @@ SRC = ./srcs/debug.c \
 	  ./srcs/argv_error.c \
 	  ./srcs/get_next_line.c \
 	  ./srcs/heredocument_redirection.c \
+	  ./srcs/signum.c \
+	  ./srcs/ft_ignore_signals.c \
+	  ./srcs/sigint_catcher.c \
 
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(SRC)
-		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(RDLINE) -o $(NAME) #$(RDLINE)
+		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(LINUX_RDLINE) -o $(NAME) #$(RDLINE)
 
 
 clean:

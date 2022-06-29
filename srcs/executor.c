@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 16:15:45 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 19:34:41 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ void	ft_executor(char *line)
 			{
 				printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
 				execute_ast_data(ast);
-				/*
-				 * TO DO : FREE AST DATA.
-				 * [CASE CLOSED]
-				*/
 				ast_clearing(&ast);
 			}
 		}
 	}
+	else if (*retrieve_signumber() != SIGINT)
+		ft_putchar_fd('\n', 2);
 }
