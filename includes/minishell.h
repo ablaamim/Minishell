@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 01:20:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:09:59 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define MINISHELL_H
 
 # include <unistd.h>
+# include <string.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
-# include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
-# include <string.h>
 # include <stdarg.h>
 # include <signal.h>
 # include <sys/types.h>

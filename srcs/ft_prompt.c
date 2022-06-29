@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 17:56:27 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:36:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	*read_line(void)
 	char	*line;
 
 	line = readline("Minishell$>");
-	if (*line == EOF)
+	if (line == 0x0)
 	{
 		variadic_error_printer(2, "exit\n");
-		shell_exit(*retrieve_exit_status(), 0x0);
+		exit(EXIT_SUCCESS);
 	}
 	return (line);
 }

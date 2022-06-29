@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 19:05:43 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 16:19:38 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 15:42:19 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	exec_in_parent(int pid)
 {
 	signal(SIGQUIT, SIG_IGN);
-	waitpid(pid, 0x0, WUNTRACED | WCONTINUED);
+	waitpid(pid, 0x0, 0x0);
 }

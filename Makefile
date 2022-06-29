@@ -6,26 +6,20 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/27 15:51:11 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/06/29 15:43:16 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
+USER = ablaamim
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
-# MACOS FLAG 
-#RFLAGS = -lreadline
-# LINUX FLAG
-RFLAGS = -L/usr/local/lib -I/usr/local/include -lreadline
 
-RM = rm -rf
+RDLINE := -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
 
-HEADER = ./includes/minishell.h
+CFLAGS = #-Wall -Wextra -Werror -fsanitize=address
 
-SRC = ./srcs/minishell.c \
-	  ./srcs/debug.c \
-	  ./srcs/ft_prompt.c \
+SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \
 	  ./srcs/ft_lexer_parser_program.c \
 	  ./srcs/contructor_token_list.c \
@@ -78,31 +72,19 @@ SRC = ./srcs/minishell.c \
 	  ./srcs/argv_error.c \
 	  ./srcs/get_next_line.c \
 
-OBJ = $(patsubst %.c,%.o,$(SRC))
+OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
-bonus : $(NAME_B)
+$(NAME) : $(OBJ) $(SRC)
+		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(RDLINE) -o $(NAME) #$(RDLINE)
 
-# MAC OS COMPILATION
-
-$(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(RFLAGS) -o $(NAME)
-
-# LINUX COMPILATION
-
-#$(NAME) : $(OBJ)
-#	$(CC) $(CFLAGS) $(OBJ) $(RFLAGS) -o $(NAME)
-
-
-%.o:	%.c Makefile $(HEADER)
-	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ)
+		rm -rf $(OBJ)
 
-fclean:	clean
-	$(RM) minishell
+fclean: clean
+		rm -rf $(NAME)
 
 re: fclean all
 

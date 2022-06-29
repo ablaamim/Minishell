@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 01:19:05 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 12:49:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_free_fd(void)
  * - Free all filedescriptors beyond or equal to 3.
  * - Init my minishell.
  * ===> Else print ERROR using variadic_error_printer()
+ * ===> Singal handling.
 */
 
 int	main(int argc, char **argv, char **env)
@@ -46,7 +47,6 @@ int	main(int argc, char **argv, char **env)
 		init_bash_env(file_extract(argv[0]), env);
 		//signal(SIGINT, signal_command);
 		//signal(SIGQUIT, SIG_IGN);
-		ft_init_terminal(0x0);
 		printf("============================================================\n\n");
 		ft_free_fd();
 		ft_minishell();
