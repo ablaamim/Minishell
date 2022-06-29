@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 17:12:36 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/06/29 01:20:58 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -488,5 +488,7 @@ bool				shell_expansions(t_node *ast);
 */
 
 void			signal_command(int sig);
+void			ft_init_terminal(int state);
+void			ft_reset_terminal(struct termios *terminal);
 
 #endif
