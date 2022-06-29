@@ -490,5 +490,17 @@ bool				shell_expansions(t_node *ast);
 void			signal_command(int sig);
 void			ft_init_terminal(int state);
 void			ft_reset_terminal(struct termios *terminal);
+void			ft_receive_sig(int signal, siginfo_t *info, void *ctx);
+void			toggle_signals(int toggle);
+void			handling_sigint(int signal, siginfo_t *info, void *ctx);
+void			handling_sigquit(int signal);
+void			ft_ignore_signal(int signal);
+void			ft_wait_4_sig(int sig, void (*handler)(int, siginfo_t *, void *));
+
+
+
+
+
+
 
 #endif
