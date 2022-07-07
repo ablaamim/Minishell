@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 09:58:44 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:03:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 int	g_exit_status;
 
 /*
- * read_line() function reads from input using readline, saves it in a char *
- * then it returns it to be used in next program.
- * -> Control EOF to exit with ctrl+D.
+ * the read_line() function reads from input using readline(), saves it in a 
+ * char * then it returns it to be used in next program.
+ * ---> Add history.
+ * ---> Control EOF to exit with ctrl+D.
 */
 
 char	*read_line(void)
 {
 	char	*line;
 
-	line = readline("MiniShell$> ");
+	line = readline("Mini Hell$> ");
+	add_history(line);
 	if (line == 0x0)
 	{
 		variadic_error_printer(2, "exit\n");
@@ -32,6 +34,10 @@ char	*read_line(void)
 	}
 	return (line);
 }
+
+/*
+ * Signals handling.
+*/
 
 void	signal_command(int sig)
 {
@@ -52,9 +58,9 @@ void	signal_command(int sig)
 }
 
 /*
- * Read command input via readline() inside the read_line program and run
- * another program to continue the work.
- * also handle signals inside infinite loop.
+ * Read command input via readline() inside the read_line() program and run
+ * another program to continue the work [ft_executor()].
+ * --> Also handle signals inside the infinite loop.
 */
 
 void	ft_minishell(void)

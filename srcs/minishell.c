@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
@@ -6,7 +5,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 09:16:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 18:55:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +33,7 @@ void	ft_free_fd(void)
  *
  * ===> if argc == 1 (progam name)
  * - Init environment.
- * - Signal handling.
+ * - Signal handling [SIGINT = ctrl+c / SIGQUIT = ctrl+\].
  * - Free all filedescriptors beyond or equal to 3.
  * - Init my minishell [Core function].
  * ===> Else print ERROR using variadic_error_printer()
@@ -44,10 +43,14 @@ int	main(int argc, char **argv, char **env)
 {
 	if (argc == 1)
 	{
+		printf("====================== LAUNCH ==========================\n\n");
+		printf("\n\n====> program name : %s\n\n", argv[0]);
+		printf("====================== BASH ENV ========================\n\n");
+		ft_print_env(env);
 		init_bash_env(file_extract(argv[0]), env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
-		printf("============================================================\n\n");
+		printf("========================================================\n\n");
 		ft_free_fd();
 		ft_minishell();
 	}

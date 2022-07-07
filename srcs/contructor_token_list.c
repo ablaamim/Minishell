@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 13:36:55 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:24:23 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,10 @@ t_token	*retrieve_next_token(char *in_characters, int *i)
  * the read buffer from readline() respecting LEXER grammar,
  * first of all, i must escape all the Whitespaces,
  * * until the in_characters [string] is fully scanned, i will
- * operate couple of algorithms, i must retrieve next token, using the
- * retrieve_next_token() function, this token will be added to the tokens
+ * operate couple of algorithms afterwards, i must retrieve next token, using 
+ * the retrieve_next_token() function, this token will be added to the tokens
  * linked list by append_token() function, after that i must escape
- * whitespaces again
+ * whitespaces again.
 */
 
 bool	constructor_token_list(char *in_characters, t_token **token_list)

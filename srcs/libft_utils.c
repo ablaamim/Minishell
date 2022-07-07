@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 15:52:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:43:39 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ size_t	ft_strlen(char const *str)
 {
 	size_t	len;
 
-	if (str == 0x0)
-		return (0x0);
 	len = 0x0;
 	while (str[len])
 		len++;
@@ -34,11 +32,11 @@ size_t	ft_strlcpy(char *dest, char const *src, size_t destsize)
 
 	len_src = ft_strlen(src);
 	if (destsize > len_src)
-		ft_memcpy(dest, src, len_src + 1);
+		ft_memcpy(dest, src, len_src + 0x1);
 	else if (destsize)
 	{
 		ft_memcpy(dest, src, destsize - 1);
-		dest[destsize - 1] = '\0';
+		*(dest + destsize - 1) = '\0';
 	}
 	return (len_src);
 }
@@ -70,7 +68,7 @@ size_t	ft_strnlen(char const *str, size_t max_len)
 	size = 0x0;
 	if (!str)
 		return (0x0);
-	while (str[size] && max_len--)
+	while (*(str + size) && max_len--)
 		size++;
 	return (size);
 }
@@ -106,7 +104,7 @@ char	*ft_strndup(const char *str, size_t n)
 	max_len = ft_strnlen(str, n);
 	new = 0x0;
 	new = garbage_malloc(sizeof(*str) * (max_len + 1));
-	new[max_len] = '\0';
+	* (new + max_len) = '\0';
 	return (ft_memcpy(new, str, max_len));
 }
 

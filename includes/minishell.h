@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 08:37:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 19:10:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,16 @@
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
 # define SYNTAX_ERROR_EXIT 2
+
 /*
- * LEXER ABSTRACTION.
+ * LEXER CLASS ABSTRACTION.
 */
 
 /*
- * Must contain all char types, during the lexing phase the proper
+ * Must contain all possible char types, during the lexing phase the proper
  * Tokenizer will be called accordingly to the type encountred whle scanning
- * input read by readline(), and apply Lexing rules.
+ * input read by readline(), and apply Lexing rules, depending on if they are
+ * contained inside single or double quotes.
 */
 
 enum e_char_type
@@ -95,7 +97,8 @@ enum e_token_type
 };
 
 /*
- * Word token rules, its either accepted or not_accepted.
+ * Word token rules, its either accepted or not_accepted, will help to filter
+ * data..
 */
 
 enum e_char_rules
@@ -117,7 +120,7 @@ typedef struct s_token
 }	t_token;
 
 /*
- * PARSER ABSTRACTION
+ * PARSER CLASS ABSTRACTION :
 */
 
 /*
@@ -136,7 +139,7 @@ enum e_node_type
 
 /*
  * All possible types of redirection that we can encounter in a simple
- * command, I/O - Append - Heredoc
+ * command, I/O - Append - Here-doc - input redir - outpur redir.
 */
 
 enum e_redirection_type
