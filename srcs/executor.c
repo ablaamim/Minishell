@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 19:28:46 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 20:01:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_executor(char *line)
 		{
 			if (ast != 0x0)
 			{
-				//printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
-				//execute_ast_data(ast);
-				//ast_clearing(&ast);
+				printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
+				execute_ast_data(ast);
+				ast_clearing(&ast);
 			}
 		}
 	}

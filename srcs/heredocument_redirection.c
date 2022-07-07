@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 16:04:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 19:19:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 22:47:23 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ bool	heredocument_control(char const *delimiter, char *line)
 		return (true);
 	else if (line != 0x0)
 	{
-		if (line[0] == EOF)
-		{
-			variadic_error_printer(2, "Minishell : warning : here-document\n");
-			return (true);
-		}
 		if (ft_strcmp(line, delimiter) == 0x0)
 			return (true);
 		return (false);
@@ -51,10 +46,14 @@ char	*here_document(char const *delimiter)
 	doc = 0x0;
 	while (1337)
 	{
-		line = readline("> ");
-		if (sigint_catcher(doc, line) == true)
-			return (0x0);
-		ft_putchar_fd('\n', 2);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, &heredoc_signal);
+		line = readline("heredoc> ");
+		//if (sigint_catcher(doc, line) == true)
+		//	return (0x0);
+		//signal(SIGQUIT, SIG_IGN);
+		//signal(SIGINT, heredoc_signal);
+		printf("\n");
 		if (heredocument_control(delimiter, line) == true)
 			break;
 		append_intput_heredoc(&doc, line);
@@ -68,19 +67,28 @@ int	heredoc_redir(char const *stream, bool input_had_quotes)
 {
 	char	*doc;
 	int		fd[2];
+	int		pid;
 
-	doc = here_document(stream);
-	if (doc == 0x0)
+	pid = fork();
+	signal(SIGINT, &child_sig);
+	signal(SIGQUIT, &child_sig);
+	if (pid == 0x0)
 	{
-		exit_value_set(130);
-		return (-1);
+		doc = here_document(stream);
+		if (doc == 0x0)
+		{
+			exit_value_set(130);
+			return (-1);
+		}
+		free(doc);
 	}
+	waitpid(pid, retrieve_exit_status(), 0x0);
 	//if (input_had_quotes == false && doc != 0x0)
 	/*
 	 * TO DO :  HERE-DOC explansion
 	*/
 	input_had_quotes = true;
-	if (input_had_quotes == true)
+	if (input_had_quotes == true && doc != 0x0)
 		printf("HANDLE EXPANSIONS DUUUDE !\n");
 
 	if (pipe(fd) == -1)
@@ -88,6 +96,5 @@ int	heredoc_redir(char const *stream, bool input_had_quotes)
 	if (doc != 0x0)
 		ft_putstr_fd(doc, fd[0]);
 	close(fd[0]);
-	free(doc);
 	return (fd[1]);
 }

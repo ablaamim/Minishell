@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 19:10:53 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 21:22:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -497,6 +497,8 @@ void			ft_ignore_signals(void);
 void			handle_signals(void);
 void			sigint_handler(int signal);
 bool			sigint_catcher(char *doc, char *line);
+void			heredoc_signal(int signal);
+void			child_sig(int signal);
 
 /*
  * Heredocument :
