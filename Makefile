@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/06/29 18:53:00 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/07/07 09:51:56 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,9 @@ CC = gcc
 
 RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
 
-LINUX_RDLINE = -lreadline
+#LINUX_RDLINE = -lreadline
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \
@@ -83,7 +83,7 @@ OBJ = $(SRC:.c=.o)
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(SRC)
-		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(LINUX_RDLINE) -o $(NAME) #$(RDLINE)
+		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(RDLINE) -o $(NAME) #$(RDLINE)
 
 
 clean:

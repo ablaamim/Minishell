@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 19:34:41 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 09:55:49 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	ft_add_history(char *line)
 }
 
 /*
- * initialize my AST, lex and parse [Syntax analyzer + Recursive descent 
- * parser] the input read, Build my ASY and execute it.
+ * Initialize my AST, lex and parse [Syntax analyzer + Recursive descent 
+ * parser] the input read.
+ * Then build my AST and execute it.
 */
 
 void	ft_executor(char *line)
@@ -44,6 +45,4 @@ void	ft_executor(char *line)
 			}
 		}
 	}
-	else if (*retrieve_signumber() != SIGINT)
-		ft_putchar_fd('\n', 2);
 }

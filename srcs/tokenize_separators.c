@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 16:53:41 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:50:36 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 10:09:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_token	*tokenize_and(char *in_characters, int *i)
 	}
 	else
 	{
-		write(2, ERROR_AND, sizeof(ERROR_AND));
+		variadic_error_printer(2, "This feature is not suppoted\n");
 		return (0x0);
 	}
 	return (token_generator(data, type));

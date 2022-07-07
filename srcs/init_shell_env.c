@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 23:38:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 09:51:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ void	init_env_variables(char	*shell)
 	shlvl = get_env("SHLVL");
 	if (shlvl == 0x0)
 		shlvl = "0";
-	//printf("%s\n", shlvl); [DEBUG CURRENT DATA]
-	//exit(EXIT_FAILURE);
 	shlvl_value = ft_itoa(ft_atoi(shlvl) + 1);
 	temp_path = ft_strjoin("./", shell, "");
 	//printf("==> TEMP_PATH : %s\n", temp_path);
@@ -104,8 +102,8 @@ void	init_env_variables(char	*shell)
 	ft_set_env_var("SHELL", shell_path, 1);
 	//printf("\n\n=====> DAFUQ \n\n");
 	//exit(EXIT_FAILURE);
-	if (getenv("PATH") == 0x0)
-		ft_set_env_var("PATH", PATH_AS_DEFAULT, 1);
+	//if (getenv("PATH") == 0x0)
+	//	ft_set_env_var("PATH", PATH_AS_DEFAULT, 1);
 	//printf("\n\n====> DAFUQ!! \n\n");
 	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
@@ -117,7 +115,7 @@ void	init_env_variables(char	*shell)
  * [CASE CLOSED FINALLY.]
 */
 
-int	init_bash_env(char	*bash, t_env	env)
+int	init_bash_env(char *bash, t_env env)
 {
 	t_env	*shell_env;
 	int		len;

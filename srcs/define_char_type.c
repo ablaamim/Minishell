@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 11:31:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/09 20:16:13 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 10:07:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum e_char_type	define_char_type(char c)
 {
 	enum e_char_type const	char_type[128] = {
 		ANY_CHAR,
-	['\t'] = SPACE_CHAR,
+	['\t'...'\r'] = SPACE_CHAR,
 	[' '] = SPACE_CHAR,
 	['\"'] = DQUOTE_CHAR,
 	['&'] = AND_CHAR,

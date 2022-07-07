@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 18:32:39 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 10:00:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_node	*ft_lexer_parser_program(char *line)
 		if (ast_constructor(&token_list, &ast, false) == false || \
 				token_list != 0x0 )
 		{
-			//if (ast == 0x0)
-			//	printf("YOU FUCKED UP PLENTY !!");
 			if (token_list != 0x0)
 				variadic_error_printer(2, "\nMinishell : Syntax error near \
 			unexpected token %s\n", token_list->data);

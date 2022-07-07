@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:10:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 12:49:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 09:16:12 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void	ft_free_fd(void)
  * main() is the Entry point of my program, init and launch all process.
  *
  * ===> if argc == 1 (progam name)
- * - Init env.
+ * - Init environment.
+ * - Signal handling.
  * - Free all filedescriptors beyond or equal to 3.
- * - Init my minishell.
+ * - Init my minishell [Core function].
  * ===> Else print ERROR using variadic_error_printer()
- * ===> Singal handling.
 */
 
 int	main(int argc, char **argv, char **env)
@@ -45,8 +45,8 @@ int	main(int argc, char **argv, char **env)
 	if (argc == 1)
 	{
 		init_bash_env(file_extract(argv[0]), env);
-		//signal(SIGINT, signal_command);
-		//signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, signal_command);
+		signal(SIGQUIT, SIG_IGN);
 		printf("============================================================\n\n");
 		ft_free_fd();
 		ft_minishell();

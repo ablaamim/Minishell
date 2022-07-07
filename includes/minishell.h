@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 19:11:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 08:37:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -503,5 +503,14 @@ int					heredoc_redir(char const *stream, bool input_has_quotes);
 char				*here_document(char const *delimiter);
 bool				heredocument_control(char const *delimiter, char *line);
 void				append_input_heredoc(char **doc, char *line);
+
+/*
+ * Variables expansions :
+*/
+
+bool	variables_expansion(t_simple_cmd *cmd, int i);
+bool	verify_next_character(char c);
+bool	*fill_argument(char **argument, int len_var_name, int i, \
+		char *var_val);
 
 #endif

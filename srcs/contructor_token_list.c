@@ -6,14 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 18:38:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 10:05:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Util function to espace all whitespaces.
+ * Util function to espace all the whitespaces.
 */
 
 bool	ft_iswhite_space(int c)
@@ -82,7 +82,7 @@ t_token	*tokenize_word(char *in_characters, int *i)
 	if (in_characters[*i + j] == '\0'\
 			&& (s_quotes_found == true || d_quotes_found == true))
 	{
-		variadic_error_printer(2, "\nMinishell : Syntax error: Unexpexted\
+		variadic_error_printer(2, "\nMinishell : Syntax error: Unexpected\
 		end of file.\n");
 		free(data);
 		return (NULL);
@@ -119,9 +119,9 @@ t_token	*retrieve_next_token(char	*in_characters, int *i)
 
 /*
  * This particular constructor will build the tokens linked list based on
- * the read buffer from readline() respecting LEXER grammar, 
- * first of all, i must escape all the white spaces, 
- * until the in_characters [string] is fully scanned, i will
+ * the read buffer from readline() respecting LEXER grammar,
+ * first of all, i must escape all the Whitespaces,
+ * * until the in_characters [string] is fully scanned, i will
  * operate couple of algorithms, i must retrieve next token, using the
  * retrieve_next_token() function, this token will be added to the tokens
  * linked list by append_token() function, after that i must escape
