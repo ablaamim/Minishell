@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 10:05:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 13:36:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ bool	ft_iswhite_space(int c)
 {
 	if (c == 32 || (c >= 7 && c <= 14))
 		return (true);
-	else
-		return (false);
+	return (false);
 }
 
 /*
@@ -74,7 +73,7 @@ t_token	*tokenize_word(char *in_characters, int *i)
 	j = 0x0;
 	s_quotes_found = false;
 	d_quotes_found = false;
-	data = garbage_malloc(sizeof(*data));
+	data = garbage_malloc(sizeof(*data) * 0x1);
 	*data = '\0';
 	while (verifier(in_characters[*i + j], &s_quotes_found, \
 				&d_quotes_found) == ACCEPTED)
@@ -98,9 +97,9 @@ t_token	*tokenize_word(char *in_characters, int *i)
  * depending on the e_char_type encountred along in in_characters string.
 */
 
-t_token	*retrieve_next_token(char	*in_characters, int *i)
+t_token	*retrieve_next_token(char *in_characters, int *i)
 {
-	t_token	*(*tokenizer[NB_CHAR_TYPE])(char *, int *i);
+	t_token	*(*tokenizer[NB_CHAR_TYPE])(char *, int *);
 
 	tokenizer[NULL_CHAR] = NULL;
 	tokenizer[ANY_CHAR] = &tokenize_word;

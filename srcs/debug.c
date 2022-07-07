@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 17:43:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/07 13:47:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ void	ft_print_token(t_token *token)
 	{
 		if (current_token->type == WORD_TOKEN)
 			printf("[ Type = %s", "WORD_TOKEN");
-		else if (current_token->type == LESSER_TOKEN)
-			printf(("[ Type = %s"), "LESSER_TOKEN");
 		else if (current_token->type == DLESSER_TOKEN)
-			printf("[ Type = %s", "DLESSER_TOKEN");
-		else if (current_token->type == GREATER_TOKEN)
-			printf("[ Type = %s", "GREATER_TOKEN");
+			printf(("[ Type = %s"), "DLESSER_TOKEN");
+		else if (current_token->type == LESSER_TOKEN)
+			printf("[ Type = %s", "LESSER_TOKEN");
 		else if (current_token->type == DGREATER_TOKEN)
 			printf("[ Type = %s", "DGREATER_TOKEN");
+		else if (current_token->type == GREATER_TOKEN)
+			printf("[ Type = %s", "GREATER_TOKEN");
 		else if (current_token->type == AND_TOKEN)
 			printf("[type = %s", "AND_TOKEN");
 		else if (current_token->type == SEMICO_TOKEN)
