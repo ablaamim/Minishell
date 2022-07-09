@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 21:22:12 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 17:42:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,13 +355,14 @@ bool				ft_is_executable(char *binary_path);
 void				exec_in_parent(int pid);
 
 /*
- * Env typedef :
+ * Env typedef and define :
 */
 
 typedef char	**t_env;
+# define SIZE_10B 1024
 
 /*
- * Init shell environment.
+ * Init shell environment and save it in accessible memory.
 */
 
 int					init_bash_env(char *shell, t_env env);
