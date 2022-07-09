@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/27 16:19:23 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:57:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,17 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	env = get_bash_env();
 	temp = *env;
 	i = ft_in_env(name);
-	//printf("\n\n===> IN_ENV VAL : %d\n\n", i);
-	/*
-	while (env[i])
-	{
-		printf("%s\n", *env[i]);
-		i++;
-	}
-	*/
 	if (i >= 0x0 && replace != 0x0)
 	{
-		//printf("TSAP\n\n");
-		//exit(EXIT_FAILURE);
-		//garbage_free((void **) &temp[i]);
-		//printf("SALAM SEGV IS THAT YOU ??? \n\n"); [CASE CLOSED]
-		//exit(EXIT_FAILURE);
 		if (val == 0x0)
 			temp[i] = ft_strjoin(name, val, "");
 		else
 			temp[i] = ft_strjoin(name, val, "=");
-		//printf("%s\n", temp[i]);
 	}
 	else
 	{
 		*env = ft_add_up_in_env(name, val, temp);
 		free(temp);
-		//garbage_free((void **) &temp);
 	}
 }
 
@@ -70,16 +55,11 @@ int	ft_in_env(const char	*var)
 	t_env	*env;
 
 	i = 0x0;
-	//printf("NANI THE FUCK ?????\n\n");
 	len = ft_strlen(var);
 	env = get_bash_env();
-	//ft_print_env(*env);
-	//printf("ANNIE ARE YOU OK ?\n\n");
 	temp = *env;
-	//printf("%s\n", *temp);
 	while (temp[i])
 	{
-		//printf("keskeuuu!");
 		if (ft_strncmp(temp[i], var, len) == 0x0)
 		{
 			if (temp[i][len] == '=' || temp[i][len] == '\0')
@@ -87,7 +67,6 @@ int	ft_in_env(const char	*var)
 		}
 		i++;
 	}
-	//printf("ALLO !\n\n");
 	return (-1);
 }
 
@@ -102,12 +81,10 @@ char	*get_env(const char *var)
 	t_env	*env;
 
 	i = ft_in_env(var);
-	//printf("ALLO ???");
 	if (i == -1)
 		return (0x0);
 	env = get_bash_env();
 	temp = *env;
-	//printf("%s\n", *temp);
 	return (&temp[i][ft_strlen(var) + 1]);
 }
 
@@ -124,7 +101,7 @@ t_env	*get_bash_env(void)
 }
 
 /*
- * Calculate env length.
+ * Calculate env length and return it.
 */
 
 int	env_length(t_env env)

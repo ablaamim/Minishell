@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 13:56:13 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 14:18:24 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:59:33 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	convert_d(t_buffering *fmt, va_list ap)
 	len = ft_strlen(s);
 	ft_strncpy(&fmt->buffer[fmt->i], s, len);
 	fmt->i += len;
-	garbage_free((void **)&s);
+	free(s);
 }

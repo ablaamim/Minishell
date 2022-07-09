@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 17:42:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:36:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,6 +321,8 @@ int					get_next_line(int fd, char **line);
 char				*ft_append_char(char *str, char c);
 int					ft_isprint(int c);
 int					ft_striter(char *str, int (*function) (int));
+int	ft_isalnum(int c);
+
 /*
  * Pipe streams define
  * I had enums flipped LOL
@@ -382,11 +384,6 @@ char				**ft_add_up_in_env(const char *name, const char *val, \
 void				cleaner_mr_propre(char *tmp_path, char *shell_path, \
 		char *shelvl_value);
 int					retrieve_len_array(char **array);
-char				**env_reader(char *name);
-int					ft_read_char_arr_fd(char ***array, int fd);
-char				*get_env_array(char *name, char **envp);
-char				*search_for_env_val(char *var, char *name);
-void				free_chararray(char **array);
 
 /*
  * Minishell exit ==> return exit_status and free all data.
@@ -514,9 +511,13 @@ void				append_input_heredoc(char **doc, char *line);
  * Variables expansions :
 */
 
-bool	variables_expansion(t_simple_cmd *cmd, int i);
-bool	verify_next_character(char c);
-bool	*fill_argument(char **argument, int len_var_name, int i, \
+bool				variables_expansion(t_simple_cmd *cmd, int i);
+bool				verify_next_character(char c);
+void				expand_vars_in_stream(char **argument);
+char				*get_variable_name(char *arg);
+char				*quotes_reverse(char *var_value);
+char				*alloc_new_argument(char *arg, int len_var_name, char *var_value);
+bool				*fill_argument(char **argument, int len_var_name, int i, \
 		char *var_val);
-
+char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value);
 #endif

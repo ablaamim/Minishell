@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 09:11:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:16:50 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:03:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	*garbage_malloc(size_t size)
 	t_garbage_list	*new;
 	t_garbage_list	**garbage_list;
 
-	new = NULL;
+	new = 0x0;
 	garbage_list = get_garbage_list();
 	tmp = *garbage_list;
 	new = malloc(sizeof(t_garbage_list) * 0x1);
@@ -82,7 +82,7 @@ void	*garbage_malloc(size_t size)
 		garbage_exit(EXIT_FAILURE, "Error : malloc() failed.\n");
 	garbage_bzero(new, sizeof(t_garbage_list) * 0x1);
 	new->ptr = malloc(size);
-	if (new->ptr == NULL)
+	if (new->ptr == 0x0)
 	{
 		garbage_memdel((void **)&new);
 		garbage_exit(EXIT_FAILURE, "Error : malloc() failed.\n");

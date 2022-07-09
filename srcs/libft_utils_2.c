@@ -6,11 +6,20 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 17:33:37 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:36:19 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
 
 int	ft_striter(char *str, int (*function) (int))
 {

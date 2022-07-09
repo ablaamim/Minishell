@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 17:46:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 19:00:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ char	*get_true_filepath(char const	*filepath)
 	if (real_path == 0x0)
 		return (0x0);
 	binary_path = ft_strjoin(real_path, &filepath[ft_strlen(path)], "");
-	//printf("%s\n", binary_path);
-	//garbage_free((void **) &path);
-	garbage_free((void **) &path);
+	free(path);
 	free(real_path);
 	return (binary_path);
 }

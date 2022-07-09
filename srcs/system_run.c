@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:54:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 18:59:17 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,11 @@ char	*retrieve_bin_path(const char	*binary)
 		}
 
 		binary_path = ft_strjoin(paths[i], binary, "/");
-		//printf("==> BINARY PATH : %s\n", binary_path);
 		if (stat(binary_path, &buff) == 0)
 		{
 			ft_free_arrays(paths);
 			return (binary_path);
 		}
-		//garbage_free((void **) &binary_path);
 		free(binary_path);
 		i++;
 	}
@@ -72,8 +70,7 @@ char	*verify_bin_path(char **argv)
 
 int	error_manager(char	*binary_path, char	*cmd, char	*error, int	exit_val)
 {
-	//garbage_free((void **) &binary_path);
-	free(binary_path);
+	garbage_free((void **) &binary_path);
 	variadic_error_printer(2, "Minishell : %s %s\n", cmd, error);
 	return (exit_val);
 }

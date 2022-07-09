@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 16:04:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 22:47:23 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/09 19:08:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ char	*here_document(char const *delimiter)
 	doc = 0x0;
 	while (1337)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, &heredoc_signal);
-		line = readline("heredoc> ");
-		//if (sigint_catcher(doc, line) == true)
-		//	return (0x0);
 		//signal(SIGQUIT, SIG_IGN);
-		//signal(SIGINT, heredoc_signal);
-		printf("\n");
+		//signal(SIGINT, &heredoc_signal);
+		line = readline("heredoc> ");
+		if (line == 0x0)
+		{
+			exit(EXIT_SUCCESS);
+		}
+		ft_putchar_fd(0, '\n');
 		if (heredocument_control(delimiter, line) == true)
 			break;
 		append_intput_heredoc(&doc, line);
@@ -80,21 +80,15 @@ int	heredoc_redir(char const *stream, bool input_had_quotes)
 			exit_value_set(130);
 			return (-1);
 		}
-		free(doc);
 	}
 	waitpid(pid, retrieve_exit_status(), 0x0);
-	//if (input_had_quotes == false && doc != 0x0)
-	/*
-	 * TO DO :  HERE-DOC explansion
-	*/
-	input_had_quotes = true;
-	if (input_had_quotes == true && doc != 0x0)
-		printf("HANDLE EXPANSIONS DUUUDE !\n");
-
+	if (input_had_quotes == false && doc != 0x0)
+		expand_vars_in_stream(&doc);
 	if (pipe(fd) == -1)
 		shell_exit(EXIT_FAILURE, strerror(errno));
 	if (doc != 0x0)
 		ft_putstr_fd(doc, fd[0]);
 	close(fd[0]);
+	free(doc);
 	return (fd[1]);
 }

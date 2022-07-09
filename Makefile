@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/07/07 22:56:47 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/07/09 18:34:46 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,8 @@ SRC = ./srcs/debug.c \
 	  ./srcs/ft_ignore_signals.c \
 	  ./srcs/sigint_catcher.c \
 	  ./srcs/heredoc_signal.c \
+	  ./srcs/fill_new_argument.c \
+	  ./srcs/expand_variables_in_stream.c \
 
 OBJ = $(SRC:.c=.o)
 
