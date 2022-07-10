@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 13:46:01 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:59:17 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:40:03 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
  * Return the path of binary, Null if not found.
  * [THESE FUNCTIONS ARE BUGGY].
+ * [CASSE CLOSED]
 */
 
 char	*retrieve_bin_path(const char	*binary)
@@ -25,7 +26,6 @@ char	*retrieve_bin_path(const char	*binary)
 	struct stat	buff;
 
 	i = 0x0;
-	//printf("PATH=%s\n", get_env("PATH"));
 	paths = ft_split(get_env("PATH"), ':');
 	if (paths == 0x0)
 		return (0x0);
@@ -40,7 +40,6 @@ char	*retrieve_bin_path(const char	*binary)
 			printf("%s\n", paths[param]);
 			param++;
 		}
-
 		binary_path = ft_strjoin(paths[i], binary, "/");
 		if (stat(binary_path, &buff) == 0)
 		{
@@ -54,10 +53,6 @@ char	*retrieve_bin_path(const char	*binary)
 	return (0x0);
 }
 
-/*
- *
-*/
-
 char	*verify_bin_path(char **argv)
 {
 	if (ft_strchr(argv[0], "./" != 0x0))
@@ -68,16 +63,16 @@ char	*verify_bin_path(char **argv)
 		return (retrieve_bin_path(argv[0]));
 }
 
-int	error_manager(char	*binary_path, char	*cmd, char	*error, int	exit_val)
+int	error_manager(char *binary_path, char *cmd, char *error, int exit_val)
 {
-	garbage_free((void **) &binary_path);
+	free(binary_path);
 	variadic_error_printer(2, "Minishell : %s %s\n", cmd, error);
 	return (exit_val);
 }
 
 int	ft_exec_manager(char	*binary_path, char	*cmd)
 {
-//	int	ret_val;
+	int	ret_val;
 
 	if (binary_path == 0x0)
 	{
@@ -88,16 +83,16 @@ int	ft_exec_manager(char	*binary_path, char	*cmd)
 			return (error_manager(0x0, cmd, "Command not found\n", \
 						EXIT_COMMAND_NOT_FOUND));
 	}
-	//ret_val = ft_is_dir(binary_path); // GOTTA VERIFY THIS LATER
-	//printf("ALLO ???\n\n");
-	//if (ret_val == -1)
-	//	return (error_manager(binary_path, cmd, strerror(errno), EXIT_COMMAND_NOT_FOUND));
+	ret_val = ft_is_directory(binary_path);
+	if (ret_val == 1)
+		return (error_manager(binary_path, cmd, "Is a directory",
+				EXEC_EXIT_ERROR));
+	else if (ret_val == -1)
+		return (error_manager(binary_path, cmd, strerror(errno),
+				EXIT_COMMAND_NOT_FOUND));
 	if (ft_is_executable(binary_path) == false)
-	{
-		//printf("\n\n==> ACCESS FAILED\n\n");
 		return (error_manager(binary_path, cmd, strerror(errno), \
 					EXIT_COMMAND_NOT_FOUND));
-	}
 	return (EXIT_SUCCESS);
 }
 
@@ -119,27 +114,10 @@ int	system_run(char	**argv)
 	ret = ft_exec_manager(binary_path, argv[0]);
 	if (ret != EXIT_SUCCESS)
 		return (ret);
-	/*
-	 * I HAVE TO FIX THIS SHIT !
-	*/
-	//printf("%s\n", binary_path);
-	//printf("====> BINARY PATH CORRUPTED DUH...\n\n");
-	/*
-	 * CASE CLOSED.
-	*/
-	//ft_print_env(*env);
-	//printf("%s\n", argv[0]);
-	printf("\n\n===> BINARY_PATH SENT TO EXECVE : %s\n\n", binary_path);
+	printf("\n\n====> BINARY_PATH SENT TO EXECVE : %s\n\n", binary_path);
 	if (execve(binary_path, argv, *env) == -1)
-	{
-		printf("EXECVE FAILED : ERROR MANAGING SHOULD BE DONE!!!!!\n\n");
-		// TO DO : 
 		return (error_manager(binary_path, argv[0], strerror(errno), \
-					EXIT_COMMAND_NOT_FOUND));
-	}
-	else
-		printf("===> WHAT THE FUQ ??????????\n\n");
+					EXEC_EXIT_ERROR));
 	free(binary_path);
-	//garbage_free((void **)&binary_path);
 	return (EXIT_SUCCESS);
 }

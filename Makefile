@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/07/10 10:39:34 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/07/10 17:28:18 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,16 +70,15 @@ SRC = ./srcs/debug.c \
 	  ./srcs/pipe_setter_getter.c \
 	  ./srcs/execute_pipes.c \
 	  ./srcs/execute_commands_list.c \
-	  ./srcs/shell_expansions.c \
 	  ./srcs/argv_error.c \
 	  ./srcs/get_next_line.c \
 	  ./srcs/heredocument_redirection.c \
-	  ./srcs/signum.c \
-	  ./srcs/ft_ignore_signals.c \
-	  ./srcs/sigint_catcher.c \
 	  ./srcs/heredoc_signal.c \
 	  ./srcs/fill_new_argument.c \
 	  ./srcs/expand_variables_in_stream.c \
+	  ./srcs/execute_builtins.c \
+	  ./srcs/ft_is_directory.c \
+	  #./srcs/shell_expansions.c
 
 OBJ = $(SRC:.c=.o)
 

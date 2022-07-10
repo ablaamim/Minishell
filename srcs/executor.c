@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 20:01:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:41:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,4 @@ void	ft_executor(char *line)
 			}
 		}
 	}
-	else
-		printf("\n\n==> exector() : ARE YOU OK?\n\n");
 }

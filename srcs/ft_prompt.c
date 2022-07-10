@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 08:55:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:29:03 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ void	ft_minishell(void)
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, signal_command);
 		ft_executor(line);
+		free(line);
 	}
 }

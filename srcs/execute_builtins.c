@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_extract.c                                     :+:      :+:    :+:   */
+/*   execute_builtins.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 18:10:15 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 15:03:28 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/07/10 17:05:57 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/07/10 17:09:43 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
- * Extract shell name from executable file.
-*/
-
-char	*file_extract(char *filepath)
+int	builtins_executor(int argc, char **argv, t_io_streams_file saver)
 {
-	int	i;
-
-	if (filepath == 0x0)
-		return (0x0);
-	if (ft_strchr(filepath, '/') == 0x0)
-		return (filepath);
-	i = ft_strlen(filepath);
-	while (i > 0 && filepath[i] != '/')
-		i--;
-	return (&filepath[i + 1]);
+	(void) argc;
+	if (ft_strcmp(argv[0], "exit") == 0x0)
+		ft_close_fd(saver);
+	return (EXIT_SUCCESS);
 }

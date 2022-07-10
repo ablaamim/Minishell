@@ -6,17 +6,17 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 12:16:42 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:45:25 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Execute a simple command, parent must wait.
+ * Execute a simple command in child process, parent must wait.
 */
 
-void	ft_exec_simple_cmd(t_simple_cmd	cmd)
+void	ft_exec_simple_cmd(t_simple_cmd cmd)
 {
 	pid_t				pid;
 	t_io_streams_file	saver;
@@ -25,7 +25,10 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 	saver.output_stream = dup(1);
 	dup2(cmd.fd_in, 0);
 	dup2(cmd.fd_out, 1);
-	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0)
+
+	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0 /*&& \
+			builtins_executor(retrieve_len_array(cmd.argv), \
+				cmd.argv, saver) == EXIT_COMMAND_NOT_FOUND*/)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -60,7 +63,10 @@ void	ft_complex_exec(t_node *ast, bool pipe)
 					&& ast->content.simple_cmd.argv[0][0] == '\0')
 					exit_value_set(EXIT_SUCCESS);
 				else
+				{
+					//printf("====> ALLO ?\n\n");
 					ft_exec_simple_cmd(ast->content.simple_cmd);
+				}
 			}
 			else
 				//printf("IS THERE A PROB HERE ?\n\n");
@@ -85,7 +91,7 @@ void	execute_ast_data(t_node *ast)
 {
 	if (ast->type == SIMPLE_CMD)
 	{
-		printf("\n\nSIMPLE CMD EXECUTION : \n\n");
+		printf("================= SIMPLE CMD EXECUTION : ===============\n\n");
 		ft_complex_exec(ast, false);
 	}
 	else if (ast->type == PIPE_NODE)
@@ -95,5 +101,5 @@ void	execute_ast_data(t_node *ast)
 		ft_pipe_setter(false);
 	}
 	else
-	execute_commands_list(ast);
+		execute_commands_list(ast);
 }

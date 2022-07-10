@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 12:06:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 17:26:25 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,6 @@
 # include <termios.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
-
-/*
- * Error defines, i display them in stderr using write() with fd == 2.
- * ===> Useless eight now, i will delete then later.
- * [WARNING !!! ALL ERROR DEFINES WILL BE USELESS!!!!!!!!!!!!!!!!!!!!!!!]
- * [SOLUTION : VARIADIC_ERROR_PRINTER() FUNCTIONALITY.]
-*/
 
 # define ARGV_ERROR "Error : invalid argument\n"
 # define WARNING "Error : outline mode\n"
@@ -340,6 +333,7 @@ enum e_pipe
 # define CMD_ERROR "Minishell : cmd error\n"
 # define EXIT_COMMAND_NOT_FOUND 127
 # define ENV_FILE "/tmp/.env"
+# define EXEC_EXIT_ERROR 126
 
 /*
  * EXECUTION ABSTRACTION :
@@ -356,6 +350,8 @@ int					error_manager(char *binary_path, char *cmd, char *error, \
 int exit_val);
 bool				ft_is_executable(char *binary_path);
 void				exec_in_parent(int pid);
+int					ft_is_directory(char *bin_path);
+
 
 /*
  * Env typedef and define :
@@ -490,12 +486,6 @@ bool				shell_expansions(t_node *ast);
 */
 
 void			signal_command(int sig);
-void			set_signumber(int signal);
-int				*retrieve_signumber(void);
-void			ft_ignore_signals(void);
-void			handle_signals(void);
-void			sigint_handler(int signal);
-bool			sigint_catcher(char *doc, char *line);
 void			heredoc_signal(int signal);
 void			child_sig(int signal);
 
@@ -510,6 +500,7 @@ void				append_input_heredoc(char **doc, char *line);
 
 /*
  * Variables expansions :
+ * > NOT FINISHED <
 */
 
 bool				variables_expansion(t_simple_cmd *cmd, int i);
@@ -524,5 +515,11 @@ char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value)
 bool				expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool is_dquotes);
 void				retrieve_variable_name_and_value(char *argument, char **variable_name, char **variable_value);
 bool				has_a_space(char *str);
+
+/*
+ * Builtins typedefs and functions :
+*/
+
+int				builtins_executor(int argc, char **argv, t_io_streams_file saver);
 
 #endif

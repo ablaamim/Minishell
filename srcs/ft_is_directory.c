@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_extract.c                                     :+:      :+:    :+:   */
+/*   ft_is_directory.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/17 18:10:15 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 15:03:28 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/07/10 17:16:43 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/07/10 17:27:00 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
- * Extract shell name from executable file.
-*/
-
-char	*file_extract(char *filepath)
+int	ft_is_directory(char *binary_path)
 {
-	int	i;
+	struct stat	data;
 
-	if (filepath == 0x0)
-		return (0x0);
-	if (ft_strchr(filepath, '/') == 0x0)
-		return (filepath);
-	i = ft_strlen(filepath);
-	while (i > 0 && filepath[i] != '/')
-		i--;
-	return (&filepath[i + 1]);
+	if (stat(binary_path, &data) == -1)
+		return (-1);
+	if (S_ISDIR(data.st_mode) == 1)
+		return (1);
+	return (0);
 }
