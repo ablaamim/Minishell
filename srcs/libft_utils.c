@@ -6,11 +6,18 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 19:43:39 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:03:33 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	ft_isspace(int c)
+{
+	if (c == ' ' || (c >= '\t' && c <= '\r'))
+		return (0x1);
+	return (0x0);
+}
 
 size_t	ft_strlen(char const *str)
 {

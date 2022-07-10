@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/21 21:46:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/21 21:57:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:05:26 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,8 @@ bool	expander(t_simple_cmd *cmd)
 	i = 0x0;
 	while (cmd->argv[i] != 0x0)
 	{
-		if (ft_strchr(cmd->argv[i], '$') != 0x0)
-		/*
-		 * TO DO :
-		 * perform variable expansion.
-		*/
-			//if (variables_expansion(cmd, i) == false)
+		if (ft_strchr(cmd->argv[i], '$') != 0x0 && !(i > 0 && ft_strcmp(cmd->argv[i], "<<") == 0))
+			if (variables_expansion(cmd, i) == false)
 				return (false);
 		++i;
 	}

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:51:17 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:16:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,10 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 		if (pid == -1)
 			shell_exit(EXIT_FAILURE, strerror(errno));
 		else if (pid == 0)
-		{
 			exec_in_child(cmd, saver);
-		}
 		else
-		{
 			exec_in_parent(pid);
-		}
 	}
-	/*
-	 * To do :
-	 * Create a function that will close fd.
-	 * [CASE CLOSED]
-	*/
 	ft_close_fd(saver);
 }
 
@@ -56,8 +47,10 @@ void	ft_exec_simple_cmd(t_simple_cmd	cmd)
 
 void	ft_complex_exec(t_node *ast, bool pipe)
 {
+	/*
 	if (shell_expansions(ast) == true)
 	{
+	*/
 		if (execute_redirections(ast) == true)
 		{
 			if (pipe == false)
@@ -75,9 +68,11 @@ void	ft_complex_exec(t_node *ast, bool pipe)
 		}
 		else
 			exit_value_set(EXIT_FAILURE);
+	/*
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
+	*/
 }
 
 /*
@@ -92,14 +87,7 @@ void	execute_ast_data(t_node *ast)
 	{
 		printf("\n\nSIMPLE CMD EXECUTION : \n\n");
 		ft_complex_exec(ast, false);
-		//printf("MAMAMIYAAAA\n\n");
 	}
-	/*
-	 * MORE CASES TO HANDLE.
-	 * PIPES GONE PRRRRRR.
-	 * TO DO :
-	 * EXEC PIPES.
-	*/
 	else if (ast->type == PIPE_NODE)
 	{
 		ft_pipe_setter(true);
@@ -107,10 +95,5 @@ void	execute_ast_data(t_node *ast)
 		ft_pipe_setter(false);
 	}
 	else
-	//printf("MAZAL MASALITI ASAT\n\n");
-	/*
-	 * TO DO :
-	 * GOTTA HANDLE A LIST OF COMMANDS.
-	*/
 	execute_commands_list(ast);
 }

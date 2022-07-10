@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:36:55 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 12:06:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,8 @@ int					get_next_line(int fd, char **line);
 char				*ft_append_char(char *str, char c);
 int					ft_isprint(int c);
 int					ft_striter(char *str, int (*function) (int));
-int	ft_isalnum(int c);
+int					ft_isalnum(int c);
+int					ft_isspace(int c);
 
 /*
  * Pipe streams define
@@ -520,4 +521,8 @@ char				*alloc_new_argument(char *arg, int len_var_name, char *var_value);
 bool				*fill_argument(char **argument, int len_var_name, int i, \
 		char *var_val);
 char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value);
+bool				expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool is_dquotes);
+void				retrieve_variable_name_and_value(char *argument, char **variable_name, char **variable_value);
+bool				has_a_space(char *str);
+
 #endif
