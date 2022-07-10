@@ -6,11 +6,15 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 16:04:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 19:08:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 09:26:49 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * TO DO : HANDLE SINGNALS.
+*/
 
 void	append_intput_heredoc(char **doc, char *line)
 {
@@ -44,11 +48,11 @@ char	*here_document(char const *delimiter)
 	char	*doc;
 
 	doc = 0x0;
+	signal(SIGINT, child_sig);
 	while (1337)
 	{
-		//signal(SIGQUIT, SIG_IGN);
-		//signal(SIGINT, &heredoc_signal);
 		line = readline("heredoc> ");
+		signal(SIGQUIT, SIG_IGN);
 		if (line == 0x0)
 		{
 			exit(EXIT_SUCCESS);
@@ -70,8 +74,6 @@ int	heredoc_redir(char const *stream, bool input_had_quotes)
 	int		pid;
 
 	pid = fork();
-	signal(SIGINT, &child_sig);
-	signal(SIGQUIT, &child_sig);
 	if (pid == 0x0)
 	{
 		doc = here_document(stream);
@@ -89,6 +91,6 @@ int	heredoc_redir(char const *stream, bool input_had_quotes)
 	if (doc != 0x0)
 		ft_putstr_fd(doc, fd[0]);
 	close(fd[0]);
-	free(doc);
+	//free(doc);
 	return (fd[1]);
 }

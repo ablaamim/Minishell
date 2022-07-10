@@ -6,13 +6,11 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 21:01:41 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 08:55:26 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	g_exit_status;
 
 /*
  * the read_line() function reads from input using readline(), saves it in a 
@@ -25,7 +23,7 @@ char	*read_line(void)
 {
 	char	*line;
 
-	line = readline("Mini Hell$> ");
+	line = readline("minishell-v1.0$> ");
 	add_history(line);
 	if (line == 0x0)
 	{
@@ -41,11 +39,9 @@ char	*read_line(void)
 
 void	signal_command(int sig)
 {
-	g_exit_status += sig;
 	printf("\n\n==> sig value : %d\n\n", sig);
 	if (sig == SIGINT)
 	{
-		g_exit_status = 130;
 		rl_on_new_line();
 		rl_replace_line("", 0x0);
 		rl_redisplay();
@@ -53,7 +49,7 @@ void	signal_command(int sig)
 	if (sig == SIGQUIT)
 	{
 		variadic_error_printer(2, "Quit\n");
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -71,7 +67,7 @@ void	ft_minishell(void)
 	{
 		line = read_line();
 		signal(SIGINT, signal_command);
-		signal(SIGQUIT, SIG_IGN);
+		signal(SIGQUIT, signal_command);
 		ft_executor(line);
 	}
 }

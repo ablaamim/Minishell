@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 13:47:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 08:44:01 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ void	ft_print_token(t_token *token)
 {
 	t_token	*current_token;
 
-	if (token == 0x0)
-	{
-		printf("Linked list is empty\n");
-		exit(EXIT_FAILURE);
-	}
 	current_token = garbage_malloc(sizeof(token));
 	current_token = token;
 	while (current_token != 0x0)
