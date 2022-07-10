@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 17:45:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 19:00:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	ft_exec_simple_cmd(t_simple_cmd cmd)
 	dup2(cmd.fd_in, 0);
 	dup2(cmd.fd_out, 1);
 
-	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0 /*&& \
+	if (cmd.argv[0] != 0x0 && cmd.argv[0][0] != 0x0 && \
 			builtins_executor(retrieve_len_array(cmd.argv), \
-				cmd.argv, saver) == EXIT_COMMAND_NOT_FOUND*/)
+				cmd.argv, saver) == EXIT_COMMAND_NOT_FOUND)
 	{
 		pid = fork();
 		if (pid == -1)

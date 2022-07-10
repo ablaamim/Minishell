@@ -6,11 +6,18 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:34:20 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:55:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 18:50:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int		ft_isspace(int c)
+{
+	if (c == ' ' || (c >= '\t' && c <= '\r'))
+		return (0x1);
+	return (0x0);
+}
 
 void	ft_putendl(char *s)
 {

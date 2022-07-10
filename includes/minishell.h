@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 17:26:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 19:06:47 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,6 +316,9 @@ int					ft_isprint(int c);
 int					ft_striter(char *str, int (*function) (int));
 int					ft_isalnum(int c);
 int					ft_isspace(int c);
+void				ft_putchar(char c);
+void				ft_putstr(char *str);
+int					ft_isnumber(char *s);
 
 /*
  * Pipe streams define
@@ -520,6 +523,20 @@ bool				has_a_space(char *str);
  * Builtins typedefs and functions :
 */
 
-int				builtins_executor(int argc, char **argv, t_io_streams_file saver);
+typedef struct s_builtin
+{
+	char	*name;
+	int		(*func)(int, char **);
+}			t_builtin;
+
+# define SIZE_8B 256
+
+int					builtins_executor(int argc, char **argv, t_io_streams_file saver);
+int					ft_echo_builtin(int argc, char **argv);
+int					index_first_arg_to_print(char **argv, bool *has_dash_n_flag);;
+bool				check_argument_is_dash_n(char *arg);
+int					ft_exit_builtin(int argc, char **argv);
+int					ft_get_status(int argc, char **argv);
+int					ft_pwd(int argc, char **argv);
 
 #endif

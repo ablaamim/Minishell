@@ -6,18 +6,11 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 12:03:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 18:48:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	ft_isspace(int c)
-{
-	if (c == ' ' || (c >= '\t' && c <= '\r'))
-		return (0x1);
-	return (0x0);
-}
 
 size_t	ft_strlen(char const *str)
 {
@@ -111,7 +104,7 @@ char	*ft_strndup(const char *str, size_t n)
 	max_len = ft_strnlen(str, n);
 	new = 0x0;
 	new = garbage_malloc(sizeof(*str) * (max_len + 1));
-	* (new + max_len) = '\0';
+	*(new + max_len) = '\0';
 	return (ft_memcpy(new, str, max_len));
 }
 

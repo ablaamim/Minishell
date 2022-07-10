@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/07/10 17:28:18 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/07/10 19:07:13 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,10 @@ SRC = ./srcs/debug.c \
 	  ./srcs/expand_variables_in_stream.c \
 	  ./srcs/execute_builtins.c \
 	  ./srcs/ft_is_directory.c \
+	  ./srcs/builtin_echo.c \
+	  ./srcs/libft_utils_5.c \
+	  ./srcs/builtin_exit.c \
+	  ./srcs/builtin_pwd.c \
 	  #./srcs/shell_expansions.c
 
 OBJ = $(SRC:.c=.o)
