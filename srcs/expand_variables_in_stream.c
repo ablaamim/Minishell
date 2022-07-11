@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:14:18 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 11:37:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:33:51 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ char	*quotes_reverse(char *var_value)
 	if (var_value == NULL)
 		return (NULL);
 	i = 0;
-	str = garbage_malloc(sizeof(*str) * (ft_strlen(var_value) + 1));
+	str = (char *) malloc(sizeof(*str) * (ft_strlen(var_value) + 1));
+	if (!str)
+		return (0x0);
 	while (var_value[i] != '\0')
 	{
 		if (var_value[i] == '\'' || var_value[i] == '"')
@@ -51,7 +53,9 @@ char	*get_variable_name(char *arg)
 
 	j = 0;
 	i = 1;
-	var_name = garbage_malloc(sizeof(*var_name) * (get_len_variable_name(arg + i) + 1));
+	var_name = malloc(sizeof(*var_name) * (get_len_variable_name(arg + i) + 1));
+	if (!var_name)
+		return (0x0);
 	while (ft_isalnum(arg[i]) != 0 && arg[i] != '\0')
 	{
 		var_name[j] = arg[i];
@@ -93,7 +97,7 @@ void	expand_vars_in_stream(char **argument)
 			get_variable_name_and_val(*argument + i, &var_name, &var_value);
 			*argument = fill_new_argument(argument, ft_strlen(var_name), i, var_value);
 			i += ft_strlen(var_value);
-			garbage_free((void **)&var_name);
+			free(var_name);
 			if (*var_value != '\0')
 				free(var_value);
 

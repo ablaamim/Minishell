@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/12 09:49:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 19:00:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 19:31:23 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,34 @@ void	ft_exec_simple_cmd(t_simple_cmd cmd)
  * Execute a simple command in child process using execve().
  * [BUGGY TOO.] [CASE CLOSED]
  * [TO DO : IMPLEMENT REDIRECTIONS]
- . [CASE CLOSED]
+ * [CASE CLOSED]
+ * [IMPLEMENT EXPANSIONS]
 */
 
 void	ft_complex_exec(t_node *ast, bool pipe)
 {
-	/*
 	if (shell_expansions(ast) == true)
 	{
-	*/
 		if (execute_redirections(ast) == true)
 		{
 			if (pipe == false)
 			{
-				//printf("IS REDIRECTION A VALID STEP ??\n\n");
 				if (retrieve_len_array(ast->content.simple_cmd.argv) == 1\
 					&& ast->content.simple_cmd.argv[0][0] == '\0')
 					exit_value_set(EXIT_SUCCESS);
 				else
 				{
-					//printf("====> ALLO ?\n\n");
 					ft_exec_simple_cmd(ast->content.simple_cmd);
 				}
 			}
 			else
-				//printf("IS THERE A PROB HERE ?\n\n");
 				execute_pipes(ast);
 		}
 		else
 			exit_value_set(EXIT_FAILURE);
-	/*
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
-	*/
 }
 
 /*

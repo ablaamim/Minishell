@@ -73,7 +73,7 @@ t_token	*tokenize_word(char *in_characters, int *i)
 	j = 0x0;
 	s_quotes_found = false;
 	d_quotes_found = false;
-	data = garbage_malloc(sizeof(*data) * 0x1);
+	data = malloc(sizeof(*data) * 0x1);
 	*data = '\0';
 	while (verifier(in_characters[*i + j], &s_quotes_found, \
 				&d_quotes_found) == ACCEPTED)

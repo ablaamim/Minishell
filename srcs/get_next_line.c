@@ -18,7 +18,9 @@ char	*ft_append_char(char *str, char c)
 	char	*new_str;
 
 	i = 0x0;
-	new_str = garbage_malloc(sizeof(char) * (ft_strlen(str) + 2));
+	new_str = (char *) malloc(sizeof(char) * (ft_strlen(str) + 2));
+	if (!new_str)
+		return (0x0);;
 	while (str[i])
 	{
 		new_str[i] = str[i];
@@ -38,7 +40,9 @@ int	get_next_line(int fd, char **line)
 
 	c = '\0';
 	ret = 0x1;
-	str = garbage_malloc(sizeof(char) * 0x1);
+	str = malloc(sizeof(char) * 0x1);
+	if (!str)
+		return (0x0);
 	str[0] = '\0';
 	while (c != '\n' && ret != 0x0)
 	{

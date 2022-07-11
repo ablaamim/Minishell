@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/07/10 19:07:13 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/07/11 08:00:16 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/$
 
 #LINUX_RDLINE = -lreadline
 
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \
@@ -82,7 +82,15 @@ SRC = ./srcs/debug.c \
 	  ./srcs/libft_utils_5.c \
 	  ./srcs/builtin_exit.c \
 	  ./srcs/builtin_pwd.c \
-	  #./srcs/shell_expansions.c
+	  ./srcs/builtin_cd.c \
+	  ./srcs/builtin_env.c \
+	  ./srcs/shell_expansions.c \
+	  ./srcs/expand_variables.c \
+	  ./srcs/expander_utils.c \
+	  ./srcs/expander_utils_1.c \
+	  ./srcs/reallocate_argument.c \
+	  ./srcs/export_utils.c \
+	  ./srcs/builtin_export.c \
 
 OBJ = $(SRC:.c=.o)
 

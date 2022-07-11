@@ -26,7 +26,7 @@ bool	logical_operators_parser(t_token **token_list, t_node **ast, \
 	if (*ast == 0x0)
 		return (false);
 	node_separator = 0x0;
-	node_separator = garbage_malloc(sizeof(*node_separator));
+	node_separator = malloc(sizeof(*node_separator));
 	ft_bzero(node_separator, sizeof(*node_separator));
 	node_separator->type = (enum e_node_type) ((*token_list)->type);
 	node_separator->content.child.left = *ast;

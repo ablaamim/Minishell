@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/11 08:17:42 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/10 21:08:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Print error, since its a subshell
 */
 
-bool	printerror_and_falsify(bool	is_subshell)
+bool	printerror_and_falsify(bool is_subshell)
 {
 	if (is_subshell == false)
 		write(2, ERROR_TOKEN, sizeof(ERROR_TOKEN));
@@ -48,13 +48,13 @@ unsigned int	calculate_number_of_args(t_token	*token_list)
  * convert arguments in a token from a list into an array.
 */
 
-bool	convert_list_to_array(t_token	**token_list, t_node	\
-		*simple_command, bool	is_subshell)
+bool	convert_list_to_array(t_token **token_list, t_node \
+		*simple_command, bool is_subshell)
 {
 	int	i;
 
 	i = 0x0;
-	simple_command->content.simple_cmd.argv = garbage_malloc(sizeof(char *) * 
+	simple_command->content.simple_cmd.argv = malloc(sizeof(char *) * 
 			((calculate_number_of_args(*token_list) + 1)));
 	ft_bzero(simple_command->content.simple_cmd.argv,
 			sizeof(simple_command->content.simple_cmd.argv));
@@ -90,7 +90,7 @@ bool	convert_list_to_array(t_token	**token_list, t_node	\
  * -> list_to_array fills the argv array.
 */
 
-bool	simple_command_parser(t_token	**token_list, t_node	**ast, \
+bool	simple_command_parser(t_token **token_list, t_node **ast, \
 		bool	is_subshell)
 {
 	t_node	*simple_command;
@@ -102,7 +102,7 @@ bool	simple_command_parser(t_token	**token_list, t_node	**ast, \
 	if (identify_leaf((*token_list)->type) == false)
 		return (false);
 	simple_command = 0x0;
-	simple_command = garbage_malloc(sizeof(*simple_command));
+	simple_command = malloc(sizeof(*simple_command));
 	ft_bzero(simple_command, sizeof(simple_command));
 	simple_command->type = SIMPLE_CMD;
 	simple_command->content.simple_cmd.fd_in = 0;

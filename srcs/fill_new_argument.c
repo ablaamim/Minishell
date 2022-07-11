@@ -6,20 +6,22 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 18:29:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:29:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 08:28:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*alloc_new_argument(char *arg, int len_var_name, char *var_value)
+char	*allocate_new_argument(char *argument, int len_variable_name, char *variable_value)
 {
 	char	*new_arg;
-	int		len_var_value;
+	int		len_variable_value;
 
-	len_var_value = ft_strlen(var_value);
-	new_arg = garbage_malloc(sizeof(*new_arg)
-			* (ft_strlen(arg) - len_var_name + len_var_value));
+	len_variable_value = ft_strlen(variable_value);
+	new_arg = (char *) malloc(sizeof(*new_arg) * (ft_strlen(argument) \
+				- len_variable_name + len_variable_value));
+	if (new_arg == 0x0)
+		return (0x0);
 	return (new_arg);
 }
 
@@ -30,7 +32,7 @@ char	*fill_new_argument(char **arg, int len_var_name, int i, char *var_value)
 	char	*new_arg;
 
 	j = 0;
-	new_arg = alloc_new_argument(*arg, len_var_name, var_value);
+	new_arg = allocate_new_argument(*arg, len_var_name, var_value);
 	while (j < i)
 	{
 		new_arg[j] = (*arg)[j];

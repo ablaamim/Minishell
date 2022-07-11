@@ -25,7 +25,7 @@ t_token	*tokenize_parentheses(char *in_characters, int *i)
 		type = OP_PARENTH_TOKEN;
 	else
 		type = CLOSE_PARENTH_TOKEN;
-	data = garbage_malloc(sizeof (*data) * SIZEOF_ONE_CHAR_STRING);
+	data = malloc(sizeof (*data) * SIZEOF_ONE_CHAR_STRING);
 	ft_strlcpy(data, &in_characters[*i], SIZEOF_ONE_CHAR_STRING);
 	++(*i);
 	return (token_generator(data, type));
@@ -40,7 +40,7 @@ t_token	*tokenize_semicolon(char *in_characters, int *i)
 	char				*data;
 
 	(void) in_characters;
-	data = garbage_malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
+	data = malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
 	ft_strlcpy(data, ";", SIZEOF_ONE_CHAR_STRING);
 	++(*i);
 	return (token_generator(data, SEMICO_TOKEN));
@@ -58,7 +58,7 @@ t_token	*tokenize_and(char *in_characters, int *i)
 
 	if (define_char_type(in_characters[++(*i)]) == AND_CHAR)
 	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
+		data = malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
 		ft_strlcpy(data, "&&", SIZEOF_TWO_CHAR_STRING);
 		type = AND_TOKEN;
 		++(*i);
@@ -82,14 +82,14 @@ t_token	*tokenize_pipe(char *in_characters, int *i)
 
 	if (define_char_type(in_characters[++(*i)]) == PIPE_CHAR)
 	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
+		data = malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
 		ft_strlcpy(data, "||", SIZEOF_TWO_CHAR_STRING);
 		type = OR_TOKEN;
 		++(*i);
 	}
 	else
 	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
+		data = malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
 		ft_strlcpy(data, "|", SIZEOF_ONE_CHAR_STRING);
 		type = PIPE_TOKEN;
 	}

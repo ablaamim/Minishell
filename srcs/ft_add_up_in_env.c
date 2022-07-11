@@ -18,7 +18,7 @@ char	**ft_add_up_in_env(const char	*name, const char	*val, t_env	env)
 	t_env	new_env;
 
 	i = 0x0;
-	new_env = garbage_malloc(sizeof(char *) * (env_length(env) + 2));
+	new_env = malloc(sizeof(char *) * (env_length(env) + 2));
 	while (env[i])
 	{
 		new_env[i] = env[i];

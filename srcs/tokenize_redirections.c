@@ -46,7 +46,7 @@ t_token	*tokenize_lesser(char *in_characters, int *i)
 		//data = (char *) malloc(sizeof(*data) * 3);
 		//if (!data)
 		//	return (0x0);
-		data = garbage_malloc(sizeof(data) * 3);
+		data = malloc(sizeof(data) * 3);
 		ft_strlcpy(data, "<<", 3);
 		//ft_memcpy(data, "<<\0", 3);
 		type = DLESSER_TOKEN;
@@ -59,7 +59,7 @@ t_token	*tokenize_lesser(char *in_characters, int *i)
 		//data = (char *) malloc(sizeof(*data) * 2);
 		//if (!data)
 		//	return (0x0);
-		data = garbage_malloc(sizeof(data) * 2);
+		data = malloc(sizeof(data) * 2);
 		ft_strlcpy(data, "<", 2);
 		//ft_memcpy(data, "<\0", 2);
 		type = LESSER_TOKEN;
@@ -75,14 +75,14 @@ t_token	*tokenize_greater(char *in_characters, int *i)
 
 	if (define_char_type(in_characters[++(*i)]) == GREAT_CHAR)
 	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
+		data = malloc(sizeof(*data) * SIZEOF_TWO_CHAR_STRING);
 		ft_strlcpy(data, ">>", SIZEOF_TWO_CHAR_STRING);
 		type = DGREATER_TOKEN;
 		++(*i);
 	}
 	else
 	{
-		data = garbage_malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
+		data = malloc(sizeof(*data) * SIZEOF_ONE_CHAR_STRING);
 		ft_strlcpy(data, ">", SIZEOF_ONE_CHAR_STRING);
 		type = GREATER_TOKEN;
 	}

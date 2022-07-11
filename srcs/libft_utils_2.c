@@ -78,7 +78,9 @@ char	*ft_strdup(const char *s)
 		size = 0x1;
 	else
 		size = ft_strlen(s);
-	dup = garbage_malloc(sizeof(char) * (size + 0x1));
+	dup = malloc(sizeof(char) * (size + 0x1));
+	if (!dup)
+		return (0x0);
 	if (s != 0x0)
 	{
 		while (s[i])

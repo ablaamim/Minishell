@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 19:31:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:44:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_node	*ft_lexer_parser_program(char *line)
 		{
 			if (token_list != 0x0)
 			{
-				printf("\n\nERROR INSIDE AST CONSTRUCTOR\n\n");
 				variadic_error_printer(2, "\nMinishell : Syntax error near unexpected token %s\n", token_list->data);
 			}
 			exit_value_set(SYNTAX_ERROR_EXIT);
@@ -50,7 +49,7 @@ t_node	*ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
-	printf("====================> DISPLAY TREE <========================\n\n");
-	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
+	//printf("====================> DISPLAY TREE <========================\n\n");
+	//disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }

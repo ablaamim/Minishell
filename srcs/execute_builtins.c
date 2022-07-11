@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/10 17:05:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 19:08:08 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 08:00:43 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	builtins_executor(int argc, char **argv, t_io_streams_file saver)
 {
 	int					i;
 	t_builtin const	builtin[] = {
-		//{.name = "cd", .func = &cd},
+		{.name = "cd", .func = &ft_cd},
 		{.name = "echo", .func = &ft_echo_builtin},
-		//{.name = "env", .func = &ft_env},
+		{.name = "env", .func = &ft_env},
 		{.name = "exit", .func = &ft_exit_builtin},
 		{.name = "pwd", .func = &ft_pwd},
-		//{.name = "export", .func = &export},
-		//{.name = "unset", .func = &unset},
+		{.name = "export", .func = &ft_export},
+		//{.name = "unset", .func = &ft_unset},
 		{.name = NULL}
 	};
 

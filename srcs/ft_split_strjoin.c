@@ -73,7 +73,7 @@ static char	*ft_cut_split(char *str, char c, int *i)
 		*i += 1;
 	while (str[*i + len] != c && str[*i + len])
 		len++;
-	strnew = garbage_malloc(sizeof(char) * (len + 1));
+	strnew = malloc(sizeof(char) * (len + 1));
 	while (j < len)
 	{
 		strnew[j] = str[*i];
@@ -96,7 +96,7 @@ char	**ft_split(char const *str, char c)
 	if (!str)
 		return (NULL);
 	tab_size = ft_nb_split((char *)str, c);
-	tab = garbage_malloc(sizeof(char *) * (tab_size + 1));
+	tab = malloc(sizeof(char *) * (tab_size + 1));
 	while (i < tab_size)
 	{
 		tab[i] = ft_cut_split((char *)str, c, &offset);

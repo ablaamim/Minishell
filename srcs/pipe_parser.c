@@ -55,7 +55,7 @@ bool	pipe_parser(t_token	**token_list, t_node	**ast,	bool is_subshell)
 		if (check_errors(*token_list) == false)
 			return (false);
 		pipe_node = 0x0;
-		pipe_node = garbage_malloc(sizeof(*pipe_node));
+		pipe_node = malloc(sizeof(*pipe_node));
 		ft_bzero(pipe_node, sizeof(*pipe_node));
 		pipe_node->type = PIPE_NODE;
 		pipe_node->content.child.left = *ast;

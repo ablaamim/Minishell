@@ -20,12 +20,7 @@
 void	cleaner_mr_propre(char	*tmp_path, char	*shell_path, \
 		char	*shlvl_value)
 {
-	//printf("\n\nFREE ALL GARBAGE LEAKED\n\n");
 	free(tmp_path);
 	free(shell_path);
 	free(shlvl_value);
-	//garbage_free((void **) &tmp_path);
-	//garbage_free((void **) &shell_path);
-	//garbage_free((void **) &shlvl_value);
-	//printf("\n\n!!!OR CAUSE PROBLEMS!!!\n\n");
 }

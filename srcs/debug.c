@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 08:44:01 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:43:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_print_token(t_token *token)
 {
 	t_token	*current_token;
 
-	current_token = garbage_malloc(sizeof(token));
+	current_token = malloc(sizeof(token));
 	current_token = token;
 	while (current_token != 0x0)
 	{
@@ -88,28 +88,32 @@ void	ft_print_token(t_token *token)
 		printf("(NULL)\n\n");
 }
 
-void	disp_tree(t_node	*tree, int	lev)
+void	disp_tree(t_node *node, int lev)
 {
-	if (tree == 0x0)
+	t_node	*current_node;
+
+	if (node == 0x0)
 		return ;
+	current_node  = malloc(sizeof(t_node));
+	current_node = node;
 	for (int i = 0; i < lev; i++)
 		printf("\t\t");
-	if (tree->type == OR_NODE )
+	if (current_node->type == OR_NODE)
 		printf("OR_NODE\n");
-	else if (tree->type == AND_NODE)
+	else if (current_node->type == AND_NODE)
 		printf("AND_NODE\n");
-	else if (tree->type == PIPE_NODE)
+	else if (current_node->type == PIPE_NODE)
 		printf("PIPE_NODE\n");
-	else if (tree->type == SEMICO_NODE)
+	else if (current_node->type == SEMICO_NODE)
 		printf("SEMICO_NODE\n");
-	else if (tree->type == SIMPLE_CMD && tree->content.type == 1)
+	else if (current_node->type == SIMPLE_CMD && current_node->content.type == 1)
 	{
-		if(tree->content.simple_cmd.argv != NULL)
+		if(current_node->content.simple_cmd.argv != NULL)
 		{
 			printf("SIMPLE_CMD: ");
-			for (int i = 0; tree->content.simple_cmd.argv[i]; i++)
+			for (int i = 0; current_node->content.simple_cmd.argv[i]; i++)
 			{
-				printf("%s ", tree->content.simple_cmd.argv[i]);
+				printf("%s ", current_node->content.simple_cmd.argv[i]);
 			}
 			printf("\n");
 		}
@@ -119,7 +123,7 @@ void	disp_tree(t_node	*tree, int	lev)
 		variadic_error_printer(2, "ERROR : UNKNOWN DATA\n");
 		exit(EXIT_FAILURE);
 	}
-	disp_tree(tree->content.child.right, lev + 1);
-	disp_tree(tree->content.child.left, lev + 1);
+	disp_tree(current_node->content.child.right, lev + 1);
+	disp_tree(current_node->content.child.left, lev + 1);
 	printf("\n");
 }

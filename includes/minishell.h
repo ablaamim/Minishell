@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/10 19:06:47 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/07/11 09:15:45 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ typedef struct s_garbage_list
 
 void				ft_minishell(void);
 int					argv_error_handler(char *argv);
-void					ft_free_fd(void);
+void				ft_free_fd(void);
 char				*ft_prompt(void);
 char				*read_line(void);
 void				ft_executor(char *line);
@@ -287,7 +287,7 @@ bool				check_errors(t_token *token_list);
 char				*ft_strndup(const char *str, size_t n);
 size_t				ft_strnlen(char const *str, size_t max_len);
 void				*ft_memcpy(void *dest, void const *src, size_t n);
-size_t				ft_strlen(char const *str);
+size_t				ft_strlen(const char *str);
 size_t				ft_strlcpy(char *dest, char const *src, size_t destsize);
 void				ft_bzero(void *memory, size_t size);
 void				*ft_memset(void *s, int c, size_t n);
@@ -319,6 +319,7 @@ int					ft_isspace(int c);
 void				ft_putchar(char c);
 void				ft_putstr(char *str);
 int					ft_isnumber(char *s);
+int					ft_isalpha(int c);
 
 /*
  * Pipe streams define
@@ -354,7 +355,6 @@ int exit_val);
 bool				ft_is_executable(char *binary_path);
 void				exec_in_parent(int pid);
 int					ft_is_directory(char *bin_path);
-
 
 /*
  * Env typedef and define :
@@ -428,9 +428,9 @@ void				convert_d(t_buffering *fmt, va_list ap);
  * LEAKS FIGHTING :
 */
 
-void	ast_clearing(t_node **ast);
-void	simple_cmd_clearing(t_node **simple_cmd);
-void	tokens_clearing(t_token **token_list);
+void				ast_clearing(t_node **ast);
+void				simple_cmd_clearing(t_node **simple_cmd);
+void				tokens_clearing(t_token **token_list);
 
 /*
  * I/O streams file struct :
@@ -446,7 +446,7 @@ typedef struct s_io_streams_file
  * IO_STREAMS UTILS :
 */
 
-void	ft_close_fd(t_io_streams_file saver);
+void				ft_close_fd(t_io_streams_file saver);
 
 /*
  * EXECUTE REDIRRECTONS : 
@@ -488,9 +488,9 @@ bool				shell_expansions(t_node *ast);
  * SIGNALS HANDLING:
 */
 
-void			signal_command(int sig);
-void			heredoc_signal(int signal);
-void			child_sig(int signal);
+void				signal_command(int sig);
+void				heredoc_signal(int signal);
+void				child_sig(int signal);
 
 /*
  * Heredocument :
@@ -502,22 +502,50 @@ bool				heredocument_control(char const *delimiter, char *line);
 void				append_input_heredoc(char **doc, char *line);
 
 /*
- * Variables expansions :
+ * VARIABLE EXPENSIONS :
  * > NOT FINISHED <
 */
+
+typedef struct expand_utils
+{
+	int		len_old_argv;
+	int		len_argv_to_add;
+	int		len_new_argv;
+	bool	first_join;
+	bool	last_join;
+	bool	has_space;
+	int		i_old;
+	int		i_new;
+	int		i_split;
+	int		index_dollar;
+}	t_expand_utils;
 
 bool				variables_expansion(t_simple_cmd *cmd, int i);
 bool				verify_next_character(char c);
 void				expand_vars_in_stream(char **argument);
 char				*get_variable_name(char *arg);
 char				*quotes_reverse(char *var_value);
-char				*alloc_new_argument(char *arg, int len_var_name, char *var_value);
+char				*allocate_new_argument(char *arg, int len_variable_name, \
+		char *variable_value);
 bool				*fill_argument(char **argument, int len_var_name, int i, \
 		char *var_val);
-char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value);
-bool				expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool is_dquotes);
-void				retrieve_variable_name_and_value(char *argument, char **variable_name, char **variable_value);
+char				*fill_new_argument(char **arg, int len_var_name, int i, \
+		char *var_value);
+bool				expand_single_variable(t_simple_cmd *cmd, int i, int *j, \
+		bool is_dquotes);
+void				retrieve_variable_name_and_value(char *argument, \
+		char **variable_name, char **variable_value);
 bool				has_a_space(char *str);
+bool				reallocate_argument(t_simple_cmd *cmd, int const i, int *j, char *var_value);
+void				ft_free_array(char ***array);
+int					get_len_var_name(char *arg);
+void				change_quote_state(char quote, bool *in_squotes, bool *in_dquotes);
+char				*get_after_var(char *str, int index_dollar);
+void				remove_quotes_from_argument(char **arg);
+char				*rm_quotes(char *str);
+int					get_length_without_quotes(char *str);
+
+
 
 /*
  * Builtins typedefs and functions :
@@ -531,12 +559,28 @@ typedef struct s_builtin
 
 # define SIZE_8B 256
 
-int					builtins_executor(int argc, char **argv, t_io_streams_file saver);
+int					builtins_executor(int argc, char **argv, \
+		t_io_streams_file saver);
 int					ft_echo_builtin(int argc, char **argv);
-int					index_first_arg_to_print(char **argv, bool *has_dash_n_flag);;
+int					index_first_arg_to_print(char **argv, bool \
+		*has_dash_n_flag);;
 bool				check_argument_is_dash_n(char *arg);
 int					ft_exit_builtin(int argc, char **argv);
 int					ft_get_status(int argc, char **argv);
 int					ft_pwd(int argc, char **argv);
+int					ft_cd(int argc, char **argv);
+void				ft_update_pwd(char **argv);
+char				*get_path(char **argv);
+char				*retrieve_cdpath(const char *dir);
+int					ft_env(int argc, char **argv);
+int					ft_export(int argc, char **argv);
+char				*get_var_value(char *str, char *env_value);
+int					export_get_len_var_name(char *arg);
+
+/*
+ * Wild card :
+*/
+
+
 
 #endif
