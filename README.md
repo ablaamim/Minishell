@@ -136,4 +136,7 @@ it must respect lexing, so it should be a valid grammar.
 
 [TO BE CONTINUED]
 
+<h1 align=center>
+<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="500">
+<h1>
 ---
