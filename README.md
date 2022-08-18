@@ -85,3 +85,55 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 .
 ```
 ---
+
+## FIRST STEP : LEXICAL ANALYSIS / LEXER  + TOKENIZER.
+
+---
+
+It is the first step of the parsing phase, it will help me out to transform user input into tokens
+all because my parser is subdivided into two parts, lexical analysis and tokenizing.
+
+So first of all i defined a lexer class as an enumerator of all possible char types that can be
+encountred inside an input string --> For further infos check /includes/minishell.h
+
+-> inside the shell loop i send the input string to ft_lexer_parser_program()
+this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing).
+-> then i call linked_list_constructor() this function will build a linked list where every node is a token.
+
+-> A token is defined in a class enumerator as well in order to manage all tokens that should be handled by program --> /includes/Minishell.h
+ - If valid ==> execute
+ - Else ==> print error on stderr
+so in order to make this work effectively i used dispatch table (array of pointer functions) to call the appropriate tokenizer
+accordingly with the appropriate token.
+
+## Mandatory tokens : 
+
+### Word token : 
+it must respect lexing, so it should be a valid grammar.
+
+### Redirections token : 
+ > , >>, <, <<, every two are handled in one function, i only defined greater and lesser in grammar,
+ so i increment pointer if i find a similar symbol then its >> in exemple of >, so i save >> in a token,
+ same for < and <<.
+
+### Separator token : 
+
+|, ||, &&, ;
+
+-> Then i build an AST
+
+[TO BE CONTINUED]
+
+---
+
+# SECOND STEP : PARSER
+
+[TO BE CONTINUED]
+
+---
+
+# AST REPRESENTATION :
+
+[TO BE CONTINUED]
+
+---

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:36:55 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:46:48 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,7 @@
 # include <sys/ioctl.h>
 # include <dirent.h>
 
-/*
- * Error defines, i display them in stderr using write() with fd == 2.
- * ===> Useless eight now, i will delete then later.
- * [WARNING !!! ALL ERROR DEFINES WILL BE USELESS!!!!!!!!!!!!!!!!!!!!!!!]
- * [SOLUTION : VARIADIC_ERROR_PRINTER() FUNCTIONALITY.]
-*/
 
-# define ARGV_ERROR "Error : invalid argument\n"
-# define WARNING "Error : outline mode\n"
 # define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
 # define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
 # define ERROR_AND "Minishell : the '&' is not handled by program\n"
@@ -185,7 +177,6 @@ typedef struct s_child
 
 typedef struct s_node_content
 {
-	int					type;
 	struct s_simple_cmd	simple_cmd;
 	struct s_child		child;
 }	t_node_content;
@@ -230,7 +221,6 @@ void				ft_add_history(char *line);
 void				ft_print_env(char **env);
 void				ft_print_token(t_token *token);
 void				disp_tree(t_node *tree, int lev);
-void				ft_print_simple_cmd(char **argv);
 
 /*
  * LEXER FUNCTIONS :
@@ -328,6 +318,7 @@ int	ft_isalnum(int c);
  * I had enums flipped LOL
 */
 
+/*
 enum e_pipe
 {
 	OUTPUT,
@@ -339,22 +330,25 @@ enum e_pipe
 # define CMD_ERROR "Minishell : cmd error\n"
 # define EXIT_COMMAND_NOT_FOUND 127
 # define ENV_FILE "/tmp/.env"
+*/
+
+                           // mbistami task
 
 /*
  * EXECUTION ABSTRACTION :
 */
 
-void				execute_ast_data(t_node *ast);
-void				ft_complex_exec(t_node *ast, bool pipe);
-void				ft_exec_simple_cmd(t_simple_cmd cmd);
-int					system_run(char **argv);
-char				*verify_bin_path(char **argv);
-char				*retrieve_bin_path(const char *binary);
-int					ft_exec_manager(char *binary_path, char *cmd);
-int					error_manager(char *binary_path, char *cmd, char *error, \
-int exit_val);
-bool				ft_is_executable(char *binary_path);
-void				exec_in_parent(int pid);
+
+//void				execute_ast_data(t_node *ast);
+//void				ft_complex_exec(t_node *ast, bool pipe);
+//void				ft_exec_simple_cmd(t_simple_cmd cmd);
+//int					system_run(char **argv);
+//char				*verify_bin_path(char **argv);
+//char				*retrieve_bin_path(const char *binary);
+//int					ft_exec_manager(char *binary_path, char *cmd);
+//int					error_manager(char *binary_path, char *cmd, char *error, int exit_val);
+//bool				ft_is_executable(char *binary_path);
+//void				exec_in_parent(int pid);
 
 /*
  * Env typedef and define :
@@ -432,26 +426,27 @@ void	ast_clearing(t_node **ast);
 void	simple_cmd_clearing(t_node **simple_cmd);
 void	tokens_clearing(t_token **token_list);
 
+
 /*
  * I/O streams file struct :
 */
 
-typedef struct s_io_streams_file
-{
-	int	input_stream;
-	int	output_stream;
-}	t_io_streams_file;
+//typedef struct s_io_streams_file
+//{
+//	int	input_stream;
+//	int	output_stream;
+//}	t_io_streams_file;
 
 /*
  * IO_STREAMS UTILS :
 */
 
-void	ft_close_fd(t_io_streams_file saver);
+//void	ft_close_fd(t_io_streams_file saver);
 
 /*
  * EXECUTE REDIRRECTONS : 
 */
-
+/*
 bool				execute_redirections(t_node *ast);
 bool				scan_open_redirections(char **argv, int *fd_input, \
 		int *ft_output, bool input_has_quotes);
@@ -463,54 +458,48 @@ int					output_stream_redirection(char **arguments);
 void				delete_redirections_in_argv(char **arguments);
 t_io_streams_file	*retrieve_io(void);
 void				exec_in_child(t_simple_cmd cmd, t_io_streams_file saver);
+*/
 
 /*
  * PIPES :
 */
-
+/*
 void				ft_pipe_setter(bool val);
 bool				*ft_pipe_getter(void);
 void				execute_pipes(t_node *ast);
 void				pipe_child_process(t_node *ast, int file_descriptor[2], \
 t_io_streams_file *saver);
-
+*/
 /*
  * COMMAND LIST :
 */
-
+/*
 void				execute_commands_list(t_node *ast);
 void				execute_logical_and_node(t_node *ast);
 void				execute_logical_or_nodee(t_node *ast);
 void				execute_semicolon_node(t_node *ast);
 bool				shell_expansions(t_node *ast);
+*/
 
 /*
  * SIGNALS HANDLING:
 */
 
 void			signal_command(int sig);
-void			set_signumber(int signal);
-int				*retrieve_signumber(void);
-void			ft_ignore_signals(void);
-void			handle_signals(void);
-void			sigint_handler(int signal);
-bool			sigint_catcher(char *doc, char *line);
-void			heredoc_signal(int signal);
-void			child_sig(int signal);
 
 /*
  * Heredocument :
 */
-
+/*
 int					heredoc_redir(char const *stream, bool input_has_quotes);
 char				*here_document(char const *delimiter);
 bool				heredocument_control(char const *delimiter, char *line);
 void				append_input_heredoc(char **doc, char *line);
-
+*/
 /*
  * Variables expansions :
 */
-
+/*
 bool				variables_expansion(t_simple_cmd *cmd, int i);
 bool				verify_next_character(char c);
 void				expand_vars_in_stream(char **argument);
@@ -520,4 +509,6 @@ char				*alloc_new_argument(char *arg, int len_var_name, char *var_value);
 bool				*fill_argument(char **argument, int len_var_name, int i, \
 		char *var_val);
 char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value);
+*/
+
 #endif

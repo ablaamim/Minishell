@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 13:47:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:07:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ void	ft_print_token(t_token *token)
 {
 	t_token	*current_token;
 
-	if (token == 0x0)
-	{
-		printf("Linked list is empty\n");
-		exit(EXIT_FAILURE);
-	}
 	current_token = garbage_malloc(sizeof(token));
 	current_token = token;
 	while (current_token != 0x0)
@@ -93,7 +88,11 @@ void	ft_print_token(t_token *token)
 		printf("(NULL)\n\n");
 }
 
-void	disp_tree(t_node	*tree, int	lev)
+/*
+ * Tree traversal and nodes printing.
+*/
+
+void	disp_tree(t_node *tree, int lev)
 {
 	if (tree == 0x0)
 		return ;
@@ -107,7 +106,7 @@ void	disp_tree(t_node	*tree, int	lev)
 		printf("PIPE_NODE\n");
 	else if (tree->type == SEMICO_NODE)
 		printf("SEMICO_NODE\n");
-	else if (tree->type == SIMPLE_CMD && tree->content.type == 1)
+	else if (tree->type == SIMPLE_CMD)
 	{
 		if(tree->content.simple_cmd.argv != NULL)
 		{
@@ -118,11 +117,6 @@ void	disp_tree(t_node	*tree, int	lev)
 			}
 			printf("\n");
 		}
-	}
-	else
-	{
-		variadic_error_printer(2, "ERROR : UNKNOWN DATA\n");
-		exit(EXIT_FAILURE);
 	}
 	disp_tree(tree->content.child.right, lev + 1);
 	disp_tree(tree->content.child.left, lev + 1);

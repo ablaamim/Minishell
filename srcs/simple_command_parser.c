@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/11 08:17:42 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:11:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ bool	simple_command_parser(t_token	**token_list, t_node	**ast, \
 	simple_command->type = SIMPLE_CMD;
 	simple_command->content.simple_cmd.fd_in = 0;
 	simple_command->content.simple_cmd.fd_out = 1;
-	simple_command->content.type = 1;
 	if (convert_list_to_array(token_list, simple_command, is_subshell) == \
 			false)
 		return (false);

@@ -6,16 +6,18 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 20:01:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:53:26 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * Initialize my AST, lex and parse [Syntax analyzer + Recursive descent 
- * parser] the input read.
- * Then build my AST and execute it.
+ * Initialize AST, lex and parse [Syntax analyzer + 
+ * Recursive descent parser] the input read.
+ * Then build AST.
+ *
+ * bistami task : execute AST.
 */
 
 void	ft_executor(char *line)
@@ -29,12 +31,13 @@ void	ft_executor(char *line)
 		{
 			if (ast != 0x0)
 			{
-				printf("\n\n================> EXECUTION GONE PRRRRR : <=================\n\n");
-				execute_ast_data(ast);
-				ast_clearing(&ast);
+				/*
+				 * This is where you will execute the AST akhay moussa.
+				 * anhayd had thrash functions.
+				*/
+				//execute_ast_data(ast);
+				//ast_clearing(&ast);
 			}
 		}
 	}
-	else
-		printf("\n\n==> exector() : ARE YOU OK?\n\n");
 }

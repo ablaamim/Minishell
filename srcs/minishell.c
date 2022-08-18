@@ -12,7 +12,9 @@
 #include "../includes/minishell.h"
 
 /*
- * Function to free all file descriptors beyond or equal to 3.
+ * ft_free_fd() : this function will free all file descriptors beyond 3,
+ * i will call this function respectively 2 times in order to free all leaking
+ * filedescriptors.
 */
 
 void	ft_free_fd(void)
@@ -29,35 +31,46 @@ void	ft_free_fd(void)
 }
 
 /*
- * main() is the Entry point of my program, init and launch all process.
+ * main() : is the Entry point of my program, init and launch all process.
  *
- * ===> if argc == 1 (progam name)
+ * -> if argc == 1 (progam name)
  * - Init environment.
- * - Signal handling [SIGINT = ctrl+c / SIGQUIT = ctrl+\].
+ * - Signal handling [SIGINT = ctrl+c / SIGQUIT = ctrl+\ / EOF = ctrl+d].
  * - Free all filedescriptors beyond or equal to 3.
  * - Init my minishell [Core function].
- * ===> Else print ERROR using variadic_error_printer()
+ * - free all filedescriptors beyond 3 again.
+ *
+ * -> Else print ERROR using variadic_error_printer()
+ *  and return 127 because if we execute this test we need an exit value of 127
+ *
+ * $> ./minishell ARGUMENT
+ *
+ * $> echo $?
+ *
+ * $> 127
+ *
+*/
+
+/*
+ * init_bash_env() : function to clone the cache of host bash and save it
+ * in accessible memory, like this we will have a copy of bash environment.
 */
 
 int	main(int argc, char **argv, char **env)
 {
 	if (argc == 1)
 	{
-		printf("====================== LAUNCH ==========================\n\n");
-		printf("\n\n====> program name : %s\n\n", argv[0]);
-		printf("====================== BASH ENV ========================\n\n");
-		ft_print_env(env);
 		init_bash_env(file_extract(argv[0]), env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
-		printf("========================================================\n\n");
 		ft_free_fd();
 		ft_minishell();
+		ft_free_fd();
 	}
 	else
 	{
-		if (argv_error_handler(argv[1]))
-			return (*retrieve_exit_status());
+		variadic_error_printer(2, "Error : Feature not supported\n");
+		return (127);
 	}
 	return (EXIT_SUCCESS);
 }

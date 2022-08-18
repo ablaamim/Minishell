@@ -6,17 +6,18 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 19:00:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/18 23:19:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * TO DO :
- *
- * DISPLAY DATA IN AN ORGANIZED WAY IN ORDER TO SAVE A VERSION FOR INTENSE
- * DEBUGGING.
+ * These function will allow host bash cache cloning in order to get a copy 
+ * of env.
+ * -> bonus functionalities :
+ * SHELL VAR IS EXPENDED.
+ * SHLVL ALSO.
 */
 
 char	*path_extracter(char const	*filepath)
@@ -30,7 +31,6 @@ char	*path_extracter(char const	*filepath)
 	i = ft_strlen(filepath);
 	while (i > 0 && filepath[i] != '/')
 		i--;
-	printf("FILE_PATH = %s\n\n", filepath);
 	return (ft_strndup(filepath, i));
 }
 
@@ -73,11 +73,6 @@ char	*get_true_filepath(char const	*filepath)
 	return (binary_path);
 }
 
-/*
- * [SEGV CASE CLOSED, DIN DYMAK!]
- * TO DO : init pwd.
-*/
-
 void	init_env_variables(char	*shell)
 {
 	char	*temp_path;
@@ -92,17 +87,12 @@ void	init_env_variables(char	*shell)
 	shlvl_value = ft_itoa(ft_atoi(shlvl) + 1);
 	temp_path = ft_strjoin("./", shell, "");
 	shell_path = get_true_filepath(temp_path);
-	printf("SHLVL_INT VALUE = %s\n\n", shlvl_value);
-	printf("SHELL_PATH CACHE = %s\n\n", shell_path);
-	//exit(EXIT_FAILURE);
-	//GOTTA CREATE A SET_ENV() FUNCTION.
 	ft_set_env_var("SHLVL", shlvl_value, 1);
 	ft_set_env_var("SHELL", shell_path, 1);
 	if (get_env("PATH") == 0x0)
 	{
 		getcwd("PWD", SIZE_10B);
 		ft_set_env_var("PWD", pwd, 0x1);
-
 	}
 	if (chdir(get_env("PWD")) == -1)
 		shell_exit(EXIT_FAILURE, strerror(errno));
@@ -123,10 +113,6 @@ int	init_bash_env(char *bash, t_env env)
 	i = 0x0;
 	len = env_length(env);
 	shell_env = get_bash_env();
-	printf("============================================================\n\n");
-	printf("                 INIT BASH ENV CACHE \n\n");
-	printf("============================================================\n\n");
-	printf("===============> ENV STUCT CONTENT IN CACHE  <==============\n\n");
 	if (*shell_env == 0x0)
 	{
 		tmp = malloc(sizeof(char *) * (len + 1));
@@ -140,8 +126,6 @@ int	init_bash_env(char *bash, t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
-	printf("---------------------> SHELL INFOS <------------------------\n\n");
-	printf("SHELL_NAME = %s\n\n", bash);
 	init_env_variables(bash);
 	return (0x0);
 }

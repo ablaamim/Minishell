@@ -6,18 +6,18 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/07/09 18:34:46 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/08/18 23:28:44 by root             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-USER = ablaamim
+#USER = ablaamim
 
 CC = gcc
 
-RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
+#RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
 
-#LINUX_RDLINE = -lreadline
+LINUX_RDLINE = -lreadline
 
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
@@ -39,9 +39,6 @@ SRC = ./srcs/debug.c \
 	  ./srcs/pipe_parser.c \
 	  ./srcs/ast_constructor.c \
 	  ./srcs/tokens_identifier.c \
-	  ./srcs/execute_abstract_syntax_tree.c \
-	  ./srcs/execute_command_in_child_process.c \
-	  ./srcs/system_run.c \
 	  ./srcs/env_utils.c \
 	  ./srcs/libft_utils_3.c \
 	  ./srcs/ft_split_strjoin.c \
@@ -52,7 +49,6 @@ SRC = ./srcs/debug.c \
 	  ./srcs/ft_itoa_atoi.c \
 	  ./srcs/ft_add_up_in_env.c \
 	  ./srcs/mr_propre_cleaner.c \
-	  ./srcs/ft_is_executable.c \
 	  ./srcs/garbage_memory_collection_library_more.c \
 	  ./srcs/shell_exit.c \
 	  ./srcs/variadic_error_printer.c \
@@ -61,32 +57,13 @@ SRC = ./srcs/debug.c \
 	  ./srcs/ast_clearing.c \
 	  ./srcs/simple_cmd_clearing.c \
 	  ./srcs/tokens_clearing.c \
-	  ./srcs/exec_in_parent.c \
-	  ./srcs/ft_io_utils.c \
-	  ./srcs/libft_utils_4.c \
-	  ./srcs/execute_redirections.c \
-	  ./srcs/input_stream_redirection.c \
-	  ./srcs/output_stream_redirection.c \
-	  ./srcs/pipe_setter_getter.c \
-	  ./srcs/execute_pipes.c \
-	  ./srcs/execute_commands_list.c \
-	  ./srcs/shell_expansions.c \
-	  ./srcs/argv_error.c \
-	  ./srcs/get_next_line.c \
-	  ./srcs/heredocument_redirection.c \
-	  ./srcs/signum.c \
-	  ./srcs/ft_ignore_signals.c \
-	  ./srcs/sigint_catcher.c \
-	  ./srcs/heredoc_signal.c \
-	  ./srcs/fill_new_argument.c \
-	  ./srcs/expand_variables_in_stream.c \
 
 OBJ = $(SRC:.c=.o)
 
 all : $(NAME)
 
 $(NAME) : $(OBJ) $(SRC)
-		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(RDLINE) -o $(NAME) #$(RDLINE)
+		$(CC) $(CFLAGS) $(SRC) ./srcs/minishell.c ./srcs/ft_prompt.c $(LINUX_RDLINE) -o $(NAME) #$(RDLINE)
 
 
 clean:
