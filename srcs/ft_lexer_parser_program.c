@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:10:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 01:06:14 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  *
  * STEP 01 : Call the function consturctor_token_list() to build my tokens,
  * respecting LEXER grammar AKA : Syntaxic analysis.
- * 
+ *
  * STEP 02 : Init AST with NULL in order to build it after tokenizing,
  * its based on data contained inside the linked list.
  * ast_constructor() function with be responsible of that, so we represent

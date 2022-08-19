@@ -102,53 +102,79 @@ this function will verify the validity of input string, it should only contain g
 
 -> A token is defined in a class enumerator as well in order to manage all tokens that should be handled by program --> /includes/Minishell.h
  - If valid ==> execute
- - Else ==> print error on stderr
+ - Else ==> print error on stderr.
 so in order to make this work effectively i used dispatch table (array of pointer functions) to call the appropriate tokenizer
 accordingly with the appropriate token.
 
 ## Mandatory tokens : 
 
 ### Word token : 
-it must respect lexing, so it should be a valid grammar.
+
+It must respect lexing, so it should be a valid grammar.
 
 ### Redirections token : 
- > , >>, <, <<, every two are handled in one function, i only defined greater and lesser in grammar,
+ '>' , '>>', '<', '<<', every two are handled in one function, i only defined greater and lesser in grammar,
  so i increment pointer if i find a similar symbol then its >> in exemple of >, so i save >> in a token,
  same for < and <<.
 
 ### Separator token : 
 
-|, ||, &&, ;
+'|', '||', '&&', ';'
 
--> Then i build an AST
+-> Build a linked list.
 
-[TO BE CONTINUED]
+-> Send it to ast_constructor() to init parsing and represent data in memory.
+
+-> Then i build an AST : next step which is parsing.
 
 ---
 
 # SECOND STEP : PARSER
 
-[TO BE CONTINUED]
+in this phase i parse logical operators first : ';' '||' '&&'
+
+the or logical operator '||' has same logic as redirection in parsing, if i find the first | i increment pointer
+in order to check if next character is '|' so i define it as '||'
+
+->In AST i give priorities to logical operators, so i put them in root 
+->Then i look for pipeline in linked_list of tokens so next child should be pipe if found.
+->Then i parse simple Command, command options and redirections are a part of it as well
+example of a simple cmd : ls -la > file
+
+$> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
+
+                                         [ LOGICAL OPERATOR ]
+									
+									[PIPE]                      [SIMPLE CMD]
+
+						 [SIMPLE CMD]	[SIMPLE CMD]
+
+$> ls -la | wc -l && echo "listed all"
+
+                                              [ && ]
+									[ | ]                   [echo "listed all"]
+
+							[ls -la]    [echo "listed all"]
+
 
 ---
 
 # AST REPRESENTATION :
 
-[TO BE CONTINUED]
 
-# EXAMPLE 00 :
-	
+### EXAMPLE 00 :
+
 <h1 align=center>
 <img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="800">
 <h1>
-	
-# EXAMPLE 01 :
-	
+
+### EXAMPLE 01 :
+
 <h1 align=center>
 <img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_005157_993.jpg" width="800">
 <h1>
-	
-# EXAMPLE 02 :
+
+### EXAMPLE 02 :
 
 <h1 align=center>
 <img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_004609_047.jpg" width="800">
