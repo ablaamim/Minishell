@@ -213,7 +213,13 @@ Ast has two node types :
 
 -> child node : its either a logical operator or a pipe.
 
-### EXAMPLE 00 : pipes and redirections and semicolon
+### EXAMPLE 00 :
+
+<p align="center">
+	<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="800">
+<p/>
+
+### EXAMPLE 01 : pipes and redirections and semicolon
 
 ```
 $> <<ok > file && cat file | wc -c ; echo "hello"
@@ -228,7 +234,7 @@ $> <<ok > file && cat file | wc -c ; echo "hello"
 
 ```
 
-### EXAMPLE 01 : and operator and simple commands 
+### EXAMPLE 02 : and operator and simple commands 
 
 ```
 $> echo "hello" && ls -la > file && cat file

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:28:35 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 17:44:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:50:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 /*
  * EXPAND VARIABLES :
+ *
+ * [TO DO]
+ * -> Expand variable.
 */
 
 bool	variable_expansion(t_simple_cmd *cmd, int i)
