@@ -163,8 +163,22 @@ $> ls -la | wc -l && echo "listed all"
 									[ | ]					[echo "listed all"]
 
 							[ls -la]	[echo "listed all"]
+
 ```
 
+# PIPELINE :
+
+---
+
+$> cmd1 | cmd2 | cmd3 | cmd4 | cmd5
+
+```
+									[ | ]
+							[ | ]			[cmd5]
+						[ | ]	[cmd4]
+					[ | ]	[cmd3]
+				[cmd2]	[cmd1]
+```
 ---
 
 # AST REPRESENTATION :
