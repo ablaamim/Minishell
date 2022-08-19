@@ -23,11 +23,11 @@
  * its based on data contained inside the linked list.
  * ast_constructor() function with be responsible of that, so we represent
  * data in accessible memory.
-*/
+ */
 
 /*
  * BUGS I FOUND till now : a pipe without output command.
- * 
+ *
  * $> ls | ls |
  *
  * $> segmentation fault.
@@ -35,21 +35,21 @@
  * [CASE CLOSED] : if disp_tree() which is just a debuger is commented, segv
  * is eliminated
  *
-*/
+ */
 
-t_node	*ft_lexer_parser_program(char *line)
+t_node *ft_lexer_parser_program(char *line)
 {
-	t_node	*ast;
-	t_token	*token_list;
+	t_node *ast;
+	t_token *token_list;
 
 	ast = 0x0;
 	token_list = 0x0;
 	if (constructor_token_list(line, &token_list) == true)
 	{
-		printf("===============> LINKED LIST OF TOKENS <================\n\n");
-		ft_print_token(token_list); //DEBUGER
-		if (ast_constructor(&token_list, &ast, false) == false || \
-		token_list != 0x0)
+		// printf("===============> LINKED LIST OF TOKENS <================\n\n");
+		// ft_print_token(token_list); //DEBUGER
+		if (ast_constructor(&token_list, &ast, false) == false ||
+			token_list != 0x0)
 		{
 			if (token_list != 0x0)
 				variadic_error_printer(2, "\nMinishell : Syntax error near unexpected token %s\n", token_list->data);

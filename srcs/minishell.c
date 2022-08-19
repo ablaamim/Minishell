@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **env)
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
-		ft_minishell();
+		ft_minishell(env);
 		ft_free_fd();
 	}
 	else
