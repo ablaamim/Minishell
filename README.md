@@ -153,16 +153,17 @@ $> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
 
 									[PIPE]							[SIMPLE CMD]
 
-						 [SIMPLE CMD]	[SIMPLE CMD]
+						 [SIMPLE CMD]		[SIMPLE CMD]
 
 $> ls -la | wc -l && echo "listed all"
 
 
 
 												[ && ]
+
 									[ | ]					[echo "listed all"]
 
-							[ls -la]	[echo "listed all"]
+							[ls -la]		[echo "listed all"]
 
 ```
 
@@ -174,10 +175,14 @@ $> cmd1 | cmd2 | cmd3 | cmd4 | cmd5
 
 ```
 									[ | ]
+
 							[ | ]			[cmd5]
-						[ | ]	[cmd4]
-					[ | ]	[cmd3]
-				[cmd2]	[cmd1]
+
+						[ | ]		[cmd4]
+
+					[ | ]		[cmd3]
+
+				[cmd2]		[cmd1]
 ```
 ---
 
@@ -185,26 +190,26 @@ $> cmd1 | cmd2 | cmd3 | cmd4 | cmd5
 
 Ast has two node types :
 
--> leaf : simple command which is constructed of command + option + argument.
+-> leaf : simple command which is constructed of a command + option + argument and any type of redirections.
 
 -> child node : its either a logical operator or a pipe.
 
-### EXAMPLE 00 :
+### EXAMPLE 00 : pipes and redirections and semicolon
 
-<h1 align=center>
-<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="800">
-<h1>
+```
+$> <<ok > file && cat file | wc -c ; echo "hello"
+
+						[;]
+
+			[ && ]				[echo "hello"]
+
+	[<<ok > file]		[|]
+
+					[cat file]		[wc -c]
+
+```
 
 ### EXAMPLE 01 :
 
-<h1 align=center>
-<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_005157_993.jpg" width="800">
-<h1>
-
-### EXAMPLE 02 :
-
-<h1 align=center>
-<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_004609_047.jpg" width="800">
-<h1>
 
 ---
