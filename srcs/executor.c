@@ -52,6 +52,8 @@ int ft_argv_len(char **argv)
 
 void ft_handle_built_ins(char **args, char **env, int *error)
 {
+	env = env;
+	args = args;
 	if (ft_strcmp(args[0], "env"))
 	{
 		if (ft_argv_len(args) > 1)
@@ -59,7 +61,6 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 			write(2, "ERROR", 5);
 			*error = 2;
 		}
-		
 	}
 }
 
