@@ -332,6 +332,8 @@ enum e_pipe
 
 // mbistami task
 
+void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
+
 /*
  * EXECUTION ABSTRACTION :
  */
