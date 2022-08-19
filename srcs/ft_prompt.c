@@ -13,15 +13,15 @@
 #include "../includes/minishell.h"
 
 /*
- * the read_line() function reads from input using readline(), saves it in a 
+ * the read_line() function reads from input using readline(), saves it in a
  * char * then it returns it to be used in next program.
  * -> Add history.
  * -> Control EOF to exit with ctrl+D.
-*/
+ */
 
-char	*read_line(void)
+char *read_line(void)
 {
-	char	*line;
+	char *line;
 
 	line = readline("Mini Hell-v2.0$> ");
 	add_history(line);
@@ -35,9 +35,9 @@ char	*read_line(void)
 
 /*
  * Signals handling : ctrl+c and ctrl+\
-*/
+ */
 
-void	signal_command(int sig)
+void signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -58,18 +58,18 @@ void	signal_command(int sig)
  * another program to continue the work [ft_executor()].
  * -> Also handle signals inside the infinite loop.
  * -> free line.
-*/
+ */
 
-void	ft_minishell(void)
+void ft_minishell(char **env)
 {
-	char	*line;
+	char *line;
 
 	while (1337)
 	{
 		line = read_line();
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
-		ft_executor(line);
+		ft_executor(line, env);
 		free(line);
 	}
 }

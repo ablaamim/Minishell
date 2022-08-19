@@ -41,6 +41,7 @@ SRC = ./srcs/debug.c \
 	  ./srcs/tokens_identifier.c \
 	  ./srcs/env_utils.c \
 	  ./srcs/libft_utils_3.c \
+	  ./srcs/libft_utils_4.c \
 	  ./srcs/ft_split_strjoin.c \
 	  ./srcs/ft_free_arrays.c \
 	  ./srcs/copy_concatenate_utils.c \
