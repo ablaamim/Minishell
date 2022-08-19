@@ -86,6 +86,10 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 ```
 ---
 
+> Makefile has two versions of compilation rules, one for macos and the other for linux, please use the appropriate one for appropriate OS.
+
+---
+
 ## FIRST STEP : LEXICAL ANALYSIS / LEXER  + TOKENIZER.
 
 ---
@@ -97,46 +101,146 @@ So first of all i defined a lexer class as an enumerator of all possible char ty
 encountred inside an input string --> For further infos check /includes/minishell.h
 
 -> inside the shell loop i send the input string to ft_lexer_parser_program()
-this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing).
--> then i call linked_list_constructor() this function will build a linked list where every node is a token.
+this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing),
+also it escapes whitespaces before and after every token analysed.
+
+-> then i call linked_list_constructor() this function will build a linked list where every node is considered as token.
 
 -> A token is defined in a class enumerator as well in order to manage all tokens that should be handled by program --> /includes/Minishell.h
- - If valid ==> execute
- - Else ==> print error on stderr
-so in order to make this work effectively i used dispatch table (array of pointer functions) to call the appropriate tokenizer
+ - If valid ==> parse it and execute it.
+ - Else ==> print error on stderr.
+
+```
+$> ls | wc -l ---> valid token it will be executed.
+
+$> |; ---> should print an error "unexpected token"
+
+```
+
+So in order to make this work effectively i used dispatch tables (array of pointer functions) to call the appropriate tokenizer
 accordingly with the appropriate token.
 
-## Mandatory tokens : 
+## Mandatory tokens :
 
-### Word token : 
-it must respect lexing, so it should be a valid grammar.
+### Word token :
 
-### Redirections token : 
- > , >>, <, <<, every two are handled in one function, i only defined greater and lesser in grammar,
+It must respect lexing, so it should be a valid grammar.
+
+I used a dispatch table to define a word, it is basically a combination of any character, it could have a single or a double quotes as a part of it as well.
+
+### Redirections token :
+
+ '>' , '>>', '<', '<<', every two are handled in one function, i only defined greater and lesser in grammar,
  so i increment pointer if i find a similar symbol then its >> in exemple of >, so i save >> in a token,
  same for < and <<.
 
+ Algo :	if *i == '>' ===> if ++(*i) == '>' then token is '>>'
+		else token is '?'
+
 ### Separator token : 
 
-|, ||, &&, ;
+'|', '||', '&&', ';'
 
--> Then i build an AST
+-> Build a linked list based on lexed tokens.
 
-[TO BE CONTINUED]
+-> Send it to ast_constructor() to init parsing and represent data in memory.
 
----
-
-# SECOND STEP : PARSER
-
-[TO BE CONTINUED]
+-> Then i build an AST : next step which is parsing.
 
 ---
 
-# AST REPRESENTATION :
+## SECOND STEP : PARSER
 
-[TO BE CONTINUED]
+in this phase i parse logical operators first : ';' '||' '&&'
 
-<h1 align=center>
-<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="500">
-<h1>
+the or logical operator '||' has same logic as redirection in parsing, if i find the first | i increment pointer
+in order to check if next character is '|' so i define it as '||'.
+
+->In AST i give priorities to logical operators, so i put them in root 
+->Then i look for pipeline in linked_list of tokens so next child should be pipe if find it in linked list tokens 
+->Then i parse simple Command, command options and redirections are a part of it as well
+
+### xample of a simple cmd : ls -la > file
+
+```
+
+$> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
+
+
+
+											[ LOGICAL OPERATOR ]
+
+									[PIPE]							[SIMPLE CMD]
+
+						 [SIMPLE CMD]			[SIMPLE CMD]
+
+$> ls -la | wc -l && echo "listed all"
+
+
+
+												[ && ]
+
+									[ | ]					[echo "listed all"]
+
+							[ls -la]		[echo "listed all"]
+
+```
+
+## PIPELINE :
+
+---
+
+$> cmd1 | cmd2 | cmd3 | cmd4 | cmd5
+
+```
+									[ | ]
+
+							[ | ]			[cmd5]
+
+						[ | ]		[cmd4]
+
+					[ | ]		[cmd3]
+
+				[cmd2]		[cmd1]
+```
+---
+
+## AST REPRESENTATION :
+
+Ast has two node types :
+
+-> leaf : simple command which is constructed of a command + option + argument and any type of redirections.
+
+-> child node : its either a logical operator or a pipe.
+
+### EXAMPLE 00 : pipes and redirections and semicolon
+
+```
+$> <<ok > file && cat file | wc -c ; echo "hello"
+
+						[;]
+
+			[ && ]				[echo "hello"]
+
+	[<<ok > file]		[|]
+
+			[cat file]		[wc -c]
+
+```
+
+### EXAMPLE 01 : and operator and simple commands 
+
+```
+$> echo "hello" && ls -la > file && cat file
+
+								[&&]
+
+					[&&]					[cat file]
+	[echo "hello"]				[ls -la > file]
+```
+
+# EXPANSIONS : Should be managed before execution :
+
+[To be continued]
+
 ---

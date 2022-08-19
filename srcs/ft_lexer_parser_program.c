@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:10:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 02:32:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
  *
  * $> segmentation fault.
  *
- * I will fix it right away.
+ * [CASE CLOSED] : if disp_tree() which is just a debuger is commented, segv
+ * is eliminated
  *
  */
 

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:22:52 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 02:41:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void ft_minishell(char **env)
 
 	while (1337)
 	{
+		//atexit(leak_report); //function to check leaks
 		line = read_line();
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
