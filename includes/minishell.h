@@ -6,39 +6,40 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:46:48 by root             ###   ########.fr       */
+/*   Updated: 2022/08/19 02:38:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <termios.h>
-#include <sys/ioctl.h>
-#include <dirent.h>
+# include <unistd.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <errno.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <stdarg.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <termios.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
+# include "../Leak_Hunter/leak_hunter.h"
 
-#define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
-#define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
-#define ERROR_AND "Minishell : the '&' is not handled by program\n"
-#define ERROR_TOKEN "Error : syntax error near unexpected token\n"
-#define SIZEOF_ONE_CHAR_STRING 2
-#define SIZEOF_TWO_CHAR_STRING 3
-#define SYNTAX_ERROR_EXIT 2
-#define ENV "env"
+# define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
+# define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
+# define ERROR_AND "Minishell : the '&' is not handled by program\n"
+# define ERROR_TOKEN "Error : syntax error near unexpected token\n"
+# define SIZEOF_ONE_CHAR_STRING 2
+# define SIZEOF_TWO_CHAR_STRING 3
+# define SYNTAX_ERROR_EXIT 2
+
 
 /*
  * LEXER CLASS ABSTRACTION.
