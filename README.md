@@ -136,7 +136,24 @@ it must respect lexing, so it should be a valid grammar.
 
 [TO BE CONTINUED]
 
+# EXAMPLE 00 :
+	
 <h1 align=center>
-<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="500">
+<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_002802_176.jpg" width="800">
 <h1>
+	
+# EXAMPLE 01 :
+	
+<h1 align=center>
+<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_005157_993.jpg" width="800">
+<h1>
+	
+# EXAMPLE 02 :
+
+<h1 align=center>
+<img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_004609_047.jpg" width="800">
+<h1>
+
+<h1>
+	
 ---
