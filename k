@@ -1,9 +1,0 @@
-DONTREADME.md
-Makefile
-README.md
-img
-includes
-k
-minishell
-signal_test
-srcs
