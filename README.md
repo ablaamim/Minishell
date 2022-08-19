@@ -98,11 +98,13 @@ encountred inside an input string --> For further infos check /includes/minishel
 
 -> inside the shell loop i send the input string to ft_lexer_parser_program()
 this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing).
+
 -> then i call linked_list_constructor() this function will build a linked list where every node is a token.
 
 -> A token is defined in a class enumerator as well in order to manage all tokens that should be handled by program --> /includes/Minishell.h
  - If valid ==> execute
  - Else ==> print error on stderr.
+
 so in order to make this work effectively i used dispatch table (array of pointer functions) to call the appropriate tokenizer
 accordingly with the appropriate token.
 
@@ -137,13 +139,15 @@ the or logical operator '||' has same logic as redirection in parsing, if i find
 in order to check if next character is '|' so i define it as '||'
 
 ->In AST i give priorities to logical operators, so i put them in root 
-->Then i look for pipeline in linked_list of tokens so next child should be pipe if found.
+->Then i look for pipeline in linked_list of tokens so next child should be pipe if find it in linked list tokens 
 ->Then i parse simple Command, command options and redirections are a part of it as well
 example of a simple cmd : ls -la > file
 
 ```
 
 $> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
+
+
 
 											[ LOGICAL OPERATOR ]
 
@@ -152,6 +156,8 @@ $> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
 						 [SIMPLE CMD]	[SIMPLE CMD]
 
 $> ls -la | wc -l && echo "listed all"
+
+
 
 												[ && ]
 									[ | ]					[echo "listed all"]
@@ -163,6 +169,11 @@ $> ls -la | wc -l && echo "listed all"
 
 # AST REPRESENTATION :
 
+Ast has two node types :
+
+-> leaf : simple command which is constructed of command + option + argument.
+
+-> child node : its either a logical operator or a pipe.
 
 ### EXAMPLE 00 :
 
@@ -182,6 +193,4 @@ $> ls -la | wc -l && echo "listed all"
 <img src="https://github.com/ablaamim/Minishell/blob/master/img/IMG_20220819_004609_047.jpg" width="800">
 <h1>
 
-<h1>
-	
 ---
