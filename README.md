@@ -153,7 +153,7 @@ $> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
 
 									[PIPE]							[SIMPLE CMD]
 
-						 [SIMPLE CMD]		[SIMPLE CMD]
+						 [SIMPLE CMD]			[SIMPLE CMD]
 
 $> ls -la | wc -l && echo "listed all"
 
@@ -205,11 +205,17 @@ $> <<ok > file && cat file | wc -c ; echo "hello"
 
 	[<<ok > file]		[|]
 
-					[cat file]		[wc -c]
+			[cat file]		[wc -c]
 
 ```
 
-### EXAMPLE 01 :
+### EXAMPLE 01 : and operator and simple commands 
 
+$> echo "hello" && ls -la > file && cat file
+
+								[&&]
+
+					[&&]					[cat file]
+	[echo "hello"]			[ls -la > file]
 
 ---
