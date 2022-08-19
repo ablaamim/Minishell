@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 12:49:58 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:11:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:03:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	check_errors(t_token *token_list)
 {
 	if (token_list == 0x0)
 	{
-		write(2, ERROR_MINISHELL_EOF, sizeof(ERROR_MINISHELL_EOF));
+		variadic_error_printer(2, ERROR_MINISHELL_EOF);
 		return (false);
 	}
 	if (token_list->type == OP_PARENTH_TOKEN)

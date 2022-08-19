@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 19:48:17 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:30:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,10 @@ enum e_redirection_type
 
 typedef struct s_simple_cmd
 {
-	char **argv;
-	int fd_in;
-	int fd_out;
-	bool input_has_quotes;
+	char	**argv;
+	int		fd_in;
+	int		fd_out;
+	bool	input_has_quotes;
 } t_simple_cmd;
 
 /*
@@ -180,8 +180,8 @@ typedef struct s_child
 
 typedef struct s_node_content
 {
-	struct s_simple_cmd simple_cmd;
-	struct s_child child;
+	struct s_simple_cmd	simple_cmd;
+	struct s_child		child;
 } t_node_content;
 
 /*
@@ -191,8 +191,8 @@ typedef struct s_node_content
 
 typedef struct s_node
 {
-	enum e_node_type type;
-	t_node_content content;
+	enum e_node_type	type;
+	t_node_content		content;
 } t_node;
 
 /*
@@ -201,21 +201,21 @@ typedef struct s_node
 
 typedef struct s_garbage_list
 {
-	void *ptr;
-	struct s_garbage_list *next;
+	void					*ptr;
+	struct s_garbage_list	*next;
 } t_garbage_list;
 
 /*
  * Core functions :.
  */
 
-void ft_minishell(char **env);
-int argv_error_handler(char *argv);
-void ft_free_fd(void);
-char *ft_prompt(void);
-char *read_line(void);
-void ft_executor(char *line, char **env);
-void ft_add_history(char *line);
+void	ft_minishell(char **env);
+int		argv_error_handler(char *argv);
+void	ft_free_fd(void);
+char	*ft_prompt(void);
+char	*read_line(void);
+void	ft_executor(char *line, char **env);
+void	ft_add_history(char *line);
 
 /*
  * Functions to debug and track states of output :
@@ -328,6 +328,8 @@ int ft_isalnum(int c);
 void	ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
 void	set_exit_value(int exit_value);
 char	*found_binary(char **argv);
+bool	execute_redirections(t_node *node);
+
 
 /*
  * EXPANSIONS PERFOMER

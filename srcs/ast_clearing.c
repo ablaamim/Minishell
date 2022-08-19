@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:32:23 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/20 11:12:05 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:03:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	ast_clearing(t_node	**ast)
 	{
 		ast_clearing(&(*ast)->content.child.left);
 		ast_clearing(&(*ast)->content.child.right);
-		free(*ast);
+		garbage_free((void **) &*ast);
 	}
 }

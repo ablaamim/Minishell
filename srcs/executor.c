@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 19:54:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:41:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,19 @@
  * Then build AST.
  *
  * bistami task : execute AST
- * -> pipes done.
- * -> simple_cmd works with absolute path.
+ * -> pipes : DONE
+ * -> simple_cmd works with absolute path : DONE
+ * -> simple_cmd relative path : DONE
+ *
+ * TO  DO : builtins
  *
  * ablaamim to do : Init env for execve : DONE !
- * ablaamim to do : Exec simple_cmd with relative path.
  * ablaamim to do : Perform expansion.
  *
  * EXPANDER : remove quotes from input : DONE !
  * EXPANDER : expand var : in progress.
+ *
+ * --> 0 LEAKS TILL NOW.
  *
  */
 
@@ -88,8 +92,8 @@ void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
 	char	*bin_path;
 	char	**argv;
 
-	(void) *error;
-	(void) htf;
+	//(void) *error;
+	//(void) htf;
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
 	if (htf == 1)
@@ -172,12 +176,24 @@ int ft_handle_pipe(t_node *node, int exec_index, char **env)
 
 void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 {
-	if (expansions_perform(node)) // See expansions_performer.c
+	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
-		if (node->type == PIPE_NODE)
-			ft_handle_pipe(node, exec_index, env);
-		else if (node->type == SIMPLE_CMD)
-			ft_exec_cmd(node, has_to_fork, env);
+		/*
+		 * Labghiti tkhdemhum recursively hahya function w data raha organized in simple_cmd
+		*/
+		/*if (execute_redirections(node) == true) // See exec_redirections.c
+		{
+		*/
+			if (node->type == PIPE_NODE)
+				ft_handle_pipe(node, exec_index, env);
+			else if (node->type == SIMPLE_CMD)
+				ft_exec_cmd(node, has_to_fork, env);
+		
+		/*
+		}
+		else
+			exit_value_set(EXIT_FAILURE);
+	*/
 	}
 	else
 		exit_value_set(EXIT_FAILURE); // see exit_shell.c its static int set on 0x0 and gets updated after every call.

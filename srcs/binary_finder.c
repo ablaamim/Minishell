@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 18:22:47 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 19:41:53 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:39:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ char	*get_true_file_path(char *file_path)
 	free(true_path);
 	return (binary_path);
 }
+
+/*
+ * Return path of the binary or NULL if not found.
+*/
 
 char	*bin_path_getter(char *binary)
 {
