@@ -141,21 +141,23 @@ in order to check if next character is '|' so i define it as '||'
 ->Then i parse simple Command, command options and redirections are a part of it as well
 example of a simple cmd : ls -la > file
 
+```
+
 $> SIMPE_CMD | SIMPLE_CMD && SIMPLE_CMD
 
-                                         [ LOGICAL OPERATOR ]
-									
-									[PIPE]                      [SIMPLE CMD]
+											[ LOGICAL OPERATOR ]
+
+									[PIPE]							[SIMPLE CMD]
 
 						 [SIMPLE CMD]	[SIMPLE CMD]
 
 $> ls -la | wc -l && echo "listed all"
 
-                                              [ && ]
-									[ | ]                   [echo "listed all"]
+												[ && ]
+									[ | ]					[echo "listed all"]
 
-							[ls -la]    [echo "listed all"]
-
+							[ls -la]	[echo "listed all"]
+```
 
 ---
 
