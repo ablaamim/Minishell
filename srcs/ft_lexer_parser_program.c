@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 02:32:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 17:37:03 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_node *ft_lexer_parser_program(char *line)
 	if (constructor_token_list(line, &token_list) == true)
 	{
 		// printf("===============> LINKED LIST OF TOKENS <================\n\n");
-		// ft_print_token(token_list); //DEBUGER
+		//ft_print_token(token_list); //DEBUGER
 		if (ast_constructor(&token_list, &ast, false) == false ||
 			token_list != 0x0)
 		{
@@ -60,7 +60,7 @@ t_node *ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
-	printf("====================> DISPLAY TREE <========================\n\n");
-	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
+	//printf("====================> DISPLAY TREE <========================\n\n");
+	//disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }

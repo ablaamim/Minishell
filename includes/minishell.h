@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 02:38:32 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 16:37:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_token
 } t_token;
 
 /*
+		int *fd_output, bool input_has_quotes);
  * PARSER CLASS ABSTRACTION :
  */
 
@@ -312,43 +313,22 @@ int ft_isprint(int c);
 int ft_striter(char *str, int (*function)(int));
 int ft_isalnum(int c);
 
-/*
- * Pipe streams define
- * I had enums flipped LOL
- */
 
 /*
-enum e_pipe
-{
-	OUTPUT,
-	INPUT
-};
-
-# define PATH_AS_DEFAULT "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:\
-/sbin:/bin"
-# define CMD_ERROR "Minishell : cmd error\n"
-# define EXIT_COMMAND_NOT_FOUND 127
-# define ENV_FILE "/tmp/.env"
+ *  mbistami executor
 */
 
-// mbistami task
-
-void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
+void	ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
+void	set_exit_value(int exit_value);
 
 /*
- * EXECUTION ABSTRACTION :
- */
+ * EXPANSIONS PERFOMER
+*/
 
-// void				execute_ast_data(t_node *ast);
-// void				ft_complex_exec(t_node *ast, bool pipe);
-// void				ft_exec_simple_cmd(t_simple_cmd cmd);
-// int					system_run(char **argv);
-// char				*verify_bin_path(char **argv);
-// char				*retrieve_bin_path(const char *binary);
-// int					ft_exec_manager(char *binary_path, char *cmd);
-// int					error_manager(char *binary_path, char *cmd, char *error, int exit_val);
-// bool				ft_is_executable(char *binary_path);
-// void				exec_in_parent(int pid);
+bool	expansions_perform(t_node *ast);
+void	remove_quotes_from_argument(char **argv);
+void	substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
+bool	variable_expansion(t_simple_cmd *cmd, int i);
 
 /*
  * Env typedef and define :
@@ -391,7 +371,7 @@ void exit_value_set(int exit_value);
  * Variadic function to print arbitrary number of errors on given fd stream
  */
 
-int variadic_error_printer(int fd, const char *fmt, ...);
+int	variadic_error_printer(int fd, const char *fmt, ...);
 
 /*
  * variadic defines and utils :
@@ -427,87 +407,9 @@ void simple_cmd_clearing(t_node **simple_cmd);
 void tokens_clearing(t_token **token_list);
 
 /*
- * I/O streams file struct :
- */
-
-// typedef struct s_io_streams_file
-//{
-//	int	input_stream;
-//	int	output_stream;
-// }	t_io_streams_file;
-
-/*
- * IO_STREAMS UTILS :
- */
-
-// void	ft_close_fd(t_io_streams_file saver);
-
-/*
- * EXECUTE REDIRRECTONS :
- */
-/*
-bool				execute_redirections(t_node *ast);
-bool				scan_open_redirections(char **argv, int *fd_input, \
-		int *ft_output, bool input_has_quotes);
-bool				arg_content_is_redirected(char *arguments);
-bool				is_redirection(char **arguments, int *fd_input, \
-		int *fd_output, bool input_has_quotes);
-int					input_stream_redirection(char const *io_stream);
-int					output_stream_redirection(char **arguments);
-void				delete_redirections_in_argv(char **arguments);
-t_io_streams_file	*retrieve_io(void);
-void				exec_in_child(t_simple_cmd cmd, t_io_streams_file saver);
-*/
-
-/*
- * PIPES :
- */
-/*
-void				ft_pipe_setter(bool val);
-bool				*ft_pipe_getter(void);
-void				execute_pipes(t_node *ast);
-void				pipe_child_process(t_node *ast, int file_descriptor[2], \
-t_io_streams_file *saver);
-*/
-/*
- * COMMAND LIST :
- */
-/*
-void				execute_commands_list(t_node *ast);
-void				execute_logical_and_node(t_node *ast);
-void				execute_logical_or_nodee(t_node *ast);
-void				execute_semicolon_node(t_node *ast);
-bool				shell_expansions(t_node *ast);
-*/
-
-/*
  * SIGNALS HANDLING:
  */
 
 void signal_command(int sig);
-
-/*
- * Heredocument :
- */
-/*
-int					heredoc_redir(char const *stream, bool input_has_quotes);
-char				*here_document(char const *delimiter);
-bool				heredocument_control(char const *delimiter, char *line);
-void				append_input_heredoc(char **doc, char *line);
-*/
-/*
- * Variables expansions :
- */
-/*
-bool				variables_expansion(t_simple_cmd *cmd, int i);
-bool				verify_next_character(char c);
-void				expand_vars_in_stream(char **argument);
-char				*get_variable_name(char *arg);
-char				*quotes_reverse(char *var_value);
-char				*alloc_new_argument(char *arg, int len_var_name, char *var_value);
-bool				*fill_argument(char **argument, int len_var_name, int i, \
-		char *var_val);
-char				*fill_new_argument(char **arg, int len_var_name, int i, char *var_value);
-*/
 
 #endif
