@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 19:48:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 19:54:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,32 +92,19 @@ void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
 	(void) htf;
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
-	//printf("==> bin_path : %s\n", bin_path);
-	/*
 	if (htf == 1)
 	{
 		//execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
 		execve(bin_path, argv, env);
 	}
-	*/
-	if (node->content.simple_cmd.argv[0] != 0x0)
+	pid = fork();
+	if (!pid)
 	{
-		pid = fork();
-		/*
-		if (!pid)
-			*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-		*
-		*/
-		if (pid == -1)
-			shell_exit(EXIT_FAILURE, strerror(errno));
-		else if (pid == 0x0)
-		{
-			//printf("Hello from child process\n");
-			execve(bin_path, argv, env);
-		}
-			else
-			waitpid(pid, 0x0, 0x0);
+		*error = execve(bin_path, argv, env);
+		//*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
 	}
+	else
+		wait(0x0);
 }
 
 int ft_exec_cmd(t_node *node, int htf, char **env)
