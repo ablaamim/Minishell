@@ -6,28 +6,11 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:06:55 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:07:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 02:21:32 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
- * Display simple command content.
-*/
-
-void	ft_print_simple_cmd(char	**argv)
-{
-	int	argc;
-
-	argc = 0x0;
-	while (argv[argc])
-	{
-		printf("%s  ", argv[argc]);
-		argc++;
-	}
-	printf("\n\n");
-}
 
 /*
  * Function to print ENV.
@@ -94,31 +77,33 @@ void	ft_print_token(t_token *token)
 
 void	disp_tree(t_node *tree, int lev)
 {
-	if (tree == 0x0)
+	t_node	*tree1;
+
+	tree1 = garbage_malloc(sizeof(t_node));
+	tree1 = tree;
+	if (tree1 == 0x0)
 		return ;
 	for (int i = 0; i < lev; i++)
 		printf("\t\t");
-	if (tree->type == OR_NODE )
+	if (tree1->type == OR_NODE )
 		printf("OR_NODE\n");
-	else if (tree->type == AND_NODE)
+	else if (tree1->type == AND_NODE)
 		printf("AND_NODE\n");
-	else if (tree->type == PIPE_NODE)
+	else if (tree1->type == PIPE_NODE)
 		printf("PIPE_NODE\n");
-	else if (tree->type == SEMICO_NODE)
+	else if (tree1->type == SEMICO_NODE)
 		printf("SEMICO_NODE\n");
-	else if (tree->type == SIMPLE_CMD)
+	else//if (tree->type == SIMPLE_CMD)
 	{
-		if(tree->content.simple_cmd.argv != NULL)
+		if(tree1->content.simple_cmd.argv != NULL)
 		{
 			printf("SIMPLE_CMD: ");
-			for (int i = 0; tree->content.simple_cmd.argv[i]; i++)
-			{
-				printf("%s ", tree->content.simple_cmd.argv[i]);
-			}
+			for (int i = 0; tree1->content.simple_cmd.argv[i]; i++)
+				printf("%s ", tree1->content.simple_cmd.argv[i]);
 			printf("\n");
 		}
 	}
-	disp_tree(tree->content.child.right, lev + 1);
-	disp_tree(tree->content.child.left, lev + 1);
+	disp_tree(tree1->content.child.right, lev + 1);
+	disp_tree(tree1->content.child.left, lev + 1);
 	printf("\n");
 }

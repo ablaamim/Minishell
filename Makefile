@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/08/18 23:28:44 by root             ###   ########.fr        #
+#    Updated: 2022/08/19 02:43:14 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME = minishell
 #USER = ablaamim
 
 CC = gcc
-
-#RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
-
+#MACOS COMPILATION :
+RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/${USER}/Desktop/.brew/opt/readline/include
+#LINUX COMPILATION :
 LINUX_RDLINE = -lreadline
 
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
@@ -57,6 +57,8 @@ SRC = ./srcs/debug.c \
 	  ./srcs/ast_clearing.c \
 	  ./srcs/simple_cmd_clearing.c \
 	  ./srcs/tokens_clearing.c \
+	  #./Leak_Hunter/leak_hunter.c \
+	  #./Leak_Hunter/list_tools.c \
 
 OBJ = $(SRC:.c=.o)
 

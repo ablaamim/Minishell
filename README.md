@@ -86,6 +86,10 @@ This is a manual to read RELIGIOUSLY before starting [man bash](https://pubs.ope
 ```
 ---
 
+> Makefile has two versions of compilation rules, one for macos and the other for linux, please use the appropriate one for appropriate OS.
+
+---
+
 ## FIRST STEP : LEXICAL ANALYSIS / LEXER  + TOKENIZER.
 
 ---
@@ -97,33 +101,47 @@ So first of all i defined a lexer class as an enumerator of all possible char ty
 encountred inside an input string --> For further infos check /includes/minishell.h
 
 -> inside the shell loop i send the input string to ft_lexer_parser_program()
-this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing).
+this function will verify the validity of input string, it should only contain grammar defined inside the enumerator (lexing),
+also it escapes whitespaces before and after every token analysed.
 
--> then i call linked_list_constructor() this function will build a linked list where every node is a token.
+-> then i call linked_list_constructor() this function will build a linked list where every node is considered as token.
 
 -> A token is defined in a class enumerator as well in order to manage all tokens that should be handled by program --> /includes/Minishell.h
- - If valid ==> execute
+ - If valid ==> parse it and execute it.
  - Else ==> print error on stderr.
 
-so in order to make this work effectively i used dispatch table (array of pointer functions) to call the appropriate tokenizer
+```
+$> ls | wc -l ---> valid token it will be executed.
+
+$> |; ---> should print an error "unexpected token"
+
+```
+
+So in order to make this work effectively i used dispatch tables (array of pointer functions) to call the appropriate tokenizer
 accordingly with the appropriate token.
 
-## Mandatory tokens : 
+## Mandatory tokens :
 
-### Word token : 
+### Word token :
 
 It must respect lexing, so it should be a valid grammar.
 
-### Redirections token : 
+I used a dispatch table to define a word, it is basically a combination of any character, it could have a single or a double quotes as a part of it as well.
+
+### Redirections token :
+
  '>' , '>>', '<', '<<', every two are handled in one function, i only defined greater and lesser in grammar,
  so i increment pointer if i find a similar symbol then its >> in exemple of >, so i save >> in a token,
  same for < and <<.
+
+ Algo :	if *i == '>' ===> if ++(*i) == '>' then token is '>>'
+		else token is '?'
 
 ### Separator token : 
 
 '|', '||', '&&', ';'
 
--> Build a linked list.
+-> Build a linked list based on lexed tokens.
 
 -> Send it to ast_constructor() to init parsing and represent data in memory.
 
@@ -131,17 +149,18 @@ It must respect lexing, so it should be a valid grammar.
 
 ---
 
-# SECOND STEP : PARSER
+## SECOND STEP : PARSER
 
 in this phase i parse logical operators first : ';' '||' '&&'
 
 the or logical operator '||' has same logic as redirection in parsing, if i find the first | i increment pointer
-in order to check if next character is '|' so i define it as '||'
+in order to check if next character is '|' so i define it as '||'.
 
 ->In AST i give priorities to logical operators, so i put them in root 
 ->Then i look for pipeline in linked_list of tokens so next child should be pipe if find it in linked list tokens 
 ->Then i parse simple Command, command options and redirections are a part of it as well
-example of a simple cmd : ls -la > file
+
+### xample of a simple cmd : ls -la > file
 
 ```
 
@@ -167,7 +186,7 @@ $> ls -la | wc -l && echo "listed all"
 
 ```
 
-# PIPELINE :
+## PIPELINE :
 
 ---
 
@@ -186,7 +205,7 @@ $> cmd1 | cmd2 | cmd3 | cmd4 | cmd5
 ```
 ---
 
-# AST REPRESENTATION :
+## AST REPRESENTATION :
 
 Ast has two node types :
 
@@ -211,11 +230,17 @@ $> <<ok > file && cat file | wc -c ; echo "hello"
 
 ### EXAMPLE 01 : and operator and simple commands 
 
+```
 $> echo "hello" && ls -la > file && cat file
 
 								[&&]
 
 					[&&]					[cat file]
-	[echo "hello"]			[ls -la > file]
+	[echo "hello"]				[ls -la > file]
+```
+
+# EXPANSIONS : Should be managed before execution :
+
+[To be continued]
 
 ---
