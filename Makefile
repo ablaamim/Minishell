@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/08/19 16:48:07 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/08/19 19:02:17 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ RDLINE = -lreadline -L /Users/${USER}/Desktop/.brew/opt/readline/lib -I /Users/$
 
 LINUX_RDLINE = -lreadline
 
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \
@@ -65,6 +65,7 @@ SRC = ./srcs/debug.c \
 	  ./srcs/expansions_performer.c \
 	  ./srcs/variable_expansion.c \
 	  ./srcs/remove_quotes_from_argument.c \
+	  ./srcs/binary_finder.c \
 
 OBJ = $(SRC:.c=.o)
 

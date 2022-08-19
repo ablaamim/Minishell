@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 18:04:40 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 19:48:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	ft_argv_len(char **argv)
 
 /*
  * Built-in manager.
+ * built_in env works like a chrm now.
 */
 
 void ft_handle_built_ins(char **args, char **env, int *error)
@@ -73,7 +74,7 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 		if (ft_argv_len(args) > 1)
 		{
 			//write(2, "ERROR", 5);
-			variadic_error_printer(2, "");
+			variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
 			*error = 2;
 		}
 		else
@@ -83,16 +84,40 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 
 void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
 {
-	int	pid;
+	int		pid;
+	char	*bin_path;
+	char	**argv;
 
-	//ft_print_env(env);
+	(void) *error;
+	(void) htf;
+	argv = node->content.simple_cmd.argv;
+	bin_path = found_binary(argv);
+	//printf("==> bin_path : %s\n", bin_path);
+	/*
 	if (htf == 1)
-		execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-	pid = fork();
-	if (!pid)
-		*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-	else
-		wait(NULL);
+	{
+		//execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
+		execve(bin_path, argv, env);
+	}
+	*/
+	if (node->content.simple_cmd.argv[0] != 0x0)
+	{
+		pid = fork();
+		/*
+		if (!pid)
+			*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
+		*
+		*/
+		if (pid == -1)
+			shell_exit(EXIT_FAILURE, strerror(errno));
+		else if (pid == 0x0)
+		{
+			//printf("Hello from child process\n");
+			execve(bin_path, argv, env);
+		}
+			else
+			waitpid(pid, 0x0, 0x0);
+	}
 }
 
 int ft_exec_cmd(t_node *node, int htf, char **env)
@@ -100,7 +125,6 @@ int ft_exec_cmd(t_node *node, int htf, char **env)
 	int error;
 
 	error = 0;
-
 	//printf("ARGS\n");
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
@@ -166,7 +190,7 @@ void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 		if (node->type == PIPE_NODE)
 			ft_handle_pipe(node, exec_index, env);
 		else if (node->type == SIMPLE_CMD)
-		ft_exec_cmd(node, has_to_fork, env);
+			ft_exec_cmd(node, has_to_fork, env);
 	}
 	else
 		exit_value_set(EXIT_FAILURE); // see exit_shell.c its static int set on 0x0 and gets updated after every call.

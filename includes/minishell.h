@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 16:37:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 19:48:17 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define SIZEOF_ONE_CHAR_STRING 2
 # define SIZEOF_TWO_CHAR_STRING 3
 # define SYNTAX_ERROR_EXIT 2
+# define ENV_ERROR "No such file or directory\n"
 
 
 /*
@@ -315,11 +316,18 @@ int ft_isalnum(int c);
 
 
 /*
+ * EXECUTION DATA :
+*/
+
+/*
  *  mbistami executor
 */
 
+
+
 void	ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
 void	set_exit_value(int exit_value);
+char	*found_binary(char **argv);
 
 /*
  * EXPANSIONS PERFOMER
