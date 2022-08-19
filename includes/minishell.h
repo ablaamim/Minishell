@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 21:30:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:10:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -329,6 +329,8 @@ void	ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
 void	set_exit_value(int exit_value);
 char	*found_binary(char **argv);
 bool	execute_redirections(t_node *node);
+int		manage_execution(char *binary_path, char *cmd);
+int		manage_error(char *binary_path, char *cmd, char *error, int exit_val);
 
 
 /*
@@ -339,6 +341,10 @@ bool	expansions_perform(t_node *ast);
 void	remove_quotes_from_argument(char **argv);
 void	substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
 bool	variable_expansion(t_simple_cmd *cmd, int i);
+bool	expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes);
+char	*new_argument(char **argv, int len_var_name, int i, char *var_val);
+char	*allocate_new_argument(char *arg, int len_var_name, char *var_val);
+
 
 /*
  * Env typedef and define :

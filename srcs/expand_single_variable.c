@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simple_cmd_clearing.c                              :+:      :+:    :+:   */
+/*   expand_single_variable.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/19 16:37:02 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 23:29:00 by ablaamim         ###   ########.fr       */
+/*   Created: 2022/08/19 22:33:59 by ablaamim          #+#    #+#             */
+/*   Updated: 2022/08/19 22:48:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	simple_cmd_clearing(t_node **simple_cmd)
+static void	get_variable_name_and_val(char *arg, char **var_name, char **var_val)
 {
-	int	i;
-
-	i = 0x0;
-	if (*simple_cmd != 0x0)
+	if ((*arg + 1) == '?')
 	{
-		i = 0x0;
-		while ((*simple_cmd)->content.simple_cmd.argv[i] != 0x0)
-		{
-			free((*simple_cmd)->content.simple_cmd.argv[i]);
-			++i;
-		}
-		garbage_free((void **)&(*simple_cmd)->content.simple_cmd.argv);
-		garbage_free((void **)&*simple_cmd);
+		printf("====> EXIT STATUS DUH : \n");
+		*var_name = ft_strdup("?");
+		*var_val = ft_itoa(*retrieve_exit_status());
 	}
+}
+
+bool	expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes)
+{
+	char	*var_name;
+	char	*var_val;
+
+	(void) in_dquotes;
+	get_variable_name_and_val(&cmd->argv[i][*j], &var_name, &var_val);
+	return (true);
 }

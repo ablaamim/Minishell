@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 21:41:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/19 23:24:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ void ft_handle_echo(char **args)
 
 void ft_handle_built_ins(char **args, char **env, int *error)
 {
+	// env = env;
+	// args = args;
 	if (!ft_strcmp(args[0], "env"))
 	{
 		if (ft_argv_len(args) > 1)
@@ -129,20 +131,28 @@ void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
 	int pid;
 	char *bin_path;
 	char **argv;
+	int ret;
 
-	//(void) *error;
-	//(void) htf;
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
 	if (htf == 1)
 	{
+		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+		if (ret != EXIT_SUCCESS)
+			exit(ret);
 		// execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-		execve(bin_path, argv, env);
+		if (execve(bin_path, argv, env) == -1)
+			ret = manage_error(bin_path, argv[0], strerror(errno), 126);
+		if (ret != EXIT_SUCCESS)
+			exit(ret);
 	}
 	pid = fork();
 	if (!pid)
 	{
 		*error = execve(bin_path, argv, env);
+		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+		if (ret != EXIT_SUCCESS)
+			exit(ret);
 		//*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
 	}
 	else
