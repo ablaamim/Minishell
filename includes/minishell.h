@@ -6,40 +6,41 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/20 12:38:50 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:48:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <errno.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <stdarg.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <termios.h>
-#include <sys/ioctl.h>
-#include <dirent.h>
-#include "../Leak_Hunter/leak_hunter.h"
+# include <unistd.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <errno.h>
+# include <stdbool.h>
+# include <fcntl.h>
+# include <stdarg.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <termios.h>
+# include <sys/ioctl.h>
+# include <dirent.h>
+# include "../Leak_Hunter/leak_hunter.h"
 
-#define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
-#define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
-#define ERROR_AND "Minishell : the '&' is not handled by program\n"
-#define ERROR_TOKEN "Error : syntax error near unexpected token\n"
-#define SIZEOF_ONE_CHAR_STRING 2
-#define SIZEOF_TWO_CHAR_STRING 3
-#define SYNTAX_ERROR_EXIT 2
-#define ENV_ERROR "No such file or directory\n"
+# define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
+# define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
+# define ERROR_AND "Minishell : the '&' is not handled by program\n"
+# define ERROR_TOKEN "Error : syntax error near unexpected token\n"
+# define SIZEOF_ONE_CHAR_STRING 2
+# define SIZEOF_TWO_CHAR_STRING 3
+# define SYNTAX_ERROR_EXIT 2
+# define ENV_ERROR "No such file or directory\n"
+# define NUM_ARG "numeric argument required"
 
 /*
  * LEXER CLASS ABSTRACTION.
@@ -331,6 +332,7 @@ char *found_binary(char **argv);
 bool execute_redirections(t_node *node);
 int manage_execution(char *binary_path, char *cmd);
 int manage_error(char *binary_path, char *cmd, char *error, int exit_val);
+void	execute_command_list(t_node *node);
 
 /*
  * EXPANSIONS PERFOMER :

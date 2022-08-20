@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 23:24:54 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/20 20:09:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,26 @@
  * Then build AST.
  *
  * bistami task : execute AST
- * -> pipes : DONE
- * -> simple_cmd works with absolute path : DONE
- * -> simple_cmd relative path : DONE
+ * -> pipes : Fix remaining errors
  *
- * TO  DO : builtins
+ * TO  DO : export, unset, get appropriate exit status.
+ *          heredoc
  *
- * ablaamim to do : Init env for execve : DONE !
- * ablaamim to do : Perform expansion.
+ * work together on redirections.
  *
+ * ablaamim tasks :
  * EXPANDER : remove quotes from input : DONE !
- * EXPANDER : expand var : in progress.
+ * EXPANDER : perform expansions : DONE.
+ * LOGICAL OPERATOR AND : DONE.
+ * LOGICAL OPERATOR OR : DONE.
+ * LOGICALGICAL OPERATOR SIMICO : DONE.
+ * WILDCARD.
  *
- * --> 0 LEAKS TILL NOW.
+ * --> LEAKS REMAINING WHEN EXPANSION IS PERFORMED.
+ *
+ *  REVIEWED : exit, env, pwd : works so well now.
+ *
+ * TO DO : REVIEW ECHO
  *
  */
 
@@ -83,7 +90,7 @@ void ft_echo_print(char **args, int i, int j, int add_new_line)
 		printf("\n");
 }
 
-void ft_handle_echo(char **args)
+void	ft_handle_echo(char **args)
 {
 	int i;
 	int j;
@@ -103,51 +110,86 @@ void ft_handle_echo(char **args)
 	ft_echo_print(args, i, j, add_new_line);
 }
 
-void ft_handle_env(char **args, char **env, int *error)
+/*
+ * env builtin improved.
+*/
+
+void	ft_handle_env(char **args, char **env, int *error)
 {
+	int	i;
+
+	i = 0x0;
 	if (ft_argv_len(args) > 1)
 	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
 		*error = 2;
 	}
-	else
-		ft_print_env(env);
+	while (env[i])
+	{
+		if (ft_strchr(env[i], '=') != 0x0)
+		{
+			printf("%s", env[i]);
+			printf("\n");
+		}
+		i++;
+	}
 }
 
-void ft_handle_pwd(void)
+void	ft_handle_pwd(void)
 {
-	char pwd[256000];
+	char	pwd[256000];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
 		variadic_error_printer(2, "ERROR: PWD COULD NOT BE FOUND\n", ENV_ERROR);
-		return;
+		return ;
 	}
 	printf("%s\n", pwd);
 }
 
-void ft_hadnle_exit(char **args)
+int	ft_isnumber(char *s)
 {
-	int exit_status;
+	int	i;
 
-	exit_status = 0;
-	printf("exit\n");
-	if (ft_argv_len(args) <= 2)
+	i = 0;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	while (s[i])
 	{
-		if (args[1])
-		{
-			exit_status = ft_atoi_(args[1]) % 256;
-			if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
-			{
-				variadic_error_printer(2, "numeric argument required", ENV_ERROR);
-				exit_status = 2; // TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256]
-			}
-		}
+		if (!(s[i] >= '0' && s[i] <= '9'))
+			return (0);
+		i++;
 	}
-	else
+	return (1);
+}
+
+
+void	ft_handle_exit(char **args)
+{
+	int	exit_status;
+
+	//exit_status = 0;
+	exit_status = *retrieve_exit_status();
+	//printf("exit\n");
+	variadic_error_printer(2, "exit\n");
+	if (ft_argv_len(args) >= 2)
 	{
-		exit_status = 1;
-		variadic_error_printer(2, "too many arguments", ENV_ERROR);
+		if (ft_isnumber(args[1]) == 0x0)
+		{
+			//exit_status = ft_atoi_(args[1]) % 256;
+			//if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
+			//{
+				variadic_error_printer(2, "minishell : exit : %s : %s\n", NUM_ARG, args[1]);
+				exit_status = 2; //TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256] // DONE
+			//}
+		}
+		else if (ft_argv_len(args) > 2)
+		{
+			variadic_error_printer(2, "minishell : exit : too many arguments\n");
+			exit_status = 1;
+		}
+		else
+			exit_status = ft_atoi(args[1]);
 	}
 	exit(exit_status);
 }
@@ -166,7 +208,7 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 	else if (!ft_strcmp(args[0], "pwd"))
 		ft_handle_pwd();
 	else if (!ft_strcmp(args[0], "exit"))
-		ft_hadnle_exit(args);
+		ft_handle_exit(args);
 }
 
 void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
@@ -292,7 +334,8 @@ void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 			ft_handle_pipe(node, exec_index, env);
 		else if (node->type == SIMPLE_CMD)
 			ft_exec_cmd(node, has_to_fork, env);
-
+		else
+			execute_command_list(node); // LOGICAL OPERATORS BONUS
 		/*
 		}
 		else
@@ -300,7 +343,7 @@ void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 	*/
 	}
 	else
-		exit_value_set(EXIT_FAILURE); // see exit_shell.c its static int set on 0x0 and gets updated after every call.
+		exit_value_set(EXIT_FAILURE);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:31:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/20 18:04:41 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/20 18:52:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static bool	expander(t_simple_cmd *cmd)
 	int	i;
 
 	i = 0x0;
-	printf("===================== EXPANDER DATA ========================\n\n");
 	while (cmd->argv[i] != 0x0)
 	{
 		if (ft_strchr(cmd->argv[i], '$') != 0x0 && !(i > 0x0 && ft_strcmp(cmd->argv[i - 1], "<<") == 0x0))
@@ -33,26 +32,12 @@ static bool	expander(t_simple_cmd *cmd)
 		remove_quotes_from_argument(&cmd->argv[i]);
 		++i;
 	}
-	printf("============================================================\n\n");
 	return (true);
 }
 
 /*
- * Perform expansions recursively !!
- *
- * $> /bin/echo lol ==> works
- *
- * $> /bin/echo "lol" ==> Does not remove last quote
- *
- * $> /bin/echo "'lol'" ==> leave only one double quote
- * 
- * $> /bin/echo "''lol''" ==> Works
- *
- * [ TO DO ]
- * 
- * -> fixs single and double quotes bugs.
- *
- */
+ * Perform expansions recursively !! 
+*/
 
 bool	expansions_perform(t_node *ast)
 {
