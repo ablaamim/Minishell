@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 23:10:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/20 12:38:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,8 @@ char *ft_append_char(char *str, char c);
 int ft_isprint(int c);
 int ft_striter(char *str, int (*function)(int));
 int ft_isalnum(int c);
+int	ft_isspace(int c);
+bool	has_space(char *str);
 
 /*
  * EXECUTION DATA :
@@ -331,16 +333,41 @@ int manage_execution(char *binary_path, char *cmd);
 int manage_error(char *binary_path, char *cmd, char *error, int exit_val);
 
 /*
- * EXPANSIONS PERFOMER
+ * EXPANSIONS PERFOMER :
  */
 
-bool expansions_perform(t_node *ast);
-void remove_quotes_from_argument(char **argv);
-void substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
-bool variable_expansion(t_simple_cmd *cmd, int i);
-bool expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes);
-char *new_argument(char **argv, int len_var_name, int i, char *var_val);
-char *allocate_new_argument(char *arg, int len_var_name, char *var_val);
+typedef struct s_expander
+{
+	int		len_argv_to_append;
+	int		len_old_argv;
+	int		len_new_argv;
+	bool	first_joined;
+	bool	last_joined;
+	bool	has_space;
+	int		i_old;
+	int		i_new;
+	int		i_split;
+	int		dollar_index;
+}	t_expander;
+
+bool	expansions_perform(t_node *ast);
+void	remove_quotes_from_argument(char **argv);
+void	substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
+bool	variable_expansion(t_simple_cmd *cmd, int i);
+bool	expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes);
+char	*new_argument(char **argv, int len_var_name, int i, char *var_val);
+char	*allocate_new_argument(char *arg, int len_var_name, char *var_val);
+bool	ft_reallocate_arg(t_simple_cmd *cmd, int i, int *j, char *var_val);
+bool	verify_if_expansion_is_valid(int i, char ***splitted_variable, char **argv);
+bool	argument_is_redirection(char *arg);
+void	expander_utils_initializer(char **argv, char **splitted_variable, char *var_val, t_expander *utils);
+void	manage_first_join(char *arg, char **new_arg, char **splitted_variable, t_expander *utils);
+void	manage_last_join(char *arg, char **new_arg, char **splitted_variable, t_expander *utils);
+char	*retrieve_after_variable(char *str, int dollar_index);
+void	array_free(char ***array);
+char	*get_variable_name(char *argument);
+int		get_len_variable_name(char *argument);
+char	*quotes_reversal(char *var_value);
 
 /*
  * Env typedef and define :
@@ -369,7 +396,7 @@ char **ft_add_up_in_env(const char *name, const char *val,
 						t_env env);
 void cleaner_mr_propre(char *tmp_path, char *shell_path,
 					   char *shelvl_value);
-int retrieve_len_array(char **array);
+int	retrieve_len_array(char **array);
 
 /*
  * Minishell exit ==> return exit_status and free all data.
