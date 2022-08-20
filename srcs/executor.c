@@ -184,6 +184,7 @@ void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
 		if (ret != EXIT_SUCCESS)
 			exit(ret);
 		// execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
+		// write(2, "ssss\n", 5);
 		if (execve(bin_path, argv, env) == -1)
 			ret = manage_error(bin_path, argv[0], strerror(errno), 126);
 		if (ret != EXIT_SUCCESS)
@@ -235,14 +236,19 @@ int ft_handle_pipe_extanded(t_node *node, int exec_index, char **env, int fd)
 	if (!pid_)
 	{
 		dup2(fd, 0);
+		close(fd);
 		ft_iterate_tree(node->content.child.right, 1, exec_index + 1, env);
 	}
 	else
 	{
+		close(fd);
 		if (exec_index == 0)
 			wait(NULL);
-		else
+		if (exec_index)
+		{
+			close(0);
 			exit(1);
+		}
 	}
 	return (0);
 }
@@ -258,11 +264,12 @@ int ft_handle_pipe(t_node *node, int exec_index, char **env)
 	{
 		close(fd[0]);
 		dup2(fd[1], 1);
+		close(fd[1]);
 		ft_iterate_tree(node->content.child.left, 1, exec_index + 1, env);
 	}
 	else
 	{
-		wait(NULL);
+		// wait(NULL);
 		close(fd[1]);
 		ft_handle_pipe_extanded(node, exec_index, env, fd[0]);
 	}
@@ -279,6 +286,8 @@ void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 		/*if (execute_redirections(node) == true) // See exec_redirections.c
 		{
 		*/
+		// write(2, node->type, 4);
+		// write(2, "\n", 1);
 		if (node->type == PIPE_NODE)
 			ft_handle_pipe(node, exec_index, env);
 		else if (node->type == SIMPLE_CMD)
@@ -317,6 +326,8 @@ void ft_executor(char *line, char **env)
 				// env = env;
 				// printf("\n**%d\n", ast->type);
 				ft_iterate_tree(ast, 0, 0, *bash_env);
+				wait(NULL);
+				// write(2, "ssssOut\n", 9);
 				// printf("\n**%d\n", ast->type);
 
 				// execute_ast_data(ast);
