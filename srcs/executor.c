@@ -40,7 +40,7 @@ int ft_is_built_in(char *string)
 	char **built_ins;
 
 	i = 0;
-	built_ins = ft_split("env pwd echo", ' ');
+	built_ins = ft_split("env pwd echo exit", ' ');
 	while (built_ins[i])
 	{
 		if (!ft_strcmp(built_ins[i], string))
@@ -103,6 +103,55 @@ void ft_handle_echo(char **args)
 	ft_echo_print(args, i, j, add_new_line);
 }
 
+void ft_handle_env(char **args, char **env, int *error)
+{
+	if (ft_argv_len(args) > 1)
+	{
+		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
+		*error = 2;
+	}
+	else
+		ft_print_env(env);
+}
+
+void ft_handle_pwd(void)
+{
+	char pwd[256000];
+
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+	{
+		variadic_error_printer(2, "ERROR: PWD COULD NOT BE FOUND\n", ENV_ERROR);
+		return;
+	}
+	printf("%s\n", pwd);
+}
+
+void ft_hadnle_exit(char **args)
+{
+	int exit_status;
+
+	exit_status = 0;
+	printf("exit\n");
+	if (ft_argv_len(args) <= 2)
+	{
+		if (args[1])
+		{
+			exit_status = ft_atoi_(args[1]) % 256;
+			if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
+			{
+				variadic_error_printer(2, "numeric argument required", ENV_ERROR);
+				exit_status = 2; // TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256]
+			}
+		}
+	}
+	else
+	{
+		exit_status = 1;
+		variadic_error_printer(2, "too many arguments", ENV_ERROR);
+	}
+	exit(exit_status);
+}
+
 /*
  * Built-in manager.
  * built_in env works like a chrm now.
@@ -110,20 +159,14 @@ void ft_handle_echo(char **args)
 
 void ft_handle_built_ins(char **args, char **env, int *error)
 {
-	// env = env;
-	// args = args;
 	if (!ft_strcmp(args[0], "env"))
-	{
-		if (ft_argv_len(args) > 1)
-		{
-			variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-			*error = 2;
-		}
-		else
-			ft_print_env(env);
-	}
+		ft_handle_env(args, env, error);
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_handle_echo(args);
+	else if (!ft_strcmp(args[0], "pwd"))
+		ft_handle_pwd();
+	else if (!ft_strcmp(args[0], "exit"))
+		ft_hadnle_exit(args);
 }
 
 void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
@@ -166,7 +209,11 @@ int ft_exec_cmd(t_node *node, int htf, char **env)
 	error = 0;
 	// printf("ARGS\n");
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
+	{
 		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
+		if (htf > 0)
+			exit(1);
+	}
 	else
 		ft_handle_cmd(node, htf, env, &error);
 	/*

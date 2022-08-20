@@ -69,6 +69,8 @@ SRC = ./srcs/debug.c \
 	  ./srcs/exec_redirections.c \
 	  ./srcs/expand_single_variable.c \
 	  ./srcs/manage_execution.c \
+	  ./srcs/ft_atoi.c \
+	  ./srcs/ft_isdigit.c \
 
 OBJ = $(SRC:.c=.o)
 

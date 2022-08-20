@@ -23,7 +23,7 @@ char *read_line(void)
 {
 	char *line;
 
-	line = readline("Mini Hell-v2.0$> ");
+	line = readline("Mini Hell-v2.0$\033[0;31m>\033[0;37m");
 	add_history(line);
 	if (line == 0x0)
 	{
@@ -66,7 +66,7 @@ void ft_minishell(char **env)
 
 	while (1337)
 	{
-		//atexit(leak_report); //function to check leaks
+		// atexit(leak_report); //function to check leaks
 		line = read_line();
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);

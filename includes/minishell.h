@@ -11,36 +11,35 @@
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-# define MINISHELL_H
+#define MINISHELL_H
 
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <errno.h>
-# include <stdbool.h>
-# include <fcntl.h>
-# include <stdarg.h>
-# include <signal.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-# include <termios.h>
-# include <sys/ioctl.h>
-# include <dirent.h>
-# include "../Leak_Hunter/leak_hunter.h"
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <errno.h>
+#include <stdbool.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <termios.h>
+#include <sys/ioctl.h>
+#include <dirent.h>
+#include "../Leak_Hunter/leak_hunter.h"
 
-# define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
-# define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
-# define ERROR_AND "Minishell : the '&' is not handled by program\n"
-# define ERROR_TOKEN "Error : syntax error near unexpected token\n"
-# define SIZEOF_ONE_CHAR_STRING 2
-# define SIZEOF_TWO_CHAR_STRING 3
-# define SYNTAX_ERROR_EXIT 2
-# define ENV_ERROR "No such file or directory\n"
-
+#define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
+#define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
+#define ERROR_AND "Minishell : the '&' is not handled by program\n"
+#define ERROR_TOKEN "Error : syntax error near unexpected token\n"
+#define SIZEOF_ONE_CHAR_STRING 2
+#define SIZEOF_TWO_CHAR_STRING 3
+#define SYNTAX_ERROR_EXIT 2
+#define ENV_ERROR "No such file or directory\n"
 
 /*
  * LEXER CLASS ABSTRACTION.
@@ -153,10 +152,10 @@ enum e_redirection_type
 
 typedef struct s_simple_cmd
 {
-	char	**argv;
-	int		fd_in;
-	int		fd_out;
-	bool	input_has_quotes;
+	char **argv;
+	int fd_in;
+	int fd_out;
+	bool input_has_quotes;
 } t_simple_cmd;
 
 /*
@@ -180,8 +179,8 @@ typedef struct s_child
 
 typedef struct s_node_content
 {
-	struct s_simple_cmd	simple_cmd;
-	struct s_child		child;
+	struct s_simple_cmd simple_cmd;
+	struct s_child child;
 } t_node_content;
 
 /*
@@ -191,8 +190,8 @@ typedef struct s_node_content
 
 typedef struct s_node
 {
-	enum e_node_type	type;
-	t_node_content		content;
+	enum e_node_type type;
+	t_node_content content;
 } t_node;
 
 /*
@@ -201,21 +200,21 @@ typedef struct s_node
 
 typedef struct s_garbage_list
 {
-	void					*ptr;
-	struct s_garbage_list	*next;
+	void *ptr;
+	struct s_garbage_list *next;
 } t_garbage_list;
 
 /*
  * Core functions :.
  */
 
-void	ft_minishell(char **env);
-int		argv_error_handler(char *argv);
-void	ft_free_fd(void);
-char	*ft_prompt(void);
-char	*read_line(void);
-void	ft_executor(char *line, char **env);
-void	ft_add_history(char *line);
+void ft_minishell(char **env);
+int argv_error_handler(char *argv);
+void ft_free_fd(void);
+char *ft_prompt(void);
+char *read_line(void);
+void ft_executor(char *line, char **env);
+void ft_add_history(char *line);
 
 /*
  * Functions to debug and track states of output :
@@ -298,6 +297,8 @@ char *ft_strcat(char *dest, char *src);
 char *ft_strcpy(char *dest, char *src);
 char *ft_strjoin(char const *s1, char const *s2,
 				 char const *sep);
+int ft_atoi_(const char *string);
+int ft_isdigit(int v);
 void ft_free_arrays(char **arrays);
 char *ft_itoa(int n);
 int ft_atoi(const char *s);
@@ -314,37 +315,32 @@ int ft_isprint(int c);
 int ft_striter(char *str, int (*function)(int));
 int ft_isalnum(int c);
 
-
 /*
  * EXECUTION DATA :
-*/
+ */
 
 /*
  *  mbistami executor
-*/
+ */
 
-
-
-void	ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
-void	set_exit_value(int exit_value);
-char	*found_binary(char **argv);
-bool	execute_redirections(t_node *node);
-int		manage_execution(char *binary_path, char *cmd);
-int		manage_error(char *binary_path, char *cmd, char *error, int exit_val);
-
+void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
+void set_exit_value(int exit_value);
+char *found_binary(char **argv);
+bool execute_redirections(t_node *node);
+int manage_execution(char *binary_path, char *cmd);
+int manage_error(char *binary_path, char *cmd, char *error, int exit_val);
 
 /*
  * EXPANSIONS PERFOMER
-*/
+ */
 
-bool	expansions_perform(t_node *ast);
-void	remove_quotes_from_argument(char **argv);
-void	substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
-bool	variable_expansion(t_simple_cmd *cmd, int i);
-bool	expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes);
-char	*new_argument(char **argv, int len_var_name, int i, char *var_val);
-char	*allocate_new_argument(char *arg, int len_var_name, char *var_val);
-
+bool expansions_perform(t_node *ast);
+void remove_quotes_from_argument(char **argv);
+void substitute_quotes_state(char quote, bool *in_dquotes, bool *in_squotes);
+bool variable_expansion(t_simple_cmd *cmd, int i);
+bool expand_single_variable(t_simple_cmd *cmd, int i, int *j, bool in_dquotes);
+char *new_argument(char **argv, int len_var_name, int i, char *var_val);
+char *allocate_new_argument(char *arg, int len_var_name, char *var_val);
 
 /*
  * Env typedef and define :
@@ -387,7 +383,7 @@ void exit_value_set(int exit_value);
  * Variadic function to print arbitrary number of errors on given fd stream
  */
 
-int	variadic_error_printer(int fd, const char *fmt, ...);
+int variadic_error_printer(int fd, const char *fmt, ...);
 
 /*
  * variadic defines and utils :
