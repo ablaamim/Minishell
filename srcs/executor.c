@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include "../Leak_Hunter/leak_hunter.h"
 
 /*
  * Initialize AST, lex and parse [Syntax analyzer +
@@ -40,6 +41,59 @@
  * TO DO : REVIEW ECHO
  *
  */
+
+int ft_lstsize(t_pipe *lst)
+{
+	int counter;
+
+	counter = 0;
+	while (lst != NULL)
+	{
+		counter++;
+		lst = lst->next;
+	}
+	return (counter);
+}
+t_pipe *ft_lstlast(t_pipe *lst)
+{
+	if (ft_lstsize(lst) == 0)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+void ft_lstadd_front(t_pipe **head, t_pipe *new)
+{
+	new->next = *(head);
+	*(head) = new;
+}
+t_pipe *ft_lstnew(int *fd)
+{
+	t_pipe *lst;
+
+	lst = (t_pipe *)malloc(sizeof(*lst));
+	if (!lst)
+		return (NULL);
+	lst->fd[0] = fd[0];
+	lst->fd[1] = fd[1];
+	lst->next = NULL;
+	return (lst);
+}
+void ft_lstadd_back(t_pipe **alst, t_pipe *new)
+{
+	t_pipe *last;
+
+	if (new != NULL)
+	{
+		if (ft_lstsize(*(alst)) > 0)
+		{
+			last = ft_lstlast(*(alst));
+			last->next = new;
+		}
+		else
+			ft_lstadd_front(alst, new);
+	}
+}
 
 int ft_is_built_in(char *string)
 {
@@ -90,7 +144,7 @@ void ft_echo_print(char **args, int i, int j, int add_new_line)
 		printf("\n");
 }
 
-void	ft_handle_echo(char **args)
+void ft_handle_echo(char **args)
 {
 	int i;
 	int j;
@@ -112,11 +166,11 @@ void	ft_handle_echo(char **args)
 
 /*
  * env builtin improved.
-*/
+ */
 
-void	ft_handle_env(char **args, char **env, int *error)
+void ft_handle_env(char **args, char **env, int *error)
 {
-	int	i;
+	int i;
 
 	i = 0x0;
 	if (ft_argv_len(args) > 1)
@@ -135,21 +189,21 @@ void	ft_handle_env(char **args, char **env, int *error)
 	}
 }
 
-void	ft_handle_pwd(void)
+void ft_handle_pwd(void)
 {
-	char	pwd[256000];
+	char pwd[256000];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
 		variadic_error_printer(2, "ERROR: PWD COULD NOT BE FOUND\n", ENV_ERROR);
-		return ;
+		return;
 	}
 	printf("%s\n", pwd);
 }
 
-int	ft_isnumber(char *s)
+int ft_isnumber(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (s[i] == '+' || s[i] == '-')
@@ -163,25 +217,24 @@ int	ft_isnumber(char *s)
 	return (1);
 }
 
-
-void	ft_handle_exit(char **args)
+void ft_handle_exit(char **args)
 {
-	int	exit_status;
+	int exit_status;
 
-	//exit_status = 0;
+	// exit_status = 0;
 	exit_status = *retrieve_exit_status();
-	//printf("exit\n");
+	// printf("exit\n");
 	variadic_error_printer(2, "exit\n");
 	if (ft_argv_len(args) >= 2)
 	{
 		if (ft_isnumber(args[1]) == 0x0)
 		{
-			//exit_status = ft_atoi_(args[1]) % 256;
-			//if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
+			// exit_status = ft_atoi_(args[1]) % 256;
+			// if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
 			//{
-				variadic_error_printer(2, "minishell : exit : %s : %s\n", NUM_ARG, args[1]);
-				exit_status = 2; //TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256] // DONE
-			//}
+			variadic_error_printer(2, "minishell : exit : %s : %s\n", NUM_ARG, args[1]);
+			exit_status = 2; // TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256] // DONE
+							 //}
 		}
 		else if (ft_argv_len(args) > 2)
 		{
@@ -211,136 +264,140 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 		ft_handle_exit(args);
 }
 
-void ft_handle_cmd(t_node *node, int htf, char **env, int *error)
+int **ft_to_array(t_pipe **pipe)
 {
-	int pid;
+	int i;
+	t_pipe *tmp;
+	int **arr;
+
+	arr = malloc(sizeof(int *) * ft_lstsize(*pipe));
+	i = 0;
+	while (i < ft_lstsize(*pipe))
+		arr[i++] = malloc(sizeof(int) * 2);
+	i = 0;
+	tmp = *pipe;
+	while (tmp)
+	{
+		arr[i][0] = tmp->fd[0];
+		arr[i][1] = tmp->fd[1];
+		tmp = tmp->next;
+		i++;
+	}
+	return (arr);
+}
+
+void ft_free_to_array(t_pipe **pipe, int **arr)
+{
+	int i;
+
+	i = 0;
+	while (i < ft_lstsize(*pipe))
+		free(arr[i++]);
+	free(arr);
+}
+
+void ft_close_pipes(t_pipe *pipe, int **arr)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < ft_lstsize(pipe))
+	{
+		j = 0;
+		while (j < 2)
+			close(arr[i][j++]);
+		i++;
+	}
+}
+
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
+{
 	char *bin_path;
 	char **argv;
 	int ret;
+	int **pipes;
 
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
-	if (htf == 1)
-	{
-		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-		if (ret != EXIT_SUCCESS)
-			exit(ret);
-		// execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-		// write(2, "ssss\n", 5);
-		if (execve(bin_path, argv, env) == -1)
-			ret = manage_error(bin_path, argv[0], strerror(errno), 126);
-		if (ret != EXIT_SUCCESS)
-			exit(ret);
-	}
+	pipes = ft_to_array(pipe);
+	if (exec_index - 1 >= 0)
+		dup2(pipes[exec_index - 1][0], 0);
+	if (exec_index < ft_lstsize(*pipe))
+		dup2(pipes[exec_index][1], 1);
+	ft_close_pipes(*pipe, pipes);
+	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	if (ret != EXIT_SUCCESS)
+		exit(ret);
+	execve(bin_path, argv, env);
+	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	if (ret != EXIT_SUCCESS)
+		exit(ret);
+}
+
+void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
+{
+	int pid;
+
+	int **pipes;
+
+	pipes = NULL;
+	pipes = ft_to_array(pipe);
 	pid = fork();
 	if (!pid)
 	{
-		*error = execve(bin_path, argv, env);
-		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-		if (ret != EXIT_SUCCESS)
-			exit(ret);
+		ft_handle_child(node, pipe, *exec_index, env);
 		//*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
 	}
-	else
-		wait(0x0);
+	if (*exec_index == ft_lstsize(*pipe))
+	{
+		ft_close_pipes(*pipe, pipes);
+		while (wait(NULL) > 0)
+			write(2, "", 0);
+	}
+	ft_free_to_array(pipe, pipes);
+	(*exec_index)++;
 }
 
-int ft_exec_cmd(t_node *node, int htf, char **env)
+int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 {
 	int error;
 
 	error = 0;
-	// printf("ARGS\n");
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
 		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
-		if (htf > 0)
-			exit(1);
 	}
 	else
-		ft_handle_cmd(node, htf, env, &error);
-	/*
-	for (int i = 0; node->content.simple_cmd.argv[i]; i++)
-		printf("%s %s\n", node->content.simple_cmd.argv[i], htf ? "left" : "right");
-	printf("\nARGS");
-	*/
+		ft_handle_cmd(node, pipe, exec_index, env);
+
 	if (error)
 		return (2);
 	else
 		return (1);
 }
 
-int ft_handle_pipe_extanded(t_node *node, int exec_index, char **env, int fd)
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 {
-	int pid_;
-
-	pid_ = fork();
-	if (!pid_)
-	{
-		dup2(fd, 0);
-		close(fd);
-		ft_iterate_tree(node->content.child.right, 1, exec_index + 1, env);
-	}
-	else
-	{
-		close(fd);
-		if (exec_index == 0)
-			wait(NULL);
-		if (exec_index)
-		{
-			close(0);
-			exit(1);
-		}
-	}
-	return (0);
-}
-
-int ft_handle_pipe(t_node *node, int exec_index, char **env)
-{
-	int pid;
 	int fd[2];
-
-	pipe(fd);
-	pid = fork();
-	if (!pid)
-	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		close(fd[1]);
-		ft_iterate_tree(node->content.child.left, 1, exec_index + 1, env);
-	}
-	else
-	{
-		// wait(NULL);
-		close(fd[1]);
-		ft_handle_pipe_extanded(node, exec_index, env, fd[0]);
-	}
-	return (0);
-}
-
-void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
-{
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
-		/*
-		 * Labghiti tkhdemhum recursively hahya function w data raha organized in simple_cmd
-		 */
-		/*if (execute_redirections(node) == true) // See exec_redirections.c
-		{
-		*/
-		// write(2, node->type, 4);
-		// write(2, "\n", 1);
 		if (node->type == PIPE_NODE)
-			ft_handle_pipe(node, exec_index, env);
+		{
+			pipe(fd);
+			ft_lstadd_front(pipe_, ft_lstnew(fd));
+			ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
+			ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+		}
 		else if (node->type == SIMPLE_CMD)
-			ft_exec_cmd(node, has_to_fork, env);
+			ft_exec_cmd(node, pipe_, exec_index, env);
 		else
 			execute_command_list(node); // LOGICAL OPERATORS BONUS
-		/*
-		}
-		else
-			exit_value_set(EXIT_FAILURE);
-	*/
+										/*
+										}
+										else
+											exit_value_set(EXIT_FAILURE);
+									*/
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
@@ -349,14 +406,31 @@ void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env)
 /*
  * -> Cache env is ready now !
  */
+void ft_free_pipes(t_pipe **pipe)
+{
+	t_pipe *p;
+	t_pipe *tmp;
+
+	p = *pipe;
+	while (p)
+	{
+		tmp = p->next;
+		free(p);
+		p = tmp;
+	}
+}
 
 void ft_executor(char *line, char **env)
 {
 	t_node *ast;
 	t_env *bash_env;
+	t_pipe *pipe;
+	int exec_init;
 
 	ast = 0x0;
 	bash_env = get_bash_env();
+	pipe = NULL;
+	exec_init = 0;
 	(void)env;
 	// printf("======================= MINI HELL CACHE =======================\n");
 	// ft_print_env(*bash_env);
@@ -368,11 +442,9 @@ void ft_executor(char *line, char **env)
 			{
 				// env = env;
 				// printf("\n**%d\n", ast->type);
-				ft_iterate_tree(ast, 0, 0, *bash_env);
-				wait(NULL);
-				// write(2, "ssssOut\n", 9);
-				// printf("\n**%d\n", ast->type);
-
+				ft_iterate_tree(ast, &pipe, &exec_init, *bash_env);
+				ft_free_pipes(&pipe);
+				atexit(leak_report);
 				// execute_ast_data(ast);
 				// ast_clearing(&ast);
 			}
