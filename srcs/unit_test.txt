@@ -1,0 +1,69 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    unit_test.txt                                      :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/08/21 16:53:59 by ablaamim          #+#    #+#              #
+#    Updated: 2022/08/21 17:22:38 by ablaamim         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+ 
+=============================== SUCCESS TESTS : ===============================
+
+ $> echo
+ $> echo hey;|
+ $> echo hey||
+ $> echo >
+ $> echo -n -n -nnnn -nnnnnm
+ $> echo "$HOME"
+ $> echo '$HOME'
+ $> echo "
+ $> echo ""
+ $> echo ;;
+ $> echo $SHLVL
+ $> echo $? -> must be improved [i will do it]
+ $> echo $USER'$'
+ $> echo $
+ $> echo "cat lol.c | cat > lol.c"
+ $> env
+ $> pwd
+ $> echo "'$USER'"
+ $> echo '"$USER"'
+ $> echo hi";" hihi
+
+ $> cat < >
+ $> cat <
+ $> cat < <
+ $> cat > >
+
+ PARSER SYNTAX TEST IN CMDLINE
+
+ $> |
+ $> $
+ $> &&
+ $> ||
+ $> ;
+
+
+ $>/bin/ls
+ $>/bin/echo
+
+ SIGNALS :
+
+ # write something the press ctrl+c
+ # write something then press ctrl+d
+ # write something then press ctrl+\
+
+ =============================== FAILED TESTS : ===============================
+ 
+ $> sleep 5 | exit
+ $> exit 0 | exit 1
+ $> echo '$'$
+ 
+
+ $> ls || ls --> SEGV // Kanu khedamin lbare7
+ $> ls && ls --> SEGV // Hta hadu
+
+===============================================================================

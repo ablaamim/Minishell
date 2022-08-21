@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/20 20:09:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/21 17:41:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,34 @@
 #include "../Leak_Hunter/leak_hunter.h"
 
 /*
- * Initialize AST, lex and parse [Syntax analyzer +
- * Recursive descent parser] the input read.
- * Then build AST.
  *
- * bistami task : execute AST
- * -> pipes : Fix remaining errors
+ * /////////////////////////// TASKS /////////////////////////////////////////
  *
- * TO  DO : export, unset, get appropriate exit status.
- *          heredoc
+ * TO DO : export, unset, get appropriate exit status, redirections, bonus
  *
- * work together on redirections.
+ * SAT review the redirections chi 9lwa zaglha fe logic, fix it labghiti, sinon ankmelha ana ghda.
  *
- * ablaamim tasks :
- * EXPANDER : remove quotes from input : DONE !
- * EXPANDER : perform expansions : DONE.
- * LOGICAL OPERATOR AND : DONE.
- * LOGICAL OPERATOR OR : DONE.
- * LOGICALGICAL OPERATOR SIMICO : DONE.
- * WILDCARD.
+ * Also rah simple command handler kaysegfaulter meli kan executer logical aperators i'&&' wla '||' wla ';'
+ * -> chekit f execution order machi accurate, muhim its up to you buddy!
  *
- * --> LEAKS REMAINING WHEN EXPANSION IS PERFORMED.
+ * Khlit lik test cases li dwezt f tests.txt
  *
- *  REVIEWED : exit, env, pwd : works so well now.
+ * REVIEWED : exit, env, pwd, echo : works so well -> READY
  *
- * TO DO : REVIEW ECHO
- *
+ * LEAKS : 0 LEAKS
  */
+
+/*
+ * mbistami new struct added in /includes/minishell.h
+*/
+
+/*
+typedef struct s_pipe 
+{
+	int	fd[2];
+	struct s_pipe *next;
+}t_pipe;
+*/
 
 int ft_lstsize(t_pipe *lst)
 {
@@ -62,11 +63,13 @@ t_pipe *ft_lstlast(t_pipe *lst)
 		lst = lst->next;
 	return (lst);
 }
+
 void ft_lstadd_front(t_pipe **head, t_pipe *new)
 {
 	new->next = *(head);
 	*(head) = new;
 }
+
 t_pipe *ft_lstnew(int *fd)
 {
 	t_pipe *lst;
@@ -79,6 +82,7 @@ t_pipe *ft_lstnew(int *fd)
 	lst->next = NULL;
 	return (lst);
 }
+
 void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 {
 	t_pipe *last;
@@ -178,6 +182,7 @@ void ft_handle_env(char **args, char **env, int *error)
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
 		*error = 2;
 	}
+	signal(SIGINT, signal_command);
 	while (env[i])
 	{
 		if (ft_strchr(env[i], '=') != 0x0)
@@ -191,12 +196,12 @@ void ft_handle_env(char **args, char **env, int *error)
 
 void ft_handle_pwd(void)
 {
-	char pwd[256000];
+	char pwd[STATIC_BYTES];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
-		variadic_error_printer(2, "ERROR: PWD COULD NOT BE FOUND\n", ENV_ERROR);
-		return;
+		variadic_error_printer(2, "error: pwd could not be found\n", ENV_ERROR);
+		return ;
 	}
 	printf("%s\n", pwd);
 }
@@ -221,20 +226,14 @@ void ft_handle_exit(char **args)
 {
 	int exit_status;
 
-	// exit_status = 0;
 	exit_status = *retrieve_exit_status();
-	// printf("exit\n");
 	variadic_error_printer(2, "exit\n");
 	if (ft_argv_len(args) >= 2)
 	{
 		if (ft_isnumber(args[1]) == 0x0)
 		{
-			// exit_status = ft_atoi_(args[1]) % 256;
-			// if ((exit_status == 0 && ft_strcmp(args[1], "0") && ft_atoi_(args[1]) == 256))
-			//{
 			variadic_error_printer(2, "minishell : exit : %s : %s\n", NUM_ARG, args[1]);
-			exit_status = 2; // TODO REPLACE EXIT STATUS WITH MACOS EXIT STATUS [256] // DONE
-							 //}
+			exit_status = 2;
 		}
 		else if (ft_argv_len(args) > 2)
 		{
@@ -266,15 +265,17 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 
 int **ft_to_array(t_pipe **pipe)
 {
-	int i;
-	t_pipe *tmp;
-	int **arr;
+	int		i;
+	t_pipe	*tmp;
+	int		**arr;
 
 	arr = malloc(sizeof(int *) * ft_lstsize(*pipe));
+	if (!arr)
+		variadic_error_printer(2, "Error : malloc() failed\n");
 	i = 0;
 	while (i < ft_lstsize(*pipe))
 		arr[i++] = malloc(sizeof(int) * 2);
-	i = 0;
+		i = 0;
 	tmp = *pipe;
 	while (tmp)
 	{
@@ -311,44 +312,49 @@ void ft_close_pipes(t_pipe *pipe, int **arr)
 	}
 }
 
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
+// -> free bin_path when command not found for no leaks : DONE !!
+
+void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
 {
 	char *bin_path;
 	char **argv;
 	int ret;
 	int **pipes;
 
+	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
+	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	if (ret != EXIT_SUCCESS)
+		exit(ret);
 	pipes = ft_to_array(pipe);
 	if (exec_index - 1 >= 0)
 		dup2(pipes[exec_index - 1][0], 0);
 	if (exec_index < ft_lstsize(*pipe))
 		dup2(pipes[exec_index][1], 1);
 	ft_close_pipes(*pipe, pipes);
-	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-	if (ret != EXIT_SUCCESS)
-		exit(ret);
-	execve(bin_path, argv, env);
-	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-	if (ret != EXIT_SUCCESS)
-		exit(ret);
+	//ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	//if (ret != EXIT_SUCCESS)
+		//exit(ret);
+	if (execve(bin_path, argv, env) == ERR)
+		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	garbage_free((void **) &bin_path);
+	exit(ret);
 }
 
 void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 {
 	int pid;
-
 	int **pipes;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
+	signal(SIGINT, signal_command); //ctrl+c in cat without redisplaying prompt two times should be managed.
 	pid = fork();
+	if (pid == ERR)
+		shell_exit(EXIT_FAILURE, strerror(errno));
 	if (!pid)
-	{
 		ft_handle_child(node, pipe, *exec_index, env);
-		//*error = execve(node->content.simple_cmd.argv[0], node->content.simple_cmd.argv, env);
-	}
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
@@ -365,12 +371,9 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 
 	error = 0;
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
-	{
 		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
-	}
 	else
 		ft_handle_cmd(node, pipe, exec_index, env);
-
 	if (error)
 		return (2);
 	else
@@ -382,34 +385,32 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 	int fd[2];
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
-		if (node->type == PIPE_NODE)
+		if (execute_redirections(node) == true) // See exec_redirections.c
 		{
-			pipe(fd);
-			ft_lstadd_front(pipe_, ft_lstnew(fd));
-			ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
-			ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+			if (node->type == PIPE_NODE)
+			{
+				if (pipe(fd) == ERR)
+					shell_exit(EXIT_FAILURE, strerror(errno));
+				ft_lstadd_front(pipe_, ft_lstnew(fd));
+				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+			}
+			else if (node->type == SIMPLE_CMD)
+				ft_exec_cmd(node, pipe_, exec_index, env);
+			else //if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
+				execute_command_list(node); // LOGICAL OPERATORS BONUS
 		}
-		else if (node->type == SIMPLE_CMD)
-			ft_exec_cmd(node, pipe_, exec_index, env);
 		else
-			execute_command_list(node); // LOGICAL OPERATORS BONUS
-										/*
-										}
-										else
-											exit_value_set(EXIT_FAILURE);
-									*/
+			exit_value_set(EXIT_FAILURE);
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
 }
 
-/*
- * -> Cache env is ready now !
- */
-void ft_free_pipes(t_pipe **pipe)
+void	ft_free_pipes(t_pipe **pipe)
 {
-	t_pipe *p;
-	t_pipe *tmp;
+	t_pipe	*p;
+	t_pipe	*tmp;
 
 	p = *pipe;
 	while (p)
@@ -422,31 +423,25 @@ void ft_free_pipes(t_pipe **pipe)
 
 void ft_executor(char *line, char **env)
 {
-	t_node *ast;
-	t_env *bash_env;
-	t_pipe *pipe;
-	int exec_init;
+	t_node	*ast;
+	t_env	*bash_env;
+	t_pipe	*pipe;
+	int		exec_init;
 
 	ast = 0x0;
 	bash_env = get_bash_env();
 	pipe = NULL;
 	exec_init = 0;
 	(void)env;
-	// printf("======================= MINI HELL CACHE =======================\n");
-	// ft_print_env(*bash_env);
 	if (line != 0x0)
 	{
 		ast = ft_lexer_parser_program(line);
 		{
 			if (ast != 0x0)
 			{
-				// env = env;
-				// printf("\n**%d\n", ast->type);
 				ft_iterate_tree(ast, &pipe, &exec_init, *bash_env);
 				ft_free_pipes(&pipe);
-				atexit(leak_report);
-				// execute_ast_data(ast);
-				// ast_clearing(&ast);
+				ast_clearing(&ast); // FREE ABSTACT SYNTAX TREE.
 			}
 		}
 	}

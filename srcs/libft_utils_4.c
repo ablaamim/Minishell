@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:34:20 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 15:55:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/21 15:43:01 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	i;
 
 	i = 0x0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
+	while (s2[i] && s1[i] && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
 }

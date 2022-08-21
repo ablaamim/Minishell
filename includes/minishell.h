@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/20 19:48:53 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/21 16:46:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@
 # define SYNTAX_ERROR_EXIT 2
 # define ENV_ERROR "No such file or directory\n"
 # define NUM_ARG "numeric argument required"
+# define STATIC_BYTES 2560000
+# define ERR -1
+# define IN_REDIR "no such file or directory\n"
 
 /*
  * LEXER CLASS ABSTRACTION.
@@ -326,13 +329,22 @@ bool	has_space(char *str);
  *  mbistami executor
  */
 
-void ft_iterate_tree(t_node *node, int has_to_fork, int exec_index, char **env);
+typedef struct s_pipe
+{
+	int	fd[2];
+	struct s_pipe	*next;
+}	t_pipe;
+
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env);
 void set_exit_value(int exit_value);
 char *found_binary(char **argv);
 bool execute_redirections(t_node *node);
 int manage_execution(char *binary_path, char *cmd);
 int manage_error(char *binary_path, char *cmd, char *error, int exit_val);
 void	execute_command_list(t_node *node);
+void	signal_command_child(int sig);
+int		exec_input_redirection(char *input);
+int		exec_output_redirection(char **input);
 
 /*
  * EXPANSIONS PERFOMER :

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 02:41:50 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:32:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * -> Control EOF to exit with ctrl+D.
  */
 
-char *read_line(void)
+char	*read_line(void)
 {
 	char *line;
 
@@ -37,7 +37,7 @@ char *read_line(void)
  * Signals handling : ctrl+c and ctrl+\
  */
 
-void signal_command(int sig)
+void	signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -48,7 +48,22 @@ void signal_command(int sig)
 	}
 	if (sig == SIGQUIT)
 	{
-		variadic_error_printer(2, "Quit : 3\n");
+		printf("QUIT\n");
+		exit(EXIT_SUCCESS);
+	}
+}
+
+void	signal_command_child(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0x0);
+	}
+	if (sig == SIGQUIT)
+	{
+		printf("QUIT\n");
 		exit(EXIT_SUCCESS);
 	}
 }

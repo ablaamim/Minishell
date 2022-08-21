@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/08/20 18:35:26 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/08/21 15:39:33 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,8 @@ SRC = ./srcs/debug.c \
 	  ./srcs/expander_utils_2.c \
 	  ./srcs/expander_utils.c \
 	  ./srcs/execute_command_list.c \
+	  ./srcs/exec_output_redirection.c \
+	  ./srcs/exec_input_redirection.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:58:37 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 23:22:13 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/21 13:07:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,12 @@ int	manage_execution(char *binary_path, char *cmd)
 		else
 			return (manage_error(0x0, cmd, "Command not found", 127));
 	}
-	ret = is_a_directory(binary_path);;
-	if (ret == 0x1)
+	ret = is_a_directory(binary_path);
+	if (ret == 1)
 		return (manage_error(binary_path, cmd, strerror(errno), 126));
-	if (ret == -1)
+	else if (ret == -1)
 		return (manage_error(binary_path, cmd, strerror(errno), 127));
 	if (is_an_executable(binary_path) == false)
 		return (manage_error(binary_path, cmd, strerror(errno), 126));
-	printf("==> RET : %d", ret);
 	return (EXIT_SUCCESS);
 }
