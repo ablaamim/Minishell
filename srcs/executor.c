@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 14:16:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 18:45:42 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,8 +386,10 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
+		printf("===================== PARSE REDIRECTIONS ===================\n");
 		if (execute_redirections(node) == true) // See exec_redirections.c
 		{
+			printf("=============== REDIRECTIONS PARSER FINISHED ===============\n");
 			/*
 			if (node->type == PIPE_NODE)
 			{
@@ -400,8 +402,8 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 			else if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
 			else //if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
-				execute_command_list(node); // LOGICAL OPERATORS BONUS
-			*/
+				//execute_command_list(node); // LOGICAL OPERATORS BONUS
+		*/
 		}
 		else
 			exit_value_set(EXIT_FAILURE);

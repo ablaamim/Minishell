@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:11:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 17:23:30 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 18:32:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ bool	parse_redirection(char *argument)
 	return (ft_strcmp(">", argument) == 0x0 || ft_strcmp(">>", argument) == 0x0 || ft_strcmp("<", argument) == 0x0 || ft_strcmp("<<", argument) == 0x0);
 }
 
-t_redirs	*redirection_generator(char **args)
+t_redirs	*redirection_generator(void)
 {
 	t_redirs	*new_redir;
 
-	new_redir = malloc(sizeof(*new_redir));
+	new_redir = garbage_malloc(sizeof(*new_redir));
 	new_redir->fd[0] = 0x0;
 	new_redir->fd[1] = 0x1;
 	new_redir->type = 0x0;
@@ -54,24 +54,25 @@ void	redir_appender(t_redirs *new_redir, t_redirs **lst_redir)
 	}
 }
 
-
 void	print_redir_list(t_redirs *redir)
 {
 	t_redirs *current;
 
 	current = redir;
+	if (current == 0x0)
+		printf("THERE IS NO REDIR IN CMD\n");
 	while (current)
 	{
 		 //printf("| FILE NAME : %s | ", current->file_name);
 		 if (current->type == INPUT_REDIR)
-		 	printf("| TYPE = INPUT REDIR | ");
+		 	printf("TYPE = INPUT REDIR | ");
 		 else if (current->type == OUTPUT_REDIR)
 			printf("TYPE = OUTPUT REDIR | ");
 		 else if (current->type == HEREDOC_REDIR)
 			printf("TYPE = HEREDOC REDIR | ");
 		 else
 			 printf("TYPE = APPEND REDIR | ");
-		 printf("FILE NAME : %s | ", current->file_name);
+		 printf("FILE NAME = %s |", current->file_name);
 		 if (current->next == 0x0)
 		 	printf("-->NULL\n");
 		//printf("%p: %s\n", current, current->file_name);
@@ -83,12 +84,14 @@ t_redirs	*redirections_manager(char **args, int *fd_in, int *fd_out, t_node *nod
 {
 	t_redirs	*redir;
 
+	(void) node;
+	redir = 0x0;
 	// 4 CASES TO HANDLE : '<' '<<' '>' '>>'
 	//redir = redirection_generator(args);
 	if (strcmp("<", *args) == 0x0)
 	{
-		redir = redirection_generator(args);
-		printf("MANAGING INPUT REDIR : \n");
+		redir = redirection_generator();
+		//printf("MANAGING INPUT REDIR : \n");
 		//redir = redirection_generator(args);
 		if (*fd_in != 0)
 			close(*fd_in);
@@ -106,28 +109,28 @@ t_redirs	*redirections_manager(char **args, int *fd_in, int *fd_out, t_node *nod
 		if (*fd_in != 0)
 			close(*fd_in);
 		//MANAGE HEREDOC
-		printf("MANAGE HEREDOC\n\n");
-		redir = redirection_generator(args);
+		//printf("MANAGE HEREDOC\n\n");
+		redir = redirection_generator();
 		redir->type = HEREDOC_REDIR;
 		redir->file_name = *(args + 1);
 	}
 	else if (ft_strcmp(">", *args) == 0x0)
 	{
-		printf("OUTPUT REDIR\n");
+		//printf("OUTPUT REDIR\n");
 		if (*fd_out != 1)
 			close(*fd_out);
 		//*fd_out = exec_output_redirection(args);
-		redir = redirection_generator(args);
+		redir = redirection_generator();
 		redir->type = OUTPUT_REDIR;
 		redir->file_name = *(args + 1);
 	}
 	else if (ft_strcmp(">>", *args) == 0x0)
 	{
-		printf("APPEND REDIR\n");
+		//printf("APPEND REDIR\n");
 		if (*fd_out != 1)
 			close(*fd_out);
 		//*fd_out = exec_output_redirection(args);
-		redir = redirection_generator(args);
+		redir = redirection_generator();
 		redir->type = APPEND_OUTPUT_REDIR;
 		redir->file_name = *(args + 1);
 	}
@@ -182,6 +185,7 @@ bool	open_redir_stream(char **argv, int *fd_in, int *fd_out, t_node *node)
 			++i;
 	}
 	print_redir_list(node->content.simple_cmd.redirs);
+	garbage_free((void **) &redir);
 	return (true);
 }
 

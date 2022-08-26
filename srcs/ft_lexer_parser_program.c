@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 15:43:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 18:18:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_node *ft_lexer_parser_program(char *line)
 			token_list != 0x0)
 		{
 			if (token_list != 0x0)
-				variadic_error_printer(2, "\nMinishell : Syntax error near unexpected token %s\n", token_list->data);
+				variadic_error_printer(2, "Minishell : Syntax error near unexpected token %s\n", token_list->data);
 			exit_value_set(SYNTAX_ERROR_EXIT);
 			ast_clearing(&ast);
 		}
@@ -60,7 +60,7 @@ t_node *ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
-	// printf("====================> DISPLAY TREE <========================\n\n");
+	printf("====================> DISPLAY TREE <========================\n\n");
 	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }
