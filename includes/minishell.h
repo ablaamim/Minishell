@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/21 16:46:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:16:39 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,16 +150,29 @@ enum e_redirection_type
 };
 
 /*
+ * REDIRS_LINKED_LIST
+*/
+
+typedef struct s_redirs
+{
+	int						fd[2];
+	enum e_redirection_type	type;
+	char					*file_name;
+	struct s_redirs			*next;
+}	t_redirs;
+
+/*
  * Simple command, it can be composed of options (arguments), i/o stream
  * and quotes (single / double).
  */
 
 typedef struct s_simple_cmd
 {
-	char **argv;
-	int fd_in;
-	int fd_out;
-	bool input_has_quotes;
+	char		**argv;
+	int			fd_in;
+	int			fd_out;
+	bool		input_has_quotes;
+	t_redirs	*redirs;
 } t_simple_cmd;
 
 /*
@@ -169,8 +182,8 @@ typedef struct s_simple_cmd
 
 typedef struct s_child
 {
-	struct s_node *left;
-	struct s_node *right;
+	struct s_node	*left;
+	struct s_node	*right;
 } t_child;
 
 /*
@@ -227,6 +240,7 @@ void ft_add_history(char *line);
 void ft_print_env(char **env);
 void ft_print_token(t_token *token);
 void disp_tree(t_node *tree, int lev);
+void	print_redir_list(t_redirs *redirs);
 
 /*
  * LEXER FUNCTIONS :
@@ -363,6 +377,10 @@ typedef struct s_expander
 	int		i_split;
 	int		dollar_index;
 }	t_expander;
+
+/*
+ * REDIR FUNCTIONS :
+*/
 
 bool	expansions_perform(t_node *ast);
 void	remove_quotes_from_argument(char **argv);

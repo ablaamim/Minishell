@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 17:37:03 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 15:43:22 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ t_node *ft_lexer_parser_program(char *line)
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
 	// printf("====================> DISPLAY TREE <========================\n\n");
-	// disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
+	disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
 	return (ast);
 }

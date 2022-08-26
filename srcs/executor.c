@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/21 17:41:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/26 14:16:04 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,13 +383,15 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 {
 	int fd[2];
+
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
 		if (execute_redirections(node) == true) // See exec_redirections.c
 		{
+			/*
 			if (node->type == PIPE_NODE)
 			{
-				if (pipe(fd) == ERR)
+				//if (pipe(fd) == ERR)
 					shell_exit(EXIT_FAILURE, strerror(errno));
 				ft_lstadd_front(pipe_, ft_lstnew(fd));
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
@@ -399,6 +401,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 				ft_exec_cmd(node, pipe_, exec_index, env);
 			else //if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
 				execute_command_list(node); // LOGICAL OPERATORS BONUS
+			*/
 		}
 		else
 			exit_value_set(EXIT_FAILURE);
