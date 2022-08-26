@@ -185,7 +185,7 @@ bool	open_redir_stream(char **argv, int *fd_in, int *fd_out, t_node *node)
 			++i;
 	}
 	print_redir_list(node->content.simple_cmd.redirs);
-	garbage_free((void **) &redir);
+	//garbage_free((void **) &redir);
 	return (true);
 }
 
