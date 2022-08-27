@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 19:45:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 22:11:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 	}
 }
 
-int ft_is_built_in(char *string)
+int	ft_is_built_in(char *string)
 {
 	int i;
 	char **built_ins;
@@ -119,7 +119,7 @@ int ft_is_built_in(char *string)
 	return (0);
 }
 
-int ft_argv_len(char **argv)
+int	ft_argv_len(char **argv)
 {
 	int i;
 
@@ -136,7 +136,7 @@ void ft_echo_iterator(char **args, int *k, int i)
 		(*k)++;
 }
 
-void ft_echo_print(char **args, int i, int j, int add_new_line)
+void	ft_echo_print(char **args, int i, int j, int add_new_line)
 {
 	while (args[i])
 	{
@@ -148,7 +148,7 @@ void ft_echo_print(char **args, int i, int j, int add_new_line)
 		printf("\n");
 }
 
-void ft_handle_echo(char **args)
+void	ft_handle_echo(char **args)
 {
 	int i;
 	int j;
@@ -175,7 +175,7 @@ void ft_handle_echo(char **args)
 // CASE IF ARGS == NULL, this functions displays env lol
 // [CASE CLOSED]
 
-void ft_handle_env(char **args, char **env, int *error)
+void	ft_handle_env(char **args, char **env, int *error)
 {
 	int i;
 
@@ -207,7 +207,7 @@ void ft_handle_env(char **args, char **env, int *error)
 	}
 }
 
-void ft_handle_pwd(void)
+void	ft_handle_pwd(void)
 {
 	char pwd[STATIC_BYTES];
 
@@ -235,7 +235,7 @@ int ft_isnumber(char *s)
 	return (1);
 }
 
-void ft_handle_exit(char **args)
+void	ft_handle_exit(char **args)
 {
 	int exit_status;
 
@@ -264,7 +264,7 @@ void ft_handle_exit(char **args)
  * built_in env works like a chrm now.
  */
 
-void ft_handle_built_ins(char **args, t_env *env, int *error)
+void	ft_handle_built_ins(char **args, t_env *env, int *error)
 {
 	if (!ft_strcmp(args[0], "env"))
 		ft_handle_env(args, *env, error);
@@ -274,7 +274,7 @@ void ft_handle_built_ins(char **args, t_env *env, int *error)
 		ft_handle_pwd();
 }
 
-int **ft_to_array(t_pipe **pipe)
+int	**ft_to_array(t_pipe **pipe)
 {
 	int i;
 	t_pipe *tmp;
@@ -298,7 +298,7 @@ int **ft_to_array(t_pipe **pipe)
 	return (arr);
 }
 
-void ft_free_to_array(t_pipe **pipe, int **arr)
+void	ft_free_to_array(t_pipe **pipe, int **arr)
 {
 	int i;
 
@@ -308,7 +308,7 @@ void ft_free_to_array(t_pipe **pipe, int **arr)
 	free(arr);
 }
 
-void ft_close_pipes(t_pipe *pipe, int **arr)
+void	ft_close_pipes(t_pipe *pipe, int **arr)
 {
 	int i;
 	int j;
@@ -337,7 +337,7 @@ int	heredoc_expander_testing(char *input)
 	garbage_free((void **) &doc);
 }
 */
-void ft_handle_redirections(t_redirs *redirs, t_node *node)
+void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
 	char *line;
 	char *tmp;
@@ -382,7 +382,7 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 	ft_handle_redirections(redirs->next, node);
 }
 
-void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
+void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
 	// t_redirs *n;
 
@@ -404,7 +404,7 @@ void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 		dup2(node->content.simple_cmd.fd_out, 1);
 }
 
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
+void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 {
 	char *bin_path;
 	char **argv;
@@ -426,20 +426,17 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	if (ret != EXIT_SUCCESS)
 		exit(ret);
-	// ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-	// if (ret != EXIT_SUCCESS)
-	// exit(ret);
 	if (execve(bin_path, argv, *env) == ERR)
 		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	garbage_free((void **)&bin_path);
 	exit(ret);
 }
 
-void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
+void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
-	int pid;
-	int **pipes;
-	int status;
+	int	pid;
+	int	**pipes;
+	int	status;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -453,16 +450,15 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		while (waitpid(pid, &status, WUNTRACED | WCONTINUED) > 0)
+		waitpid(pid, &status, 0x0);
+		while (waitpid(-1, &status, 0x0) > 0)
 		{
 			write(2, "", 0);
 			if (WIFEXITED(status))
 			{
-				//printf("STATUS = %d\n", status);
 				exit_value_set(WEXITSTATUS(status));
 				if (WEXITSTATUS(status) == 17)
 					exit_value_set(0x0);
-				//printf("STATUS = %d\n", WEXITSTATUS(status));
 			}
 		}
 		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
@@ -486,16 +482,12 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 
 void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 {
-	int fd[2];
+	int	fd[2];
 
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
-		// printf("===================== PARSE REDIRECTIONS ===================\n");
 		if (execute_redirections(node) == true) // See exec_redirections.c
 		{
-			// printf("=============== REDIRECTIONS PARSER FINISHED ===============\n");
-
-			// EXECUTION PHASE :
 			if (node->type == PIPE_NODE)
 			{
 				if (pipe(fd) == ERR)
@@ -504,12 +496,8 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
 				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
-			if (retrieve_len_array(node->content.simple_cmd.argv) == 1 && node->content.simple_cmd.argv[0][0] == '\0')
-				exit_value_set(EXIT_SUCCESS);
-			else //if (node->type == SIMPLE_CMD)
+			else if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
-			// else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
-			// execute_command_list(node); // LOGICAL OPERATORS BONUS
 		}
 		else
 			exit_value_set(EXIT_FAILURE);

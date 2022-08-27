@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:49:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 20:15:32 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 20:17:06 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token	*retrieve_before_matching_parenth(t_token *tok_lst)
 	return (NULL);
 }
 
-static bool	verify_errors_and_build_sub_tree(
+bool	verify_errors_and_build_sub_tree(
 		t_token **token_list, t_token **sub_token_list, t_node **subtree)
 {
 	if ((*token_list != NULL
@@ -62,7 +62,7 @@ static bool	verify_errors_and_build_sub_tree(
 	return (true);
 }
 
-static bool	devour_token_and_return_false(t_token **token_list)
+bool	devour_token_and_return_false(t_token **token_list)
 {
 	token_devour(token_list);
 	return (false);
