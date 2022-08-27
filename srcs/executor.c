@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 16:13:00 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 19:08:06 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,10 @@ void ft_handle_exit(char **args)
  * built_in env works like a chrm now.
  */
 
-void ft_handle_built_ins(char **args, char **env, int *error)
+void ft_handle_built_ins(char **args, t_env *env, int *error)
 {
 	if (!ft_strcmp(args[0], "env"))
-		ft_handle_env(args, env, error);
+		ft_handle_env(args, *env, error);
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
@@ -404,7 +404,7 @@ void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 		dup2(node->content.simple_cmd.fd_out, 1);
 }
 
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 {
 	char *bin_path;
 	char **argv;
@@ -429,16 +429,17 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
 	// ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	// if (ret != EXIT_SUCCESS)
 	// exit(ret);
-	if (execve(bin_path, argv, env) == ERR)
+	if (execve(bin_path, argv, *env) == ERR)
 		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	garbage_free((void **)&bin_path);
 	exit(ret);
 }
 
-void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
+void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
 	int pid;
 	int **pipes;
+	int status;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -452,8 +453,12 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		while (wait(NULL) > 0)
+		while (waitpid(pid, &status, WUNTRACED | WCONTINUED) > 0)
+		{
 			write(2, "", 0);
+			if (WIFEXITED(status))
+			exit_value_set(WEXITSTATUS(status));
+		}
 		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
 			ft_handle_exit(node->content.simple_cmd.argv);
 	}
@@ -461,7 +466,7 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 	(*exec_index)++;
 }
 
-int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
+int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
 	int error;
 
@@ -473,7 +478,7 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 		return (1);
 }
 
-void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 {
 	int fd[2];
 
@@ -493,7 +498,9 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
 				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
-			else if (node->type == SIMPLE_CMD)
+			if (retrieve_len_array(node->content.simple_cmd.argv) == 1 && node->content.simple_cmd.argv[0][0] == '\0')
+				exit_value_set(EXIT_SUCCESS);
+			else //if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
 			// else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
 			// execute_command_list(node); // LOGICAL OPERATORS BONUS
@@ -537,7 +544,7 @@ void ft_executor(char *line, char **env)
 		{
 			if (ast != 0x0)
 			{
-				ft_iterate_tree(ast, &pipe, &exec_init, *bash_env);
+				ft_iterate_tree(ast, &pipe, &exec_init, bash_env);
 				ft_free_pipes(&pipe);
 				ast_clearing(&ast); // FREE ABSTACT SYNTAX TREE.
 			}

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 15:42:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 18:33:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ typedef struct s_pipe
 	struct s_pipe	*next;
 }	t_pipe;
 
-void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env);
+//void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env);
 void set_exit_value(int exit_value);
 char *found_binary(char **argv);
 bool execute_redirections(t_node *node);
