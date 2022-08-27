@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:28:35 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 16:17:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:38:27 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 bool	verify_next_char(char c)
 {
-	//printf("verify_next_char -> verified\n");
 	return (c == '\0' || (ft_isalnum(c) == 0x0  && c != '?'));
 }
 
@@ -35,7 +34,6 @@ char	*new_argument(char **argv, int len_var_name, int i, char *var_val)
 	int		j;
 	int		k;
 
-	//printf("new_argument -> VAR IS NEW\n");
 	j = 0x0;
 	new_arg = allocate_new_argument(*argv, len_var_name, var_val);
 	while (j < i)
@@ -50,7 +48,6 @@ char	*new_argument(char **argv, int len_var_name, int i, char *var_val)
 	while ((*argv)[i] != '\0')
 		new_arg[j++] = (*argv)[i++];
 	new_arg[j] = '\0';
-	//garbage_free((void **) argv);
 	return (new_arg);
 }
 
@@ -67,7 +64,6 @@ bool	variable_expansion(t_simple_cmd *cmd, int const i)
 	{
 		if (cmd->argv[i][j] == '$' && in_squotes == false)
 		{
-			//printf("variable_expansion -> DOLLAR FOUND\n");
 			if (verify_next_char(cmd->argv[i][j + 1]) == true)
 				cmd->argv[i] = new_argument(&cmd->argv[i], 0, j++, "$");
 			else

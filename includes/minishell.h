@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 20:12:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:59:39 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,9 +237,9 @@ void ft_add_history(char *line);
  * Functions to debug and track states of output :
  */
 
-void ft_print_env(char **env);
-void ft_print_token(t_token *token);
-void disp_tree(t_node *tree, int lev);
+void	ft_print_env(char **env);
+void	ft_print_token(t_token *token);
+void	disp_tree(t_node *tree, int lev);
 void	print_redir_list(t_redirs *redirs);
 
 /*
@@ -403,6 +403,7 @@ int		get_len_variable_name(char *argument);
 char	*quotes_reversal(char *var_value);
 void	heredoc_expander(char **argv);
 void	get_variable_name_and_val(char *arg, char **var_name, char **var_val);
+bool	wildcards_expander(t_simple_cmd *cmd);
 
 /*
  * Env typedef and define :

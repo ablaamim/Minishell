@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 22:34:36 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:20:51 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	ft_is_built_in(char *string)
 	built_ins = ft_split("env pwd echo exit", ' ');
 	while (built_ins[i])
 	{
+		if (built_ins[0] == 0x0 || string == 0x0)
+			break ;
 		if (!ft_strcmp(built_ins[i], string))
 			return (1);
 		i++;
@@ -150,10 +152,10 @@ void	ft_echo_print(char **args, int i, int j, int add_new_line)
 
 void	ft_handle_echo(char **args)
 {
-	int i;
-	int j;
-	int add_new_line = 1;
-	int k;
+	int	i;
+	int	j;
+	int	add_new_line = 1;
+	int	k;
 
 	i = 1;
 	j = ft_argv_len(args);
@@ -177,11 +179,11 @@ void	ft_handle_echo(char **args)
 
 void	ft_handle_env(char **args, char **env, int *error)
 {
-	int i;
+	int	i;
 
 	i = 0x0;
 	if (*args == 0x0)
-		return;
+		return ;
 	/*
 	printf("ARGS = %s\n", *args);
 	if (!ft_strcmp(*args, "<") || !ft_strcmp(*args, ">") || ft_strcmp(*args, ">>") || ft_strcmp(*args, "<<"))
@@ -221,7 +223,7 @@ void	ft_handle_pwd(void)
 
 int ft_isnumber(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s[i] == '+' || s[i] == '-')
@@ -237,7 +239,7 @@ int ft_isnumber(char *s)
 
 void	ft_handle_exit(char **args)
 {
-	int exit_status;
+	int	exit_status;
 
 	exit_status = *retrieve_exit_status();
 	variadic_error_printer(2, "exit\n");
@@ -345,7 +347,7 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 	line = NULL;
 	tmp = ft_strdup("/tmp/");
 	if (redirs == NULL)
-		return;
+		return ;
 	else if (redirs->type == INPUT_REDIR)
 	{
 		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
@@ -367,6 +369,7 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 		node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
 		while (ft_strcmp(line, redirs->file_name))
 		{
+			printf("STRCMP = %d", ft_strcmp(line, redirs->file_name));
 			line = readline(">");
 			if (!ft_strcmp(line, redirs->file_name))
 				break;
@@ -379,15 +382,13 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 		close(node->content.simple_cmd.fd_in);
 		node->content.simple_cmd.fd_in = open(line, O_RDONLY);
 	}
+	printf("WHAT \n");
 	ft_handle_redirections(redirs->next, node);
 }
 
 void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
-	// t_redirs *n;
-
 	ft_handle_redirections(node->content.simple_cmd.redirs, node);
-	// printf("\n%d %d\n", node->content.simple_cmd.fd_in, node->content.simple_cmd.fd_out);
 	if (node->content.simple_cmd.fd_in == 0)
 	{
 		if (exec_index - 1 >= 0)
@@ -467,6 +468,8 @@ void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 					exit_value_set(0x0);
 			}
 		}
+		if (node->content.simple_cmd.argv[0] == 0x0)
+			return ;
 		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
 			ft_handle_exit(node->content.simple_cmd.argv);
 	}
@@ -474,7 +477,7 @@ void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	(*exec_index)++;
 }
 
-int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
+int	ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
 	int error;
 
@@ -486,7 +489,7 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		return (1);
 }
 
-void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
+void	ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 {
 	int	fd[2];
 
@@ -528,10 +531,10 @@ void ft_free_pipes(t_pipe **pipe)
 
 void ft_executor(char *line, char **env)
 {
-	t_node *ast;
-	t_env *bash_env;
-	t_pipe *pipe;
-	int exec_init;
+	t_node	*ast;
+	t_env	*bash_env;
+	t_pipe	*pipe;
+	int		exec_init;
 
 	ast = 0x0;
 	bash_env = get_bash_env();

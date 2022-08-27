@@ -6,14 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 02:37:29 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 02:37:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:27:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "leak_hunter.h"
 
 #undef	malloc
-#undef 	free
+#undef	free
 
 t_list	*lstlast(t_list *lst)
 {
@@ -33,7 +33,7 @@ void	lstadd_back(t_list **alst, t_list *new)
 		lstlast(*alst)->next = new;
 }
 
-t_list  *create_node(void *address, size_t size, size_t line, char *file)
+t_list	*create_node(void *address, size_t size, size_t line, char *file)
 {
 	t_list	*new;
 
@@ -47,7 +47,7 @@ t_list  *create_node(void *address, size_t size, size_t line, char *file)
 	return (new);
 }
 
-void    delete_node(t_list** head, void *key)
+void	delete_node(t_list** head, void *key)
 {
     t_list *tmp, *prev;
 

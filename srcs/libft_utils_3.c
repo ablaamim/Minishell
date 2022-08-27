@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:17:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 17:49:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 23:33:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,13 @@ int	ft_strncmp(const char	*s1, const char	*s2, size_t	n)
 	return (s1[i] - s2[i]);
 }
 
-char	*ft_strstr(const char	*big, const char	*little)
+char	*ft_strstr(const char *big, const char *little)
 {
 	size_t	i;
 	size_t	j;
 
+	if (little == 0x0 || big == 0x0)
+		return (0x0);
 	if (little[0] == '\0')
 		return ((char *) big);
 	j = 0x0;
@@ -71,6 +73,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	unsigned int	i;
 
+	if (s == 0x0)
+		return (0x0);
 	i = 0;
 	while (s[i])
 	{

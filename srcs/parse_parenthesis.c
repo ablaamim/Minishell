@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:49:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 20:17:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 22:57:16 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ bool	parenthesis_parser(t_token **token_list, t_node **ast)
 	t_node	*sub_tree;
 	t_token	*sub_token_list;
 
-	if ((*token_list)->next != NULL && (*token_list)->next->type == OP_PARENTH_TOKEN)
-
+	if ((*token_list)->next != NULL && (*token_list)->next->type == \
+			OP_PARENTH_TOKEN)
 		return (devour_token_and_return_false(token_list));
 	before_matching_parenth = retrieve_before_matching_parenth(*token_list);
 	token_devour(token_list);
@@ -88,7 +88,8 @@ bool	parenthesis_parser(t_token **token_list, t_node **ast)
 	*token_list = before_matching_parenth->next->next;
 	garbage_free((void **)&before_matching_parenth->next->data);
 	garbage_free((void **)&before_matching_parenth->next);
-	if (verify_errors_and_build_sub_tree(token_list, &sub_token_list, &sub_tree)
+	if (verify_errors_and_build_sub_tree(token_list, &sub_token_list, \
+				&sub_tree)
 		== false)
 		return (false);
 	tokens_clearing(&sub_token_list);
