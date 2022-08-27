@@ -12,46 +12,48 @@
 
 #include "../includes/minishell.h"
 
-static size_t	ft_get_digit(int n)
+static int	ft_number_len(long n)
 {
-	size_t	count;
+	int	len;
 
-	count = 0;
-	if (n == 0)
-		count++;
-	while (n != 0)
+	len = 0;
+	if (n < 0)
 	{
-		n /= 10 ;
-		count++;
+		n = n * -1;
+		len++;
 	}
-	return (count);
+	while (n > 0)
+	{
+		n = n / 10;
+		len++;
+	}
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	char		*nstr;
-	size_t		dgt;
-	long int	nb;
+	int		i;
+	char	*strnew;
 
-	nb = n;
-	dgt = ft_get_digit(n);
+	i = ft_number_len(n);
+	strnew = garbage_malloc(sizeof(char) * (i + 1));
+	strnew[i--] = '\0';
+	if (n == 0)
+		return (ft_strdup("0"));
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
 	if (n < 0)
 	{
-		nb *= -1;
-		dgt++;
+		strnew[0] = '-';
+		n *= -1;
 	}
-	nstr = (char *)malloc(sizeof(char) * (dgt + 1));
-	if (!nstr)
-		return (NULL);
-	nstr[dgt] = '\0';
-	while (dgt--)
+	while (n > 0)
 	{
-		nstr[dgt] = nb % 10 + '0';
-		nb /= 10 ;
+		strnew[i] = (n % 10) + '0';
+		n /= 10;
+		i--;
 	}
-	if (n < 0)
-		nstr [0] = '-';
-	return (nstr);
+	return (strnew);
 }
 
 int	ft_atoi(const char *s)
