@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 13:14:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 20:12:29 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,10 @@ bool	simple_command_parser(t_token **token_list, t_node **ast, \
 		bool is_subshell)
 {
 	t_node	*simple_command;
-/*
 	if ((*token_list)->type == CLOSE_PARENTH_TOKEN)
 		return (false);
 	else if ((*token_list)->type == OP_PARENTH_TOKEN)
-		return (false);
-*/
+		return (parenthesis_parser(token_list, ast));
 	if (identify_leaf((*token_list)->type) == false)
 		return (false);
 	simple_command = 0x0;

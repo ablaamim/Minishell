@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 19:08:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 19:45:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -457,7 +457,13 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		{
 			write(2, "", 0);
 			if (WIFEXITED(status))
-			exit_value_set(WEXITSTATUS(status));
+			{
+				//printf("STATUS = %d\n", status);
+				exit_value_set(WEXITSTATUS(status));
+				if (WEXITSTATUS(status) == 17)
+					exit_value_set(0x0);
+				//printf("STATUS = %d\n", WEXITSTATUS(status));
+			}
 		}
 		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
 			ft_handle_exit(node->content.simple_cmd.argv);

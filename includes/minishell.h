@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 18:33:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 20:12:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ bool identify_parenthesis(enum e_token_type type);
 bool convert_list_to_array(t_token **token_list, t_node *simple_cmd, bool is_subshell);
 bool printerror_and_falsify(bool is_subshell);
 bool check_errors(t_token *token_list);
+bool	parenthesis_parser(t_token **token_lst, t_node **ast);
 
 /*
  * Libft utils :
