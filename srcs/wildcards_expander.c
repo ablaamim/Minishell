@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 23:42:48 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 00:00:37 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 00:04:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	wildcards_expander(t_simple_cmd *cmd)
 	int	i;
 
 	i = 0x0;
-	printf("HANDLING WILDCARDS\n");
+	//printf("HANDLING WILDCARDS\n");
 	while (cmd->argv[i] != 0x0)
 	{
 		if (check_unquoted_char('*', cmd->argv[i]) == true)

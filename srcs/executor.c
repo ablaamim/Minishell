@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 23:20:51 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 00:10:27 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,11 @@
  *
  * /////////////////////////// TASKS /////////////////////////////////////////
  *
- * TO DO : export, unset, get appropriate exit status, redirections, bonus
- *
- * SAT review the redirections chi 9lwa zaglha fe logic, fix it labghiti, sinon ankmelha ana ghda.
- *
- * Also rah simple command handler kaysegfaulter meli kan executer logical aperators i'&&' wla '||' wla ';'
- * -> chekit f execution order machi accurate, muhim its up to you buddy!
- *
- * Khlit lik test cases li dwezt f tests.txt
- *
- * REVIEWED : exit, env, pwd, echo : works so well -> READY
- *
- * LEAKS : 0 LEAKS
+ * => EXEC && and ||
+ * => WILDCARDS + Expand WILDCARDS
+ * => EXPORT / UNSET / CD
+ * => Unit test
  */
-
-/*
- * mbistami new struct added in /includes/minishell.h
- */
-
-/*
-typedef struct s_pipe
-{
-	int	fd[2];
-	struct s_pipe *next;
-}t_pipe;
-*/
 
 int ft_lstsize(t_pipe *lst)
 {
@@ -184,14 +164,6 @@ void	ft_handle_env(char **args, char **env, int *error)
 	i = 0x0;
 	if (*args == 0x0)
 		return ;
-	/*
-	printf("ARGS = %s\n", *args);
-	if (!ft_strcmp(*args, "<") || !ft_strcmp(*args, ">") || ft_strcmp(*args, ">>") || ft_strcmp(*args, "<<"))
-	{
-		printf("==============> PROBLEM IN ENV FUNCTION !!!!\n");
-		exit(1);
-	}
-	*/
 	if (ft_argv_len(args) > 1)
 	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
@@ -324,21 +296,7 @@ void	ft_close_pipes(t_pipe *pipe, int **arr)
 		i++;
 	}
 }
-/*
-char	*heredoc_test(char *delim)
-{
-	char	*line;
-	char	*doc;
-}
 
-int	heredoc_expander_testing(char *input)
-{
-	char	*doc;
-	doc = heredoc(stream);
-	heredoc_expander(&doc);
-	garbage_free((void **) &doc);
-}
-*/
 void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
 	char *line;
@@ -353,8 +311,8 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
 		if (node->content.simple_cmd.fd_in == -1)
 		{
-			write(2, "ERROR FILE NOT FOUND\n", 21); // HANDLE PROPRE ERRORS SHOWING [ablaamim]
-			exit(1);
+			variadic_error_printer(2, "Error : file not found\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 	else if (redirs->type == OUTPUT_REDIR)
@@ -369,7 +327,6 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 		node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
 		while (ft_strcmp(line, redirs->file_name))
 		{
-			printf("STRCMP = %d", ft_strcmp(line, redirs->file_name));
 			line = readline(">");
 			if (!ft_strcmp(line, redirs->file_name))
 				break;
@@ -382,7 +339,6 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 		close(node->content.simple_cmd.fd_in);
 		node->content.simple_cmd.fd_in = open(line, O_RDONLY);
 	}
-	printf("WHAT \n");
 	ft_handle_redirections(redirs->next, node);
 }
 
@@ -451,19 +407,13 @@ void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		//exit_value_set(status);
-		//printf("STAT : %d\n", status);
-		//while (waitpid(-1, &status, 0) > 0)
 		while (waitpid(pid, &status, 0x0) > 0)
 		{
 			while(waitpid(-1, &status, 0x0) > 0);
-			//waitpid(-1, 0x0, 0x0);
 			write(2, "", 0);
 			if (WIFEXITED(status))
 			{
-				//printf("STAT = %d\n", status);
 				exit_value_set(WEXITSTATUS(status));
-				//printf("STAT : %d\n", WEXITSTATUS(status));
 				if (WEXITSTATUS(status) == 17)
 					exit_value_set(0x0);
 			}
