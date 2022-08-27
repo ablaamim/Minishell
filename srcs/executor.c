@@ -33,10 +33,10 @@
 
 /*
  * mbistami new struct added in /includes/minishell.h
-*/
+ */
 
 /*
-typedef struct s_pipe 
+typedef struct s_pipe
 {
 	int	fd[2];
 	struct s_pipe *next;
@@ -181,7 +181,7 @@ void ft_handle_env(char **args, char **env, int *error)
 
 	i = 0x0;
 	if (*args == 0x0)
-		return ;
+		return;
 	/*
 	printf("ARGS = %s\n", *args);
 	if (!ft_strcmp(*args, "<") || !ft_strcmp(*args, ">") || ft_strcmp(*args, ">>") || ft_strcmp(*args, "<<"))
@@ -214,7 +214,7 @@ void ft_handle_pwd(void)
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
 		variadic_error_printer(2, "error: pwd could not be found\n", ENV_ERROR);
-		return ;
+		return;
 	}
 	printf("%s\n", pwd);
 }
@@ -272,15 +272,13 @@ void ft_handle_built_ins(char **args, char **env, int *error)
 		ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
 		ft_handle_pwd();
-	else if (!ft_strcmp(args[0], "exit"))
-		ft_handle_exit(args);
 }
 
 int **ft_to_array(t_pipe **pipe)
 {
-	int		i;
-	t_pipe	*tmp;
-	int		**arr;
+	int i;
+	t_pipe *tmp;
+	int **arr;
 
 	arr = malloc(sizeof(int *) * ft_lstsize(*pipe));
 	if (!arr)
@@ -288,7 +286,7 @@ int **ft_to_array(t_pipe **pipe)
 	i = 0;
 	while (i < ft_lstsize(*pipe))
 		arr[i++] = malloc(sizeof(int) * 2);
-		i = 0;
+	i = 0;
 	tmp = *pipe;
 	while (tmp)
 	{
@@ -325,9 +323,50 @@ void ft_close_pipes(t_pipe *pipe, int **arr)
 	}
 }
 
-// -> free bin_path when command not found for no leaks : DONE !!
+void ft_handle_redirections(t_redirs *redirs, t_node *node)
+{
+	if (redirs == NULL)
+		return;
+	else if (redirs->type == INPUT_REDIR)
+	{
+		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
+		if (node->content.simple_cmd.fd_in == -1)
+		{
+			write(2, "ERROR FILE NOT FOUND\n", 21); // HANDLE PROPRE ERRORS SHOWING [ablaamim]
+			exit(1);
+		}
+	}
+	else if (redirs->type == OUTPUT_REDIR)
+	{
+		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
+	}
+	else if (redirs->type == APPEND_OUTPUT_REDIR)
+		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
+	ft_handle_redirections(redirs->next, node);
+}
 
-void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
+void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
+{
+	t_redirs *n;
+
+	ft_handle_redirections(node->content.simple_cmd.redirs, node);
+	if (node->content.simple_cmd.fd_in == 0)
+	{
+		if (exec_index - 1 >= 0)
+			dup2(pipes[exec_index - 1][0], 0);
+	}
+	else
+		dup2(node->content.simple_cmd.fd_in, 0);
+	if (node->content.simple_cmd.fd_out == 1)
+	{
+		if (exec_index < ft_lstsize(*pipe))
+			dup2(pipes[exec_index][1], 1);
+	}
+	else
+		dup2(node->content.simple_cmd.fd_out, 1);
+}
+
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
 {
 	char *bin_path;
 	char **argv;
@@ -335,23 +374,27 @@ void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
 	int **pipes;
 
 	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
+	pipes = ft_to_array(pipe);
+	ft_handle_dup2(node, pipe, pipes, exec_index);
+	ft_close_pipes(*pipe, pipes);
+	int error;
+	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
+	{
+		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
+		exit(10001);
+	}
 	argv = node->content.simple_cmd.argv;
 	bin_path = found_binary(argv);
 	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	if (ret != EXIT_SUCCESS)
 		exit(ret);
-	pipes = ft_to_array(pipe);
-	if (exec_index - 1 >= 0)
-		dup2(pipes[exec_index - 1][0], 0);
-	if (exec_index < ft_lstsize(*pipe))
-		dup2(pipes[exec_index][1], 1);
-	ft_close_pipes(*pipe, pipes);
-	//ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-	//if (ret != EXIT_SUCCESS)
-		//exit(ret);
+
+	// ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	// if (ret != EXIT_SUCCESS)
+	// exit(ret);
 	if (execve(bin_path, argv, env) == ERR)
 		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
-	garbage_free((void **) &bin_path);
+	garbage_free((void **)&bin_path);
 	exit(ret);
 }
 
@@ -362,7 +405,8 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
-	signal(SIGINT, signal_command); //ctrl+c in cat without redisplaying prompt two times should be managed.
+	signal(SIGINT, signal_command); // ctrl+c in cat without redisplaying prompt two times should be managed.
+
 	pid = fork();
 	if (pid == ERR)
 		shell_exit(EXIT_FAILURE, strerror(errno));
@@ -373,6 +417,8 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 		ft_close_pipes(*pipe, pipes);
 		while (wait(NULL) > 0)
 			write(2, "", 0);
+		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
+			ft_handle_exit(node->content.simple_cmd.argv);
 	}
 	ft_free_to_array(pipe, pipes);
 	(*exec_index)++;
@@ -383,10 +429,7 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, char **env)
 	int error;
 
 	error = 0;
-	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
-		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
-	else
-		ft_handle_cmd(node, pipe, exec_index, env);
+	ft_handle_cmd(node, pipe, exec_index, env);
 	if (error)
 		return (2);
 	else
@@ -399,10 +442,10 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 
 	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
 	{
-		printf("===================== PARSE REDIRECTIONS ===================\n");
+		// printf("===================== PARSE REDIRECTIONS ===================\n");
 		if (execute_redirections(node) == true) // See exec_redirections.c
 		{
-			printf("=============== REDIRECTIONS PARSER FINISHED ===============\n");
+			// printf("=============== REDIRECTIONS PARSER FINISHED ===============\n");
 
 			// EXECUTION PHASE :
 			if (node->type == PIPE_NODE)
@@ -415,7 +458,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 			}
 			else if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
-			else //if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
+			else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
 				execute_command_list(node); // LOGICAL OPERATORS BONUS
 		}
 		else
@@ -425,10 +468,10 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 		exit_value_set(EXIT_FAILURE);
 }
 
-void	ft_free_pipes(t_pipe **pipe)
+void ft_free_pipes(t_pipe **pipe)
 {
-	t_pipe	*p;
-	t_pipe	*tmp;
+	t_pipe *p;
+	t_pipe *tmp;
 
 	p = *pipe;
 	while (p)
@@ -441,10 +484,10 @@ void	ft_free_pipes(t_pipe **pipe)
 
 void ft_executor(char *line, char **env)
 {
-	t_node	*ast;
-	t_env	*bash_env;
-	t_pipe	*pipe;
-	int		exec_init;
+	t_node *ast;
+	t_env *bash_env;
+	t_pipe *pipe;
+	int exec_init;
 
 	ast = 0x0;
 	bash_env = get_bash_env();
