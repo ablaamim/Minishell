@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:28:35 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 15:26:24 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 16:17:21 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*new_argument(char **argv, int len_var_name, int i, char *var_val)
 	while ((*argv)[i] != '\0')
 		new_arg[j++] = (*argv)[i++];
 	new_arg[j] = '\0';
-	garbage_free((void **) argv);
+	//garbage_free((void **) argv);
 	return (new_arg);
 }
 

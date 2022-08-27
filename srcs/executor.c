@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 16:00:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 16:13:00 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,21 @@ void ft_close_pipes(t_pipe *pipe, int **arr)
 		i++;
 	}
 }
+/*
+char	*heredoc_test(char *delim)
+{
+	char	*line;
+	char	*doc;
+}
 
+int	heredoc_expander_testing(char *input)
+{
+	char	*doc;
+	doc = heredoc(stream);
+	heredoc_expander(&doc);
+	garbage_free((void **) &doc);
+}
+*/
 void ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
 	if (redirs == NULL)
@@ -343,6 +357,7 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 	else if (redirs->type == APPEND_OUTPUT_REDIR)
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
 	ft_handle_redirections(redirs->next, node);
+/*
 	if (redirs->type == HEREDOC_REDIR)
 	{
 		while (1)
@@ -351,9 +366,10 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 			if (line == 0x0)
 				exit(1);
 			heredoc_expander(&line);
-			printf("%s\n", line);
+			
 		}
 	}
+*/
 }
 
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
