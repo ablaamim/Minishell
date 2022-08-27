@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 22:11:11 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 22:34:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,13 +450,19 @@ void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		waitpid(pid, &status, 0x0);
-		while (waitpid(-1, &status, 0x0) > 0)
+		//exit_value_set(status);
+		//printf("STAT : %d\n", status);
+		//while (waitpid(-1, &status, 0) > 0)
+		while (waitpid(pid, &status, 0x0) > 0)
 		{
+			while(waitpid(-1, &status, 0x0) > 0);
+			//waitpid(-1, 0x0, 0x0);
 			write(2, "", 0);
 			if (WIFEXITED(status))
 			{
+				//printf("STAT = %d\n", status);
 				exit_value_set(WEXITSTATUS(status));
+				//printf("STAT : %d\n", WEXITSTATUS(status));
 				if (WEXITSTATUS(status) == 17)
 					exit_value_set(0x0);
 			}
