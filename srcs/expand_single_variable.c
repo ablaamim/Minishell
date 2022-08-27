@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:33:59 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 20:59:31 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:20:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ bool	expand_single_variable(t_simple_cmd *cmd, int const i, int *j, bool in_dquo
 		*j += ft_strlen(var_val);
 	}
 	garbage_free((void **) &var_name);
-	//if (*var_val != '\0')
-		//garbage_free((void **) &var_val);
+	if (*var_val != '\0')
+		garbage_free((void **) &var_val);
 	return (true);
 }

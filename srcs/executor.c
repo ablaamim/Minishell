@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 21:11:51 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:04:28 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void ft_handle_env(char **args, char **env, int *error)
 
 	i = 0x0;
 	if (*args == 0x0)
-		return;
+		return ;
 	/*
 	printf("ARGS = %s\n", *args);
 	if (!ft_strcmp(*args, "<") || !ft_strcmp(*args, ">") || ft_strcmp(*args, ">>") || ft_strcmp(*args, "<<"))
@@ -347,7 +347,7 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
-	t_redirs *n;
+	//t_redirs *n;
 
 	ft_handle_redirections(node->content.simple_cmd.redirs, node);
 	if (node->content.simple_cmd.fd_in == 0)
@@ -458,8 +458,8 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 			}
 			else if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
-			else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
-				execute_command_list(node); // LOGICAL OPERATORS BONUS
+			//else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
+				//execute_command_list(node); // LOGICAL OPERATORS BONUS
 		}
 		else
 			exit_value_set(EXIT_FAILURE);
