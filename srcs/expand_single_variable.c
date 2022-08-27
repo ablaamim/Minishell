@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:33:59 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 15:20:46 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:25:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_variable_name(char *argument)
 	var_name = garbage_malloc(sizeof(*var_name) * (get_len_variable_name(argument + i) + 1));
 	while ((ft_isalnum(argument[i]) != 0x0 || argument[i] == '_') && argument[i] != '\0')
 	{
-		printf("SALAM\n");
+		//printf("SALAM\n");
 		var_name[j] = argument[i];
 		++i;
 		++j;
