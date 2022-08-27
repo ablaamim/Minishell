@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:54:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/20 16:13:40 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:38:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*retrieve_after_variable(char *str, int dollar_index)
 	char	*ptr;
 
 	ptr = str + dollar_index + 1;
-	while (ft_isalnum(*ptr) == 1 || *ptr == '_')
+	while (ft_isalnum(*ptr) == 1)
 		++ptr;
 	return (ptr);
 }

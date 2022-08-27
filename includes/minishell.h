@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 15:16:39 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/27 15:42:20 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,6 +400,8 @@ void	array_free(char ***array);
 char	*get_variable_name(char *argument);
 int		get_len_variable_name(char *argument);
 char	*quotes_reversal(char *var_value);
+void	heredoc_expander(char **argv);
+void	get_variable_name_and_val(char *arg, char **var_name, char **var_val);
 
 /*
  * Env typedef and define :
