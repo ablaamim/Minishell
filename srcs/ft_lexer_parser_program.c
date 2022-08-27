@@ -53,7 +53,7 @@ t_node *ft_lexer_parser_program(char *line)
 		{
 			if (token_list != 0x0)
 				variadic_error_printer(2, "Minishell : Syntax error near unexpected token %s\n", token_list->data);
-			exit_value_set(SYNTAX_ERROR_EXIT);
+			exit_value_set(258);
 			ast_clearing(&ast);
 		}
 	}
