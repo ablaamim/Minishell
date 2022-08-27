@@ -181,7 +181,7 @@ void ft_handle_env(char **args, char **env, int *error)
 
 	i = 0x0;
 	if (*args == 0x0)
-		return ;
+		return;
 	/*
 	printf("ARGS = %s\n", *args);
 	if (!ft_strcmp(*args, "<") || !ft_strcmp(*args, ">") || ft_strcmp(*args, ">>") || ft_strcmp(*args, "<<"))
@@ -339,6 +339,11 @@ int	heredoc_expander_testing(char *input)
 */
 void ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
+	char *line;
+	char *tmp;
+
+	line = NULL;
+	tmp = ft_strdup("/tmp/");
 	if (redirs == NULL)
 		return;
 	else if (redirs->type == INPUT_REDIR)
@@ -356,27 +361,33 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 	}
 	else if (redirs->type == APPEND_OUTPUT_REDIR)
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
-	ft_handle_redirections(redirs->next, node);
-/*
-	if (redirs->type == HEREDOC_REDIR)
+	else if (redirs->type == HEREDOC_REDIR)
 	{
-		while (1)
+		line = ft_strjoin(tmp, redirs->file_name, "");
+		node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
+		while (ft_strcmp(line, redirs->file_name))
 		{
-			char *line = readline("$>heredoc");
-			if (line == 0x0)
-				exit(1);
+			line = readline(">");
+			if (!ft_strcmp(line, redirs->file_name))
+				break;
 			heredoc_expander(&line);
-			
+			write(node->content.simple_cmd.fd_in, line, ft_strlen(line));
+			write(node->content.simple_cmd.fd_in, "\n", 1);
 		}
+		free(line);
+		line = ft_strjoin(tmp, redirs->file_name, "");
+		close(node->content.simple_cmd.fd_in);
+		node->content.simple_cmd.fd_in = open(line, O_RDONLY);
 	}
-*/
+	ft_handle_redirections(redirs->next, node);
 }
 
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
-	//t_redirs *n;
+	// t_redirs *n;
 
 	ft_handle_redirections(node->content.simple_cmd.redirs, node);
+	// printf("\n%d %d\n", node->content.simple_cmd.fd_in, node->content.simple_cmd.fd_out);
 	if (node->content.simple_cmd.fd_in == 0)
 	{
 		if (exec_index - 1 >= 0)
@@ -415,7 +426,6 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, char **env)
 	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	if (ret != EXIT_SUCCESS)
 		exit(ret);
-
 	// ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
 	// if (ret != EXIT_SUCCESS)
 	// exit(ret);
@@ -485,8 +495,8 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, char **env)
 			}
 			else if (node->type == SIMPLE_CMD)
 				ft_exec_cmd(node, pipe_, exec_index, env);
-			//else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
-				//execute_command_list(node); // LOGICAL OPERATORS BONUS
+			// else							// if (node->type == AND_NODE || node->type == OR_NODE || node->type == SEMICO_NODE)
+			// execute_command_list(node); // LOGICAL OPERATORS BONUS
 		}
 		else
 			exit_value_set(EXIT_FAILURE);
