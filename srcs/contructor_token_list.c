@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:48:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/18 23:37:12 by root             ###   ########.fr       */
+/*   Updated: 2022/08/28 11:15:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ t_token	*tokenize_word(char *in_characters, int *i)
 	if (in_characters[*i + j] == '\0'\
 			&& (s_quotes_found == true || d_quotes_found == true))
 	{
-		variadic_error_printer(2, "\nMinishell : Syntax error: Unexpected end of file.\n");
+		variadic_error_printer(2, \
+				"Minishell : Syntax error: Unexpected end of file.\n");
 		free(data);
 		return (NULL);
 	}

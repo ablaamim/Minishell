@@ -6,18 +6,19 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:33:59 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 15:25:35 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 11:37:33 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		get_len_variable_name(char *argument)
+int	get_len_variable_name(char *argument)
 {
 	int	len;
 
 	len = 0x0;
-	while ((ft_isalnum(argument[len]) != 0x0 || argument[len] == '_') || argument[len] != '\0')
+	while ((ft_isalnum(argument[len]) != 0x0 || argument[len] == '_') || \
+			argument[len] != '\0')
 		++len;
 	return (len);
 }
@@ -30,10 +31,11 @@ char	*get_variable_name(char *argument)
 
 	i = 1;
 	j = 0;
-	var_name = garbage_malloc(sizeof(*var_name) * (get_len_variable_name(argument + i) + 1));
-	while ((ft_isalnum(argument[i]) != 0x0 || argument[i] == '_') && argument[i] != '\0')
+	var_name = garbage_malloc(sizeof(*var_name) * \
+			(get_len_variable_name(argument + i) + 1));
+	while ((ft_isalnum(argument[i]) != 0x0 || argument[i] == '_') && \
+			argument[i] != '\0')
 	{
-		//printf("SALAM\n");
 		var_name[j] = argument[i];
 		++i;
 		++j;
@@ -51,7 +53,7 @@ char	*quotes_reversal(char *var_value)
 	if (var_value == 0x0)
 		return (0x0);
 	str = garbage_malloc(sizeof(*str) * (ft_strlen(var_value) + 1));
-	while(var_value[i] != '\0')
+	while (var_value[i] != '\0')
 	{
 		if (var_value[i] == '\'' || var_value[i] == '"')
 			str[i] = -var_value[i];
@@ -79,13 +81,15 @@ void	get_variable_name_and_val(char *arg, char **var_name, char **var_val)
 	}
 }
 
-bool	expand_single_variable(t_simple_cmd *cmd, int const i, int *j, bool in_dquotes)
+bool	expand_single_variable(t_simple_cmd *cmd, int const i, int *j, \
+		bool in_dquotes)
 {
 	char	*var_name;
 	char	*var_val;
 
-	get_variable_name_and_val(&cmd->argv[i][*j], &var_name, &var_val); // SEGV SOLVED
-	if (in_dquotes == false && var_val != 0x0 && *var_val != '\0' && has_space(var_val) == true)
+	get_variable_name_and_val(&cmd->argv[i][*j], &var_name, &var_val);
+	if (in_dquotes == false && var_val != 0x0 && *var_val != '\0' && \
+			has_space(var_val) == true)
 	{
 		if (ft_reallocate_arg(cmd, i, j, var_val) == false)
 		{
@@ -97,7 +101,8 @@ bool	expand_single_variable(t_simple_cmd *cmd, int const i, int *j, bool in_dquo
 	}
 	else
 	{
-		cmd->argv[i] = new_argument(&cmd->argv[i], ft_strlen(var_name), *j, var_val);
+		cmd->argv[i] = new_argument(&cmd->argv[i], ft_strlen(var_name), \
+				*j, var_val);
 		*j += ft_strlen(var_val);
 	}
 	garbage_free((void **) &var_name);

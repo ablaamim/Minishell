@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:34:20 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 23:33:59 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:11:33 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_putendl(char *s)
 
 	i = 0x0;
 	if (!s)
-		return;
+		return ;
 	while (s[i])
 	{
 		write(1, &s[i], 1);
@@ -31,8 +31,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
-	//if (s1 == 0x0 || s2 == 0x0)
-		//return (0x0);
 	i = 0x0;
 	while (s2[i] && s1[i] && s1[i] == s2[i])
 		i++;

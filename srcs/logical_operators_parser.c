@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 11:38:25 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/29 17:44:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:12:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	logical_operators_parser(t_token **token_list, t_node **ast, \
 	node_separator = 0x0;
 	node_separator = garbage_malloc(sizeof(*node_separator));
 	ft_bzero(node_separator, sizeof(*node_separator));
-	node_separator->type = (enum e_node_type) ((*token_list)->type);
+	node_separator->type = (enum e_node_type)((*token_list)->type);
 	node_separator->content.child.left = *ast;
 	*ast = node_separator;
 	token_devour(token_list);

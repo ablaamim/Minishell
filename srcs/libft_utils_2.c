@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 17:20:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:36:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:10:13 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ft_isalnum(int c)
 		return (1);
 	return (0);
 }
-
 
 int	ft_striter(char *str, int (*function) (int))
 {
@@ -47,7 +46,8 @@ char	*ft_stringjoin(char const *s1, char const *s2)
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
-	joined = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	joined = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * \
+			sizeof(char));
 	if (joined == NULL)
 		return (NULL);
 	i = 0;

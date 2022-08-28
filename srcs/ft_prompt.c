@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/21 12:32:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:07:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 char	*read_line(void)
 {
-	char *line;
+	char	*line;
 
 	line = readline("Mini Hell-v2.0$\033[0;31m>\033[0;37m");
 	add_history(line);
@@ -75,13 +75,12 @@ void	signal_command_child(int sig)
  * -> free line.
  */
 
-void ft_minishell(char **env)
+void	ft_minishell(char **env)
 {
-	char *line;
+	char	*line;
 
 	while (1337)
 	{
-		// atexit(leak_report); //function to check leaks
 		line = read_line();
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);

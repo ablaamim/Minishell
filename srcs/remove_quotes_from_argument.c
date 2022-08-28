@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:50:53 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 18:03:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:18:43 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ static int	calculate_len_without_quotes(char *str)
 	in_squotes = false;
 	while (str[i] != 0x0)
 	{
-		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' && in_squotes == false))
+		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' \
+					&& in_squotes == false))
 			substitute_quotes_state(str[i], &in_squotes, &in_dquotes);
 		else
 			++len;
 		++i;
 	}
-	//printf("==> len without quotes : %d\n", len);
 	return (len);
 }
 
@@ -77,16 +77,17 @@ static char	*remove_quotes(char *str)
 	in_squotes = false;
 	i = 0x0;
 	j = 0x0;
-	without_quotes = garbage_malloc(sizeof(*without_quotes) * (calculate_len_without_quotes(str) + 0x1));
+	without_quotes = garbage_malloc(sizeof(*without_quotes) * \
+			(calculate_len_without_quotes(str) + 0x1));
 	while (str[i] != 0x0)
 	{
-		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' && in_squotes == false))
+		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' && \
+					in_squotes == false))
 			substitute_quotes_state(str[i], &in_squotes, &in_dquotes);
 		else
 			without_quotes[j++] = str[i];
 		++i;
 	}
-	//printf("===> without_quotes : %s\n", without_quotes);
 	quotes_restore(without_quotes);
 	return (without_quotes);
 }

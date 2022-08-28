@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:17:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 23:33:56 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:10:54 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	retrieve_len_array(char **array)
 	return (len);
 }
 
-int	ft_putstr_fd(char const	*s, int	fd)
+int	ft_putstr_fd(char const *s, int fd)
 {
 	int	len;
 
@@ -62,7 +62,7 @@ char	*ft_strstr(const char *big, const char *little)
 			while (little[i] != '\0' && big[j + i] == little[i])
 				++i;
 			if (little[i] == '\0')
-				return((char *)&big[j]);
+				return ((char *)&big[j]);
 		}
 		j++;
 	}

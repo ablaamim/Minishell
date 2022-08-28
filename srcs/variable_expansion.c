@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:28:35 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 23:38:27 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:26:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 bool	verify_next_char(char c)
 {
-	return (c == '\0' || (ft_isalnum(c) == 0x0  && c != '?'));
+	return (c == '\0' || (ft_isalnum(c) == 0x0 && c != '?'));
 }
 
-char		*allocate_new_argument(char *arg, int len_var_name, char *var_val)
+char	*allocate_new_argument(char *arg, int len_var_name, char *var_val)
 {
 	char	*new_arg;
 	int		len_var_val;
 
-	
 	len_var_val = ft_strlen(var_val);
-	new_arg = garbage_malloc(sizeof(*new_arg) * (ft_strlen(arg) - len_var_name + len_var_val));
+	new_arg = garbage_malloc(sizeof(*new_arg) * (ft_strlen(arg) - \
+				len_var_name + len_var_val));
 	return (new_arg);
 }
 

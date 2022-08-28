@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:20:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 19:43:39 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:09:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*ft_strndup(const char *str, size_t n)
 	max_len = ft_strnlen(str, n);
 	new = 0x0;
 	new = garbage_malloc(sizeof(*str) * (max_len + 1));
-	* (new + max_len) = '\0';
+	*(new + max_len) = '\0';
 	return (ft_memcpy(new, str, max_len));
 }
 

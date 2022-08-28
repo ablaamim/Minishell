@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 15:29:19 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 15:59:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:08:35 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	heredoc_expander(char **argv)
 				*argv = new_argument(argv, 0x0, i++, "$");
 			else
 			{
-				get_variable_name_and_val(*argv + i, &variable_name, &variable_value);
-				*argv = new_argument(argv, ft_strlen(variable_name), i, variable_value);
+				get_variable_name_and_val(*argv + i, &variable_name, \
+						&variable_value);
+				*argv = new_argument(argv, ft_strlen(variable_name), \
+						i, variable_value);
 				i += ft_strlen(variable_value);
 				garbage_free((void **) &variable_name);
-				//if (*variable_value == '\0')
-					//garbage_free((void **) &variable_value);
 			}
 		}
 		else

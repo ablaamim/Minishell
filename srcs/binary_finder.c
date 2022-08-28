@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 18:22:47 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/19 21:39:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 11:14:15 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,12 @@ char	*bin_path_getter(char *binary)
 	struct stat	buff;
 
 	i = 0x0;
-	//printf("ALLO ZAML BOK\n");
 	paths = ft_split(get_env("PATH"), ':');
-	//printf("\n\n\n");
-	//ft_print_env(paths);
-	//printf("\n\n\n");
 	if (paths == 0x0)
 		return (0x0);
 	while (paths[i])
 	{
 		binary_path = ft_strjoin(paths[i], binary, "/");
-		//printf("==> binary_path : %s\n", binary_path);
 		if (stat(binary_path, &buff) == 0x0)
 		{
 			ft_free_arrays(paths);
@@ -80,7 +75,7 @@ char	*bin_path_getter(char *binary)
 char	*found_binary(char **argv)
 {
 	if (ft_strstr(argv[0], "./") != 0x0)
-		return(get_true_file_path(argv[0x0]));
+		return (get_true_file_path(argv[0x0]));
 	if (ft_strchr(argv[0], '/') != 0x0)
 		return (ft_strdup(argv[0x0]));
 	else

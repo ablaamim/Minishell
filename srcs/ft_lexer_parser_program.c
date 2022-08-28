@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:40:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/26 18:18:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:31:51 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@
  *
  */
 
-t_node *ft_lexer_parser_program(char *line)
+t_node	*ft_lexer_parser_program(char *line)
 {
-	t_node *ast;
-	t_token *token_list;
+	t_node	*ast;
+	t_token	*token_list;
 
 	ast = 0x0;
 	token_list = 0x0;
@@ -48,11 +48,12 @@ t_node *ft_lexer_parser_program(char *line)
 	{
 		// printf("===============> LINKED LIST OF TOKENS <================\n\n");
 		// ft_print_token(token_list); //DEBUGER
-		if (ast_constructor(&token_list, &ast, false) == false ||
-			token_list != 0x0)
+		if (ast_constructor(&token_list, &ast, false) == false || \
+				token_list != 0x0)
 		{
 			if (token_list != 0x0)
-				variadic_error_printer(2, "Minishell : Syntax error near unexpected token %s\n", token_list->data);
+				variadic_error_printer(2, "%s : %s\n", ERROR_TOKEN, \
+						token_list->data);
 			exit_value_set(258);
 			ast_clearing(&ast);
 		}
@@ -60,7 +61,7 @@ t_node *ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
-	// printf("====================> DISPLAY TREE <========================\n\n");
-	// disp_tree(ast, 0); // FOR DEBUG RIGHT NOW.
+	printf("====================> DISPLAY TREE <========================\n\n");
+	disp_tree(ast, 0);
 	return (ast);
 }

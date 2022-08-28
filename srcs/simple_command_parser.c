@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 20:12:29 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:21:15 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	printerror_and_falsify(bool is_subshell)
 		variadic_error_printer(2, ERROR_TOKEN);
 	else
 		variadic_error_printer(2, ERROR_TOKEN);
-	return(false);
+	return (false);
 }
 
 /*
@@ -54,19 +54,19 @@ bool	convert_list_to_array(t_token **token_list, t_node \
 	int	i;
 
 	i = 0x0;
-	simple_command->content.simple_cmd.argv = garbage_malloc(sizeof(char *) * 
+	simple_command->content.simple_cmd.argv = garbage_malloc(sizeof(char *) * \
 			((calculate_number_of_args(*token_list) + 1)));
-	ft_bzero(simple_command->content.simple_cmd.argv,
+	ft_bzero(simple_command->content.simple_cmd.argv, \
 			sizeof(simple_command->content.simple_cmd.argv));
 	while (*token_list != 0x0 && identify_leaf((*token_list)->type) == true)
 	{
-		if (identify_redirection((*token_list)->type) == true &&\
+		if (identify_redirection((*token_list)->type) == true && \
 				((*token_list)->next == 0x0 || (*token_list)->next->type \
 				!= WORD_TOKEN))
 		{
 			token_devour(token_list);
 			if (*token_list == 0x0)
-				return(printerror_and_falsify(is_subshell));
+				return (printerror_and_falsify(is_subshell));
 			if ((*token_list)->type != WORD_TOKEN)
 				return (false);
 		}
@@ -93,6 +93,7 @@ bool	simple_command_parser(t_token **token_list, t_node **ast, \
 		bool is_subshell)
 {
 	t_node	*simple_command;
+
 	if ((*token_list)->type == CLOSE_PARENTH_TOKEN)
 		return (false);
 	else if ((*token_list)->type == OP_PARENTH_TOKEN)

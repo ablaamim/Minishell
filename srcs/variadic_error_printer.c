@@ -6,13 +6,13 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 13:08:57 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 15:47:04 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:26:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	variadic_error_printer(int	fd, const char	*fmt, ...)
+int	variadic_error_printer(int fd, const char *fmt, ...)
 {
 	int		len;
 	char	*s;

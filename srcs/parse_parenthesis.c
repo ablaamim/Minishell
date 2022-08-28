@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 19:49:52 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 22:57:16 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:17:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,34 +68,31 @@ bool	devour_token_and_return_false(t_token **token_list)
 	return (false);
 }
 
-bool	parenthesis_parser(t_token **token_list, t_node **ast)
+bool	parenthesis_parser(t_token **tkn_lst, t_node **ast)
 {
 	t_token	*before_matching_parenth;
 	t_node	*sub_tree;
 	t_token	*sub_token_list;
 
-	if ((*token_list)->next != NULL && (*token_list)->next->type == \
-			OP_PARENTH_TOKEN)
-		return (devour_token_and_return_false(token_list));
-	before_matching_parenth = retrieve_before_matching_parenth(*token_list);
-	token_devour(token_list);
+	if ((*tkn_lst)->next != NULL && (*tkn_lst)->next->type == OP_PARENTH_TOKEN)
+		return (devour_token_and_return_false(tkn_lst));
+	before_matching_parenth = retrieve_before_matching_parenth(*tkn_lst);
+	token_devour(tkn_lst);
 	if (before_matching_parenth == NULL)
 	{
-		tokens_clearing(token_list);
-		return (display_error_and_return(*token_list));
+		tokens_clearing(tkn_lst);
+		return (display_error_and_return(*tkn_lst));
 	}
-	sub_token_list = *token_list;
-	*token_list = before_matching_parenth->next->next;
+	sub_token_list = *tkn_lst;
+	*tkn_lst = before_matching_parenth->next->next;
 	garbage_free((void **)&before_matching_parenth->next->data);
 	garbage_free((void **)&before_matching_parenth->next);
-	if (verify_errors_and_build_sub_tree(token_list, &sub_token_list, \
-				&sub_tree)
+	if (verify_errors_and_build_sub_tree(tkn_lst, &sub_token_list, &sub_tree)
 		== false)
 		return (false);
 	tokens_clearing(&sub_token_list);
 	*ast = sub_tree;
-	if (*token_list != NULL && (*token_list)->type == PIPE_TOKEN)
+	if (*tkn_lst != NULL && (*tkn_lst)->type == PIPE_TOKEN)
 		return (false);
 	return (true);
 }
-

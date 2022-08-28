@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 23:42:48 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 00:04:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:28:56 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,13 @@ bool	check_unquoted_char(char c, char *argument)
 
 bool	wildcards_expander(t_simple_cmd *cmd)
 {
-	//char	**array_of_wildcards;
 	int	i;
 
 	i = 0x0;
-	//printf("HANDLING WILDCARDS\n");
 	while (cmd->argv[i] != 0x0)
 	{
 		if (check_unquoted_char('*', cmd->argv[i]) == true)
-			return(true);
+			return (true);
 		++i;
 	}
 	return (true);

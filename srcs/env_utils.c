@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/09 18:57:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 11:34:43 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 */
 
 void	ft_set_env_var(const char	*name, const char	*val, \
-		int	replace)
+		int replace)
 {
 	int		i;
 	t_env	*env;

@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/08/28 00:00:18 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/08/28 11:39:03 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,8 +74,6 @@ SRC = ./srcs/debug.c \
 	  ./srcs/libft_utils_5.c \
 	  ./srcs/expander_utils_2.c \
 	  ./srcs/expander_utils.c \
-	  ./srcs/exec_output_redirection.c \
-	  ./srcs/exec_input_redirection.c \
 	  ./srcs/heredoc_expander.c \
 	  ./srcs/parse_parenthesis.c \
 	  ./srcs/wildcards_expander.c \

@@ -6,13 +6,13 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 12:48:04 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/06/19 14:40:25 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/28 12:08:11 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	garbage_exit(int	status, char *msg)
+void	garbage_exit(int status, char *msg)
 {
 	if (msg != 0x0)
 	{
