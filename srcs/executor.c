@@ -445,6 +445,27 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		return (1);
 }
 
+void ft_free_pipes(t_pipe **pipe)
+{
+	t_pipe *p;
+	t_pipe *tmp;
+
+	p = *pipe;
+	while (p)
+	{
+		tmp = p->next;
+		free(p);
+		p = tmp;
+	}
+}
+
+void ft_handle_reset(t_pipe **pipe, int *exec_index)
+{
+	ft_free_pipes(pipe);
+	*pipe = NULL;
+	*exec_index = 0;
+}
+
 void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 {
 	int fd[2];
@@ -467,21 +488,21 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 			else if (node->type == OR_NODE)
 			{
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
-				*exec_index = 0;
+				ft_handle_reset(pipe_, exec_index);
 				if (*retrieve_exit_status() != 0)
 					ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
 			else if (node->type == AND_NODE)
 			{
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
-				*exec_index = 0;
+				ft_handle_reset(pipe_, exec_index);
 				if (*retrieve_exit_status() == 0)
 					ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
 			else if (node->type == SEMICO_NODE)
 			{
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
-				*exec_index = 0;
+				ft_handle_reset(pipe_, exec_index);
 				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
 		}
@@ -490,20 +511,6 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 	}
 	else
 		exit_value_set(EXIT_FAILURE);
-}
-
-void ft_free_pipes(t_pipe **pipe)
-{
-	t_pipe *p;
-	t_pipe *tmp;
-
-	p = *pipe;
-	while (p)
-	{
-		tmp = p->next;
-		free(p);
-		p = tmp;
-	}
 }
 
 void ft_executor(char *line, char **env)

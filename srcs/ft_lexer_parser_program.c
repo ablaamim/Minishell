@@ -61,7 +61,7 @@ t_node *ft_lexer_parser_program(char *line)
 	else
 		exit_value_set(SYNTAX_ERROR_EXIT);
 	tokens_clearing(&token_list);
-	// printf("====================> DISPLAY TREE <========================\n\n");
-	// disp_tree(ast, 0);
+	printf("====================> DISPLAY TREE <========================\n\n");
+	disp_tree(ast, 0);
 	return (ast);
 }
