@@ -359,8 +359,10 @@ int					manage_error(char *binary_path, char *cmd, char *error, \
 		int exit_val);
 void				execute_command_list(t_node *node);
 void				signal_command_child(int sig);
-int					exec_input_redirection(char *input);
-int					exec_output_redirection(char **input);
+void				print_redir_list(t_redirs *redir);
+t_redirs			*redirection_generator(void);
+void				redir_appender(t_redirs *new_redir, t_redirs **lst_redir);
+t_redirs			*redirs_help_manager(char **args, int *fd_out, t_redirs *redir);
 
 /*
  * EXPANSIONS PERFOMER :

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 21:11:38 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/29 12:50:26 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/29 13:44:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,59 +26,6 @@ bool	parse_redirection(char *argument)
 			ft_strcmp("<<", argument) == 0x0);
 }
 
-t_redirs	*redirection_generator(void)
-{
-	t_redirs	*new_redir;
-
-	new_redir = garbage_malloc(sizeof(*new_redir));
-	new_redir->fd[0] = 0x0;
-	new_redir->fd[1] = 0x1;
-	new_redir->type = 0x0;
-	new_redir->file_name = 0x0;
-	new_redir->next = 0x0;
-	return (new_redir);
-}
-
-void	redir_appender(t_redirs *new_redir, t_redirs **lst_redir)
-{
-	t_redirs	*current;
-
-	if (*lst_redir == 0x0)
-		*lst_redir = new_redir;
-	else
-	{
-		current = *lst_redir;
-		while (current->next)
-			current = current->next;
-		current->next = new_redir;
-		new_redir->next = NULL;
-	}
-}
-
-void	print_redir_list(t_redirs *redir)
-{
-	t_redirs	*current;
-
-	current = redir;
-	if (current == 0x0)
-		printf("THERE IS NO REDIR IN CMD\n");
-	while (current)
-	{
-		if (current->type == INPUT_REDIR)
-			printf("TYPE = INPUT REDIR | ");
-		else if (current->type == OUTPUT_REDIR)
-			printf("TYPE = OUTPUT REDIR | ");
-		else if (current->type == HEREDOC_REDIR)
-			printf("TYPE = HEREDOC REDIR | ");
-		else
-			printf("TYPE = APPEND REDIR | ");
-		printf("FILE NAME = %s |", current->file_name);
-		if (current->next == 0x0)
-			printf("-->NULL\n");
-		current = current->next;
-	}
-}
-
 t_redirs	*redirections_manager(char **args, int *fd_in, int *fd_out, \
 		t_node *node)
 {
@@ -88,9 +35,9 @@ t_redirs	*redirections_manager(char **args, int *fd_in, int *fd_out, \
 	redir = 0x0;
 	if (strcmp("<", *args) == 0x0)
 	{
-		redir = redirection_generator();
 		if (*fd_in != 0)
 			close(*fd_in);
+		redir = redirection_generator();
 		redir->type = INPUT_REDIR;
 		redir->file_name = *(args + 1);
 	}
@@ -98,25 +45,12 @@ t_redirs	*redirections_manager(char **args, int *fd_in, int *fd_out, \
 	{
 		if (*fd_in != 0)
 			close(*fd_in);
+		redir = redirection_generator();
 		redir->type = HEREDOC_REDIR;
 		redir->file_name = *(args + 1);
 	}
-	else if (ft_strcmp(">", *args) == 0x0)
-	{
-		if (*fd_out != 1)
-			close(*fd_out);
-		redir = redirection_generator();
-		redir->type = OUTPUT_REDIR;
-		redir->file_name = *(args + 1);
-	}
-	else if (ft_strcmp(">>", *args) == 0x0)
-	{
-		if (*fd_out != 1)
-			close(*fd_out);
-		redir = redirection_generator();
-		redir->type = APPEND_OUTPUT_REDIR;
-		redir->file_name = *(args + 1);
-	}
+	else
+		redir = redirs_help_manager(args, fd_out, redir);
 	return (redir);
 }
 
