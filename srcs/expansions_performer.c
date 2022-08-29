@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:31:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/27 23:42:37 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/29 12:47:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ bool	expander(t_simple_cmd *cmd)
 		}
 		++i;
 	}
-	if (wildcards_expander(cmd) == false)
-		return (false);
 	i = 0x0;
 	while (cmd->argv[i] != 0x0)
 	{
