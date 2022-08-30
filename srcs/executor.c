@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 00:10:27 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/08/29 13:53:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,12 @@ void ft_close_pipes(t_pipe *pipe, int **arr)
 	}
 }
 
+void	heredoc_sig_handler(int sig)
+{
+	if (sig == SIGINT)
+		exit(EXIT_SUCCESS);
+}
+
 void ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
 	char *line;
@@ -474,7 +480,11 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 		node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
 		while (ft_strcmp(line, redirs->file_name))
 		{
+			signal(SIGQUIT, SIG_IGN);
+			signal(SIGINT, heredoc_sig_handler);
 			line = readline(">");
+			if (line == 0x0)
+				break;;
 			if (!ft_strcmp(line, redirs->file_name))
 				break;
 			heredoc_expander(&line);
