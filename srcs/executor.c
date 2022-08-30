@@ -17,7 +17,6 @@
  *
  * /////////////////////////// TASKS /////////////////////////////////////////
  *
- * => EXEC && and ||
  * => WILDCARDS + Expand WILDCARDS
  * => EXPORT / UNSET / CD
  * => Unit test
@@ -35,6 +34,17 @@ int ft_lstsize(t_pipe *lst)
 	}
 	return (counter);
 }
+
+int ft_argv_len(char **argv)
+{
+	int i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	return (i);
+}
+
 t_pipe *ft_lstlast(t_pipe *lst)
 {
 	if (ft_lstsize(lst) == 0)
@@ -101,16 +111,6 @@ int ft_is_built_in(char *string)
 	return (0);
 }
 
-int ft_argv_len(char **argv)
-{
-	int i;
-
-	i = 0;
-	while (argv[i])
-		i++;
-	return (i);
-}
-
 void ft_echo_iterator(char **args, int *k, int i)
 {
 	*k = 1;
@@ -154,8 +154,155 @@ void ft_handle_echo(char **args)
  * env builtin improved.
  */
 
-// CASE IF ARGS == NULL, this functions displays env lol
-// [CASE CLOSED]
+void ft_clean_argv(t_node *node)
+{
+	int has_wildc;
+	char *new_argv;
+	char *tmp;
+	int i;
+
+	has_wildc = 0;
+	new_argv = ft_strdup("");
+	i = 0;
+	tmp = NULL;
+	while (node->content.simple_cmd.argv[i])
+	{
+		if (ft_strchr(node->content.simple_cmd.argv[i], '*'))
+		{
+			has_wildc = 1;
+		}
+		else
+		{
+			tmp = ft_strdup(new_argv);
+			free(new_argv);
+			new_argv = ft_strjoin(tmp, node->content.simple_cmd.argv[i], " ");
+			free(tmp);
+		}
+		i++;
+	}
+	if (has_wildc)
+	{
+		i = 0;
+		while (node->content.simple_cmd.argv[i])
+			free(node->content.simple_cmd.argv[i++]);
+		free(node->content.simple_cmd.argv);
+		// printf("newargv->%s\n", new_argv);
+		node->content.simple_cmd.argv = ft_split(new_argv, ' ');
+		free(new_argv);
+	}
+}
+
+int ft_has_wildcard()
+{
+
+	return (1);
+}
+
+DIR *ft_open_dir(char *path, char **pattern, char **clean_path)
+{
+	DIR *dir;
+	int p_len;
+
+	p_len = ft_strlen(path) - 1;
+	while (path[p_len] != '/' && p_len > 0)
+		p_len--;
+	if (p_len < 0)
+		p_len = 0;
+	if (p_len > 0)
+	{
+		*clean_path = ft_substr(path, 0, p_len + 1);
+		*pattern = ft_substr(path, p_len + 1, ((ft_strlen(path) - 1) - p_len));
+	}
+	else
+	{
+		*clean_path = ft_strdup("./");
+		*pattern = path;
+	}
+	// printf("\n-->%s\n", clean_path);
+	dir = opendir(*clean_path);
+	return dir;
+}
+
+void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv)
+{
+	char **splited_wildcard;
+	int k;
+
+	splited_wildcard = NULL;
+	if ((entry->d_name[0] != clean_pattern[0] && clean_pattern[0] != '*') || entry->d_name[0] == '.')
+		return;
+	if (entry->d_name[ft_strlen(entry->d_name) - 1] != clean_pattern[ft_strlen(clean_pattern) - 1] && clean_pattern[ft_strlen(clean_pattern) - 1] != '*')
+		return;
+	splited_wildcard = ft_split(clean_pattern, '*');
+	k = 0;
+	while (splited_wildcard[k])
+	{
+		if (!ft_strstr(entry->d_name, splited_wildcard[k]))
+			k = -10;
+		free(splited_wildcard[k++]);
+	}
+	free(splited_wildcard);
+	if (k == -10)
+		return;
+	*argv = ft_strjoin(*argv, ft_strchr(clean_path, '/') && ft_strcmp(clean_path, "./") ? ft_strjoin(clean_path, entry->d_name, "") : entry->d_name, " ");
+	// printf("  %s %d %s\n", entry->d_name, entry->d_type, clean_path);
+}
+
+void ft_handle_wc_extraction(t_node *node, int j, char **argv)
+{
+	DIR *dir;
+	struct dirent *entry;
+	char *clean_pattern = NULL;
+	char *clean_path = NULL;
+
+	dir = ft_open_dir(node->content.simple_cmd.argv[j], &clean_pattern, &clean_path);
+	// printf("\ncleanPattern-->\t%s\nclean_path-->%s\n", clean_pattern, clean_path);
+	if (dir == NULL)
+		perror("opendir() error");
+	else
+	{
+		while ((entry = readdir(dir)) != NULL)
+		{
+			ft_handle_existant_folder(entry, clean_pattern, clean_path, argv);
+		}
+		// printf("==>%s\n", *argv);
+		free(clean_pattern);
+		free(clean_path);
+		closedir(dir);
+	}
+}
+
+void ft_handle_wildcard(t_node *node)
+{
+	char *argv;
+	char *tmp;
+	int j;
+
+	// printf("\n==>%s\n", node->content.simple_cmd.argv[1]);
+	if (!ft_has_wildcard(node))
+		return;
+	argv = ft_strdup("");
+	j = 0;
+
+	while (node->content.simple_cmd.argv[j])
+	{
+		tmp = ft_strdup(argv);
+		free(argv);
+		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], " ");
+		free(tmp);
+	}
+	// printf("=>%s\n", argv);
+	j = 1;
+	while (node->content.simple_cmd.argv[j])
+	{
+		ft_handle_wc_extraction(node, j, &argv);
+		j++;
+	}
+	node->content.simple_cmd.argv = ft_split(argv, ' ');
+	ft_clean_argv(node);
+	free(argv);
+	// free(node->content.simple_cmd.argv);
+}
 
 void ft_handle_env(char **args, char **env, int *error)
 {
@@ -370,6 +517,7 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 
 	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
 	pipes = ft_to_array(pipe);
+	ft_handle_wildcard(node);
 	ft_handle_dup2(node, pipe, pipes, exec_index);
 	ft_close_pipes(*pipe, pipes);
 	int error;
@@ -482,9 +630,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
 			}
 			else if (node->type == SIMPLE_CMD)
-			{
 				ft_exec_cmd(node, pipe_, exec_index, env);
-			}
 			else if (node->type == OR_NODE)
 			{
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
