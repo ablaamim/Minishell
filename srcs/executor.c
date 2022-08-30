@@ -186,7 +186,7 @@ void ft_clean_argv(t_node *node)
 		while (node->content.simple_cmd.argv[i])
 			free(node->content.simple_cmd.argv[i++]);
 		free(node->content.simple_cmd.argv);
-		printf("newargv->%s\n", new_argv);
+		// printf("newargv->%s\n", new_argv);
 		node->content.simple_cmd.argv = ft_split(new_argv, '|');
 		free(new_argv);
 	}
@@ -233,12 +233,12 @@ void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *
 		return;
 	if (entry->d_name[ft_strlen(entry->d_name) - 1] != clean_pattern[ft_strlen(clean_pattern) - 1] && clean_pattern[ft_strlen(clean_pattern) - 1] != '*')
 		return;
-	printf("\npattern:%s\tpath:%s\n", clean_pattern, clean_path);
+	// printf("\npattern:%s\tpath:%s\n", clean_pattern, clean_path);
 	splited_wildcard = ft_split(clean_pattern, '*');
 	k = 0;
 	while (splited_wildcard[k])
 	{
-		printf("\n%s\n", splited_wildcard[k]);
+		// printf("\n%s\n", splited_wildcard[k]);
 		if (!ft_strstr(entry->d_name, splited_wildcard[k]))
 		{
 			k = -10;
@@ -296,14 +296,14 @@ void ft_handle_wildcard(t_node *node)
 		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], "|");
 		free(tmp);
 	}
-	printf("=>%s\n", argv);
+	// printf("=>%s\n", argv);
 	j = 1;
 	while (node->content.simple_cmd.argv[j])
 	{
 		ft_handle_wc_extraction(node, j, &argv);
 		j++;
 	}
-	printf("==>%s\n", argv);
+	// printf("==>%s\n", argv);
 	node->content.simple_cmd.argv = ft_split(argv, '|');
 	ft_clean_argv(node);
 	free(argv);
