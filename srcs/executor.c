@@ -175,7 +175,7 @@ void ft_clean_argv(t_node *node)
 		{
 			tmp = ft_strdup(new_argv);
 			free(new_argv);
-			new_argv = ft_strjoin(tmp, node->content.simple_cmd.argv[i], " ");
+			new_argv = ft_strjoin(tmp, node->content.simple_cmd.argv[i], "|");
 			free(tmp);
 		}
 		i++;
@@ -187,7 +187,7 @@ void ft_clean_argv(t_node *node)
 			free(node->content.simple_cmd.argv[i++]);
 		free(node->content.simple_cmd.argv);
 		// printf("newargv->%s\n", new_argv);
-		node->content.simple_cmd.argv = ft_split(new_argv, ' ');
+		node->content.simple_cmd.argv = ft_split(new_argv, '|');
 		free(new_argv);
 	}
 }
@@ -244,7 +244,7 @@ void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *
 	free(splited_wildcard);
 	if (k == -10)
 		return;
-	*argv = ft_strjoin(*argv, ft_strchr(clean_path, '/') && ft_strcmp(clean_path, "./") ? ft_strjoin(clean_path, entry->d_name, "") : entry->d_name, " ");
+	*argv = ft_strjoin(*argv, ft_strchr(clean_path, '/') ? ft_strjoin(clean_path, entry->d_name, "") : entry->d_name, "|");
 	// printf("  %s %d %s\n", entry->d_name, entry->d_type, clean_path);
 }
 
@@ -288,7 +288,7 @@ void ft_handle_wildcard(t_node *node)
 	{
 		tmp = ft_strdup(argv);
 		free(argv);
-		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], " ");
+		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], "|");
 		free(tmp);
 	}
 	// printf("=>%s\n", argv);
@@ -298,7 +298,7 @@ void ft_handle_wildcard(t_node *node)
 		ft_handle_wc_extraction(node, j, &argv);
 		j++;
 	}
-	node->content.simple_cmd.argv = ft_split(argv, ' ');
+	node->content.simple_cmd.argv = ft_split(argv, '|');
 	ft_clean_argv(node);
 	free(argv);
 	// free(node->content.simple_cmd.argv);
@@ -444,7 +444,7 @@ void ft_close_pipes(t_pipe *pipe, int **arr)
 	}
 }
 
-void	heredoc_sig_handler(int sig)
+void heredoc_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 		exit(EXIT_SUCCESS);
@@ -484,7 +484,8 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 			signal(SIGINT, heredoc_sig_handler);
 			line = readline(">");
 			if (line == 0x0)
-				break;;
+				break;
+			;
 			if (!ft_strcmp(line, redirs->file_name))
 				break;
 			heredoc_expander(&line);
