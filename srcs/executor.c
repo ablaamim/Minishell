@@ -192,10 +192,18 @@ void ft_clean_argv(t_node *node)
 	}
 }
 
-int ft_has_wildcard()
+int ft_has_wildcard(t_node *node)
 {
+	int has_wild;
+	int i;
 
-	return (1);
+	has_wild = 0;
+	i = 1;
+	while (node->content.simple_cmd.argv[i])
+		if (ft_strstr(node->content.simple_cmd.argv[i++], "*"))
+			has_wild = 1;
+
+	return (has_wild);
 }
 
 DIR *ft_open_dir(char *path, char **pattern, char **clean_path)
@@ -283,7 +291,6 @@ void ft_handle_wildcard(t_node *node)
 	char *tmp;
 	int j;
 
-	// printf("\n==>%s\n", node->content.simple_cmd.argv[1]);
 	if (!ft_has_wildcard(node))
 		return;
 	argv = ft_strdup("");
