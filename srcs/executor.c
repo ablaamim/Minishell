@@ -45,6 +45,38 @@ int ft_argv_len(char **argv)
 	return (i);
 }
 
+void ft_handle_cd(char **argv)
+{
+	char pwd[STATIC_BYTES];
+	char old_pwd[STATIC_BYTES];
+
+	getcwd(old_pwd, sizeof(old_pwd));
+	if (ft_argv_len(argv) > 2)
+		perror("ERROR TOO MANY ARGS");
+	else if (ft_argv_len(argv) == 1 || (argv[1] && !ft_strcmp(argv[1], "~")))
+	{
+		if (chdir(get_env("HOME")) != 0)
+			perror("ERROR FAILD TO OPEN FILE");
+		else // success
+		{
+			getcwd(pwd, sizeof(pwd));
+			ft_set_env_var("PWD", pwd, 1);
+			ft_set_env_var("OLDPWD", old_pwd, 1);
+		}
+	}
+	else if (ft_argv_len(argv) == 2)
+	{
+		if (chdir(argv[1]) != 0)
+			perror("ERROR FAILD TO OPEN FILE");
+		else // success
+		{
+			getcwd(pwd, sizeof(pwd));
+			ft_set_env_var("PWD", pwd, 1);
+			ft_set_env_var("OLDPWD", old_pwd, 1);
+		}
+	}
+}
+
 t_pipe *ft_lstlast(t_pipe *lst)
 {
 	if (ft_lstsize(lst) == 0)
@@ -95,7 +127,7 @@ int ft_is_built_in(char *string)
 	char **built_ins;
 
 	i = 0;
-	built_ins = ft_split("env pwd echo exit", ' ');
+	built_ins = ft_split("env pwd echo exit cd", ' ');
 	while (built_ins[i])
 	{
 		if (built_ins[0] == 0x0 || string == 0x0)
@@ -317,7 +349,7 @@ void ft_handle_wildcard(t_node *node)
 	// free(node->content.simple_cmd.argv);
 }
 
-void ft_handle_env(char **args, char **env, int *error)
+void ft_handle_env(char **args, char **env)
 {
 	int i;
 
@@ -327,7 +359,6 @@ void ft_handle_env(char **args, char **env, int *error)
 	if (ft_argv_len(args) > 1)
 	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-		*error = 2;
 	}
 	signal(SIGINT, signal_command);
 	while (env[i])
@@ -398,14 +429,16 @@ void ft_handle_exit(char **args)
  * built_in env works like a chrm now.
  */
 
-void ft_handle_built_ins(char **args, t_env *env, int *error)
+void ft_handle_built_ins(char **args, t_env *env)
 {
 	if (!ft_strcmp(args[0], "env"))
-		ft_handle_env(args, *env, error);
+		ft_handle_env(args, *env);
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
 		ft_handle_pwd();
+	else if (!ft_strcmp(args[0], "cd"))
+		ft_handle_cd(args);
 }
 
 int **ft_to_array(t_pipe **pipe)
@@ -544,10 +577,9 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	ft_handle_wildcard(node);
 	ft_handle_dup2(node, pipe, pipes, exec_index);
 	ft_close_pipes(*pipe, pipes);
-	int error;
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		ft_handle_built_ins(node->content.simple_cmd.argv, env, &error);
+		ft_handle_built_ins(node->content.simple_cmd.argv, env);
 		exit(10001);
 	}
 	argv = node->content.simple_cmd.argv;
@@ -598,8 +630,10 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		}
 		if (node->content.simple_cmd.argv[0] == 0x0)
 			return;
-		if (ft_lstsize(*pipe) == 0 && !ft_strcmp(node->content.simple_cmd.argv[0], "exit"))
-			ft_handle_exit(node->content.simple_cmd.argv);
+		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd")))
+		{
+			ft_handle_built_ins(node->content.simple_cmd.argv, env);
+		}
 	}
 	ft_free_to_array(pipe, pipes);
 	(*exec_index)++;

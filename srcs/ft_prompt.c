@@ -19,17 +19,48 @@
  * -> Control EOF to exit with ctrl+D.
  */
 
-char	*read_line(void)
+void ft_handle_prompt(char **line)
 {
-	char	*line;
+	char *tmp;
+	char *data;
+	char *data_tmp;
+	int i;
 
-	line = readline("Mini Hell-v2.0$\033[0;31m>\033[0;37m");
+	data_tmp = get_env("PWD");
+	tmp = get_env("HOME");
+	i = 0;
+	printf("\033[0;32m");
+	while (data_tmp[i] && data_tmp[i] == tmp[i])
+		i++;
+	if (ft_strlen(tmp) > ft_strlen(data_tmp))
+		i = 0;
+	else
+		data_tmp = ft_strjoin("~", data_tmp + i, "");
+	data = ft_strjoin(get_env("USER"), get_env("NAME"), "@");
+	tmp = ft_strjoin(data, data_tmp, "\033[0;37m:\033[0;36m");
+	free(data);
+	data = ft_strjoin(tmp, "\033[0;37m$ ", "");
+	*line = ft_strdup(data);
+	free(tmp);
+	free(data);
+}
+
+char *read_line(void)
+{
+	char *line;
+	char *prompt;
+
+	prompt = ft_strdup("");
+	ft_handle_prompt(&prompt);
+	line = readline(prompt);
 	add_history(line);
 	if (line == 0x0)
 	{
+		free(prompt);
 		variadic_error_printer(2, "exit\n");
 		shell_exit(*retrieve_exit_status(), 0x0);
 	}
+	free(prompt);
 	return (line);
 }
 
@@ -37,7 +68,7 @@ char	*read_line(void)
  * Signals handling : ctrl+c and ctrl+\
  */
 
-void	signal_command(int sig)
+void signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -53,7 +84,7 @@ void	signal_command(int sig)
 	}
 }
 
-void	signal_command_child(int sig)
+void signal_command_child(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -75,9 +106,9 @@ void	signal_command_child(int sig)
  * -> free line.
  */
 
-void	ft_minishell(char **env)
+void ft_minishell(char **env)
 {
-	char	*line;
+	char *line;
 
 	while (1337)
 	{
