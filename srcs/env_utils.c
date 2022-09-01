@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 11:34:43 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/01 19:47:38 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
  *  [ALL GOOD IN THIS MODULE]
 */
 
-void	ft_set_env_var(const char	*name, const char	*val, \
-		int replace)
+void	ft_set_env_var(const char *name, const char *val, int replace)
 {
 	int		i;
 	t_env	*env;
@@ -31,6 +30,7 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	i = ft_in_env(name);
 	if (i >= 0x0 && replace != 0x0)
 	{
+		garbage_free((void **) &temp[i]);
 		if (val == 0x0)
 			temp[i] = ft_strjoin(name, val, "");
 		else
@@ -38,8 +38,12 @@ void	ft_set_env_var(const char	*name, const char	*val, \
 	}
 	else
 	{
+		printf("ADD UP NAME = %s\n", name);
+		printf("VAL = %s\n", val);
 		*env = ft_add_up_in_env(name, val, temp);
-		free(temp);
+		ft_print_env(*env);
+		if (temp != 0x0)
+			free(temp);
 	}
 }
 
@@ -47,7 +51,7 @@ void	ft_set_env_var(const char	*name, const char	*val, \
  * Return index of var in environment, returns -1 if not found.
 */
 
-int	ft_in_env(const char	*var)
+int	ft_in_env(const char *var)
 {
 	int		i;
 	int		len;

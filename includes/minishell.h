@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/29 12:45:44 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/01 18:16:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,7 +362,7 @@ void				print_redir_list(t_redirs *redir);
 t_redirs			*redirection_generator(void);
 void				redir_appender(t_redirs *new_redir, t_redirs **lst_redir);
 t_redirs			*redirs_help_manager(char **args, int *fd_out, t_redirs *redir);
-
+void				ft_env_setter(char *name, char *val, int repl, t_env env);
 /*
  * EXPANSIONS PERFOMER :
  */

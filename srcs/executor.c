@@ -6,23 +6,17 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/29 13:53:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/01 19:38:15 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../Leak_Hunter/leak_hunter.h"
 
 /*
- *
- * /////////////////////////// TASKS /////////////////////////////////////////
- *
- * => WILDCARDS + Expand WILDCARDS
- * => EXPORT / UNSET / CD
  * => Unit test
- */
+*/
 
-int ft_lstsize(t_pipe *lst)
+int	ft_lstsize(t_pipe *lst)
 {
 	int counter;
 
@@ -35,7 +29,7 @@ int ft_lstsize(t_pipe *lst)
 	return (counter);
 }
 
-int ft_argv_len(char **argv)
+int	ft_argv_len(char **argv)
 {
 	int i;
 
@@ -45,10 +39,10 @@ int ft_argv_len(char **argv)
 	return (i);
 }
 
-void ft_handle_cd(char **argv)
+void	ft_handle_cd(char **argv)
 {
-	char pwd[STATIC_BYTES];
-	char old_pwd[STATIC_BYTES];
+	char	pwd[STATIC_BYTES];
+	char	old_pwd[STATIC_BYTES];
 
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (ft_argv_len(argv) > 2)
@@ -77,7 +71,7 @@ void ft_handle_cd(char **argv)
 	}
 }
 
-t_pipe *ft_lstlast(t_pipe *lst)
+t_pipe	*ft_lstlast(t_pipe *lst)
 {
 	if (ft_lstsize(lst) == 0)
 		return (NULL);
@@ -86,13 +80,13 @@ t_pipe *ft_lstlast(t_pipe *lst)
 	return (lst);
 }
 
-void ft_lstadd_front(t_pipe **head, t_pipe *new)
+void	ft_lstadd_front(t_pipe **head, t_pipe *new)
 {
 	new->next = *(head);
 	*(head) = new;
 }
 
-t_pipe *ft_lstnew(int *fd)
+t_pipe	*ft_lstnew(int *fd)
 {
 	t_pipe *lst;
 
@@ -105,7 +99,7 @@ t_pipe *ft_lstnew(int *fd)
 	return (lst);
 }
 
-void ft_lstadd_back(t_pipe **alst, t_pipe *new)
+void	ft_lstadd_back(t_pipe **alst, t_pipe *new)
 {
 	t_pipe *last;
 
@@ -127,7 +121,7 @@ int ft_is_built_in(char *string)
 	char **built_ins;
 
 	i = 0;
-	built_ins = ft_split("env pwd echo exit cd", ' ');
+	built_ins = ft_split("env pwd echo exit cd export unset", ' ');
 	while (built_ins[i])
 	{
 		if (built_ins[0] == 0x0 || string == 0x0)
@@ -143,14 +137,14 @@ int ft_is_built_in(char *string)
 	return (0);
 }
 
-void ft_echo_iterator(char **args, int *k, int i)
+void	ft_echo_iterator(char **args, int *k, int i)
 {
 	*k = 1;
 	while (args[i][*k] == 'n')
 		(*k)++;
 }
 
-void ft_echo_print(char **args, int i, int j, int add_new_line)
+void	ft_echo_print(char **args, int i, int j, int add_new_line)
 {
 	while (args[i])
 	{
@@ -166,10 +160,11 @@ void ft_handle_echo(char **args)
 {
 	int i;
 	int j;
-	int add_new_line = 1;
+	int add_new_line;
 	int k;
 
 	i = 1;
+	add_new_line = 1;
 	j = ft_argv_len(args);
 	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
 	{
@@ -188,10 +183,10 @@ void ft_handle_echo(char **args)
 
 void ft_clean_argv(t_node *node)
 {
-	int has_wildc;
-	char *new_argv;
-	char *tmp;
-	int i;
+	int		has_wildc;
+	char	*new_argv;
+	char	*tmp;
+	int		i;
 
 	has_wildc = 0;
 	new_argv = ft_strdup("");
@@ -200,9 +195,7 @@ void ft_clean_argv(t_node *node)
 	while (node->content.simple_cmd.argv[i])
 	{
 		if (ft_strchr(node->content.simple_cmd.argv[i], '*') && ft_argv_len(node->content.simple_cmd.argv) > 2)
-		{
 			has_wildc = 1;
-		}
 		else
 		{
 			tmp = ft_strdup(new_argv);
@@ -234,14 +227,13 @@ int ft_has_wildcard(t_node *node)
 	while (node->content.simple_cmd.argv[i])
 		if (ft_strstr(node->content.simple_cmd.argv[i++], "*"))
 			has_wild = 1;
-
 	return (has_wild);
 }
 
 DIR *ft_open_dir(char *path, char **pattern, char **clean_path)
 {
-	DIR *dir;
-	int p_len;
+	DIR	*dir;
+	int	p_len;
 
 	p_len = ft_strlen(path) - 1;
 	while (path[p_len] != '/' && p_len > 0)
@@ -265,8 +257,8 @@ DIR *ft_open_dir(char *path, char **pattern, char **clean_path)
 
 void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv)
 {
-	char **splited_wildcard;
-	int k;
+	char	**splited_wildcard;
+	int		k;
 
 	splited_wildcard = NULL;
 	if ((entry->d_name[0] != clean_pattern[0] && clean_pattern[0] != '*') || entry->d_name[0] == '.')
@@ -295,10 +287,10 @@ void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *
 
 void ft_handle_wc_extraction(t_node *node, int j, char **argv)
 {
-	DIR *dir;
-	struct dirent *entry;
-	char *clean_pattern = NULL;
-	char *clean_path = NULL;
+	DIR				*dir;
+	struct dirent	*entry;
+	char			*clean_pattern = NULL;
+	char			*clean_path = NULL;
 
 	dir = ft_open_dir(node->content.simple_cmd.argv[j], &clean_pattern, &clean_path);
 	// printf("\ncleanPattern-->\t%s\nclean_path-->%s\n", clean_pattern, clean_path);
@@ -335,37 +327,35 @@ void ft_handle_wildcard(t_node *node)
 		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], "|");
 		free(tmp);
 	}
-	// printf("=>%s\n", argv);
 	j = 1;
 	while (node->content.simple_cmd.argv[j])
 	{
 		ft_handle_wc_extraction(node, j, &argv);
 		j++;
 	}
-	// printf("==>%s\n", argv);
 	node->content.simple_cmd.argv = ft_split(argv, '|');
 	ft_clean_argv(node);
 	free(argv);
-	// free(node->content.simple_cmd.argv);
 }
 
 void ft_handle_env(char **args, char **env)
 {
-	int i;
+	int		i;
+	t_env	*bash_env;
 
 	i = 0x0;
 	if (*args == 0x0)
 		return;
+	(void) env;
+	bash_env = get_bash_env();
 	if (ft_argv_len(args) > 1)
-	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-	}
 	signal(SIGINT, signal_command);
-	while (env[i])
+	while ((*bash_env)[i])
 	{
-		if (ft_strchr(env[i], '=') != 0x0)
+		if (ft_strchr((*bash_env)[i], '=') != 0x0)
 		{
-			printf("%s", env[i]);
+			printf("%s", (*bash_env)[i]);
 			printf("\n");
 		}
 		i++;
@@ -400,9 +390,9 @@ int ft_isnumber(char *s)
 	return (1);
 }
 
-void ft_handle_exit(char **args)
+void	ft_handle_exit(char **args)
 {
-	int exit_status;
+	int	exit_status;
 
 	exit_status = *retrieve_exit_status();
 	variadic_error_printer(2, "exit\n");
@@ -424,14 +414,152 @@ void ft_handle_exit(char **args)
 	exit(exit_status);
 }
 
-/*
- * Built-in manager.
- * built_in env works like a chrm now.
- */
+int	export_len_name(char *argument)
+{
+	int	len;
+
+	len = 0x0;
+	while (argument[len] != '+' && argument[len] != '=' && argument[len] != '\0')
+		++len;
+	return (len);
+}
+
+char	*export_variable_name(char *argument)
+{
+	int		i;
+	int		j;
+	char	*var_name;
+
+	i = 0x0;
+	j = 0x0;
+	printf("EXPORT ARGUMENT = %s\n", argument);
+	if (isalpha(argument[i]) == 0x0)
+		return (0x0);
+	// SHOULD CALC LEN VAR NAME
+	var_name = garbage_malloc(sizeof(*var_name) * (export_len_name(argument) + 1));
+	while (argument[i] != '+' && argument[i] != '=' && argument[i] != '\0')
+	{
+		if (ft_isalnum(argument[i]) == 0x0)
+		{
+			//printf("SHOUD BE FREE\n");
+			garbage_free((void **) &var_name);
+			return (0x0);
+		}
+		else
+			var_name[j++] = argument[i];
+		++i;
+	}
+	var_name[i] = '\0';
+	printf("EXPORT VAR_NAME = %s\n", var_name);
+	if (argument[i] == '+' && argument[i + 1] != '=')
+		garbage_free((void **) &var_name);
+	return (var_name);
+}
+
+void	export_perror(char *args, int *ret)
+{
+	variadic_error_printer(2, "Minishell : export : '%s' not a valid identifier\n", args);
+	*ret = EXIT_FAILURE;
+}
+
+char	*retrieve_var_val(char *str, char *env_val)
+{
+	char	*var_val;
+
+	if (*(str - 2) == '+')
+		var_val = ft_strjoin(env_val, str, "");
+	else
+		var_val = ft_strdup(str);
+	return (var_val);
+}
+
+void	append_to_env(char *export, char *var_name)
+{
+	bool	replace;
+	char	*ptr;
+	char	*env_val;
+	char	*var_val;
+
+	replace = true;
+	var_val = 0x0;
+	ptr = ft_strchr(export, '=');
+	printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
+	env_val = get_env(var_name);
+	printf("APPEND VAR FUNC : ENV_VAL = %s\n", env_val);
+	if (ptr == 0x0)
+	{
+		var_val = 0x0;
+		if (env_val != 0x0 && env_val[-1] == '=')
+			replace = false;
+	}
+	else
+		var_val = retrieve_var_val(ptr + 1, env_val);
+	if (replace == true)
+	{
+		printf("VAR_NAME = %s\n", var_name);
+		printf("VAR_VAL =  %s\n", var_val);
+		ft_set_env_var(var_name, var_val, 0x1);
+	}
+	garbage_free((void **) &var_val);
+}
+
+void	display_env(void)
+{
+	int		i;
+	t_env	*env;
+	//int		eq_sign;
+
+	i = 0x0;
+	env = get_bash_env();
+	while ((*env)[i])
+	{
+		//printf("declare -x ");
+		if (ft_strchr((*env)[i], '=') != 0x0)
+		{	
+			// MUST ADD DECLARE -X
+			printf("declare -x %s\n", (*env)[i]);
+		}
+		else
+			printf("%s\n", (*env)[i]);
+		i++;
+	}
+}
+
+void	ft_handle_export(char **args)
+{
+	int		argc;
+	int		i;
+	char	*var_name;
+	int		ret;
+
+	argc = ft_argv_len(args);
+	i = 0x0;
+	if (argc <= 1)
+		display_env();
+	printf("ARGS LEN EXPORT = %d\n", argc);
+	i = 0x1;
+	ret = EXIT_SUCCESS;
+	while (args[i] != 0x0)
+	{
+		var_name = 0x0;
+		var_name = export_variable_name(args[i]);
+		printf("VAR NAME EXPORT HANDLER = %s\n", var_name);
+		if (var_name == 0x0)
+			export_perror(args[i], &ret);
+		else
+		{
+			append_to_env(args[i], var_name);
+			garbage_free((void **) &var_name);
+		}
+		++i;
+	}
+}
 
 void ft_handle_built_ins(char **args, t_env *env)
 {
-	if (!ft_strcmp(args[0], "env"))
+	if (!ft_strcmp(args[0], "export"))
+		ft_handle_export(args);
+	else if (!ft_strcmp(args[0], "env"))
 		ft_handle_env(args, *env);
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_handle_echo(args);
@@ -719,10 +847,10 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 
 void ft_executor(char *line, char **env)
 {
-	t_node *ast;
-	t_env *bash_env;
-	t_pipe *pipe;
-	int exec_init;
+	t_node	*ast;
+	t_env	*bash_env;
+	t_pipe	*pipe;
+	int		exec_init;
 
 	ast = 0x0;
 	bash_env = get_bash_env();
