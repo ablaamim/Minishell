@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/01 19:38:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/01 20:53:47 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,6 @@ void ft_handle_echo(char **args)
 	ft_echo_print(args, i, j, add_new_line);
 }
 
-/*
- * env builtin improved.
- */
-
 void ft_clean_argv(t_node *node)
 {
 	int		has_wildc;
@@ -338,7 +334,7 @@ void ft_handle_wildcard(t_node *node)
 	free(argv);
 }
 
-void ft_handle_env(char **args, char **env)
+void ft_handle_env(char **args)
 {
 	int		i;
 	t_env	*bash_env;
@@ -346,11 +342,9 @@ void ft_handle_env(char **args, char **env)
 	i = 0x0;
 	if (*args == 0x0)
 		return;
-	(void) env;
 	bash_env = get_bash_env();
 	if (ft_argv_len(args) > 1)
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-	signal(SIGINT, signal_command);
 	while ((*bash_env)[i])
 	{
 		if (ft_strchr((*bash_env)[i], '=') != 0x0)
@@ -432,7 +426,7 @@ char	*export_variable_name(char *argument)
 
 	i = 0x0;
 	j = 0x0;
-	printf("EXPORT ARGUMENT = %s\n", argument);
+	//printf("EXPORT ARGUMENT = %s\n", argument);
 	if (isalpha(argument[i]) == 0x0)
 		return (0x0);
 	// SHOULD CALC LEN VAR NAME
@@ -450,16 +444,16 @@ char	*export_variable_name(char *argument)
 		++i;
 	}
 	var_name[i] = '\0';
-	printf("EXPORT VAR_NAME = %s\n", var_name);
+	//printf("EXPORT VAR_NAME = %s\n", var_name);
 	if (argument[i] == '+' && argument[i + 1] != '=')
 		garbage_free((void **) &var_name);
 	return (var_name);
 }
 
-void	export_perror(char *args, int *ret)
+void	export_perror(char *args)
 {
 	variadic_error_printer(2, "Minishell : export : '%s' not a valid identifier\n", args);
-	*ret = EXIT_FAILURE;
+	return ;
 }
 
 char	*retrieve_var_val(char *str, char *env_val)
@@ -483,9 +477,9 @@ void	append_to_env(char *export, char *var_name)
 	replace = true;
 	var_val = 0x0;
 	ptr = ft_strchr(export, '=');
-	printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
+	//printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
 	env_val = get_env(var_name);
-	printf("APPEND VAR FUNC : ENV_VAL = %s\n", env_val);
+	//printf("APPEND VAR FUNC : ENV_VAL = %s\n", env_val);
 	if (ptr == 0x0)
 	{
 		var_val = 0x0;
@@ -496,8 +490,8 @@ void	append_to_env(char *export, char *var_name)
 		var_val = retrieve_var_val(ptr + 1, env_val);
 	if (replace == true)
 	{
-		printf("VAR_NAME = %s\n", var_name);
-		printf("VAR_VAL =  %s\n", var_val);
+		//printf("VAR_NAME = %s\n", var_name);
+		///printf("VAR_VAL =  %s\n", var_val);
 		ft_set_env_var(var_name, var_val, 0x1);
 	}
 	garbage_free((void **) &var_val);
@@ -530,22 +524,19 @@ void	ft_handle_export(char **args)
 	int		argc;
 	int		i;
 	char	*var_name;
-	int		ret;
 
 	argc = ft_argv_len(args);
-	i = 0x0;
 	if (argc <= 1)
 		display_env();
-	printf("ARGS LEN EXPORT = %d\n", argc);
+	//printf("ARGS LEN EXPORT = %d\n", argc);
 	i = 0x1;
-	ret = EXIT_SUCCESS;
 	while (args[i] != 0x0)
 	{
 		var_name = 0x0;
 		var_name = export_variable_name(args[i]);
-		printf("VAR NAME EXPORT HANDLER = %s\n", var_name);
+		//printf("VAR NAME EXPORT HANDLER = %s\n", var_name);
 		if (var_name == 0x0)
-			export_perror(args[i], &ret);
+			export_perror(args[i]);
 		else
 		{
 			append_to_env(args[i], var_name);
@@ -555,12 +546,80 @@ void	ft_handle_export(char **args)
 	}
 }
 
-void ft_handle_built_ins(char **args, t_env *env)
+void	parse_unset(char *args)
 {
+	int	i;
+
+	i = 0x0;
+	if (isalpha(args[i]) == 0x0)
+	{
+		variadic_error_printer(2, "minishell : unset '%s' not a valid identifieri\n", args);
+		return ;
+	}
+	while (args[i] != '\0')
+	{
+		if (ft_isalnum(args[i]) == 0x0)
+		{
+			variadic_error_printer(2, "minishell : unset '%s' not a valid identifier\n", args);
+			return ;
+		}
+		++i;
+	}
+}
+
+void	ft_unset_logic(char *name)
+{
+	t_env	new_env;
+	t_env	*env;
+	int		i;
+	int		ret;
+
+	i = 0x0;
+	env = get_bash_env();
+	ret = ft_in_env(name);
+	if (ret == -1)
+		return ;
+	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
+	while ((*env)[i])
+	{
+		if (i == ret)
+			garbage_free((void **) &(*env)[i]);
+		else if (i >= ret)
+			new_env[i - 1] = (*env)[i];
+		else
+			new_env[i] = (*env)[i];
+		i++;
+	}
+	new_env[i - 1] = 0x0;
+	//garbage_free((void **) &(*env));
+	free(*env);
+	*env = new_env;
+	ft_print_env(*env);
+}
+
+void	ft_handle_unset(char **args)
+{
+	int		i;
+	i = 0x0;
+
+	while (args[i] != 0x0)
+	{
+		parse_unset(args[i]);
+		ft_unset_logic(args[i]);
+		++i;
+	}
+}
+
+void	ft_handle_built_ins(char **args, t_env *env)
+{
+	(void) env;
+
 	if (!ft_strcmp(args[0], "export"))
 		ft_handle_export(args);
+	else if (!ft_strcmp(args[0], "unset"))
+		ft_handle_unset(args);
 	else if (!ft_strcmp(args[0], "env"))
-		ft_handle_env(args, *env);
+		ft_handle_env(args);
 	else if (!ft_strcmp(args[0], "echo"))
 		ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
