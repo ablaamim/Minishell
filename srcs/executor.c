@@ -12,23 +12,23 @@
 
 #include "../includes/minishell.h"
 
-void	env_setter(char *name, char *val, int replace, t_env *env);
+void env_setter(char *name, char *val, int replace, t_env *env);
 
 /*
  * => Unit test
-*/
+ */
 
-int	ft_isalpha(int c)
+int ft_isalpha(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <='Z'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		return (0x1);
 	else
 		return (0x0);
 }
 
-int	ft_lstsize(t_pipe *lst)
+int ft_lstsize(t_pipe *lst)
 {
-	int	counter;
+	int counter;
 
 	counter = 0;
 	while (lst != NULL)
@@ -39,7 +39,7 @@ int	ft_lstsize(t_pipe *lst)
 	return (counter);
 }
 
-int	ft_argv_len(char **argv)
+int ft_argv_len(char **argv)
 {
 	int i;
 
@@ -49,10 +49,10 @@ int	ft_argv_len(char **argv)
 	return (i);
 }
 
-int	ft_handle_cd(char **argv, t_env *env)
+int ft_handle_cd(char **argv, t_env *env)
 {
-	char	pwd[STATIC_BYTES];
-	char	old_pwd[STATIC_BYTES];
+	char pwd[STATIC_BYTES];
+	char old_pwd[STATIC_BYTES];
 
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (ft_argv_len(argv) > 2)
@@ -78,7 +78,7 @@ int	ft_handle_cd(char **argv, t_env *env)
 	{
 		if (chdir(argv[1]) != 0)
 		{
-			//perror("ERROR : FAILD TO OPEN FILE");
+			// perror("ERROR : FAILD TO OPEN FILE");
 			variadic_error_printer(2, "minishell : failed to open file\n");
 			return (EXIT_FAILURE);
 		}
@@ -92,7 +92,7 @@ int	ft_handle_cd(char **argv, t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-t_pipe	*ft_lstlast(t_pipe *lst)
+t_pipe *ft_lstlast(t_pipe *lst)
 {
 	if (ft_lstsize(lst) == 0)
 		return (NULL);
@@ -101,13 +101,13 @@ t_pipe	*ft_lstlast(t_pipe *lst)
 	return (lst);
 }
 
-void	ft_lstadd_front(t_pipe **head, t_pipe *new)
+void ft_lstadd_front(t_pipe **head, t_pipe *new)
 {
 	new->next = *(head);
 	*(head) = new;
 }
 
-t_pipe	*ft_lstnew(int *fd)
+t_pipe *ft_lstnew(int *fd)
 {
 	t_pipe *lst;
 
@@ -120,7 +120,7 @@ t_pipe	*ft_lstnew(int *fd)
 	return (lst);
 }
 
-void	ft_lstadd_back(t_pipe **alst, t_pipe *new)
+void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 {
 	t_pipe *last;
 
@@ -136,10 +136,10 @@ void	ft_lstadd_back(t_pipe **alst, t_pipe *new)
 	}
 }
 
-int	ft_is_built_in(char *string)
+int ft_is_built_in(char *string)
 {
-	int		i;
-	char	**built_ins;
+	int i;
+	char **built_ins;
 
 	i = 0;
 	built_ins = ft_split("env pwd echo exit cd export unset", ' ');
@@ -158,14 +158,14 @@ int	ft_is_built_in(char *string)
 	return (0);
 }
 
-void	ft_echo_iterator(char **args, int *k, int i)
+void ft_echo_iterator(char **args, int *k, int i)
 {
 	*k = 1;
 	while (args[i][*k] == 'n')
 		(*k)++;
 }
 
-void	ft_echo_print(char **args, int i, int j, int add_new_line)
+void ft_echo_print(char **args, int i, int j, int add_new_line)
 {
 	while (args[i])
 	{
@@ -177,12 +177,12 @@ void	ft_echo_print(char **args, int i, int j, int add_new_line)
 		printf("\n");
 }
 
-int	ft_handle_echo(char **args)
+int ft_handle_echo(char **args)
 {
-	int	i;
-	int	j;
-	int	add_new_line;
-	int	k;
+	int i;
+	int j;
+	int add_new_line;
+	int k;
 
 	i = 1;
 	add_new_line = 1;
@@ -199,12 +199,12 @@ int	ft_handle_echo(char **args)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_clean_argv(t_node *node)
+void ft_clean_argv(t_node *node)
 {
-	int		has_wildc;
-	char	*new_argv;
-	char	*tmp;
-	int		i;
+	int has_wildc;
+	char *new_argv;
+	char *tmp;
+	int i;
 
 	has_wildc = 0;
 	new_argv = ft_strdup("");
@@ -235,10 +235,10 @@ void	ft_clean_argv(t_node *node)
 	}
 }
 
-int	ft_has_wildcard(t_node *node)
+int ft_has_wildcard(t_node *node)
 {
-	int	has_wild;
-	int	i;
+	int has_wild;
+	int i;
 
 	has_wild = 0;
 	i = 1;
@@ -248,10 +248,10 @@ int	ft_has_wildcard(t_node *node)
 	return (has_wild);
 }
 
-DIR	*ft_open_dir(char *path, char **pattern, char **clean_path)
+DIR *ft_open_dir(char *path, char **pattern, char **clean_path)
 {
-	DIR	*dir;
-	int	p_len;
+	DIR *dir;
+	int p_len;
 
 	p_len = ft_strlen(path) - 1;
 	while (path[p_len] != '/' && p_len > 0)
@@ -273,10 +273,10 @@ DIR	*ft_open_dir(char *path, char **pattern, char **clean_path)
 	return dir;
 }
 
-void	ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv)
+void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv)
 {
-	char	**splited_wildcard;
-	int		k;
+	char **splited_wildcard;
+	int k;
 
 	splited_wildcard = NULL;
 	if ((entry->d_name[0] != clean_pattern[0] && clean_pattern[0] != '*') || entry->d_name[0] == '.')
@@ -303,12 +303,12 @@ void	ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *
 	// printf("  %s %d %s\n", entry->d_name, entry->d_type, clean_path);
 }
 
-void	ft_handle_wc_extraction(t_node *node, int j, char **argv)
+void ft_handle_wc_extraction(t_node *node, int j, char **argv)
 {
-	DIR				*dir;
-	struct dirent	*entry;
-	char			*clean_pattern = NULL;
-	char			*clean_path = NULL;
+	DIR *dir;
+	struct dirent *entry;
+	char *clean_pattern = NULL;
+	char *clean_path = NULL;
 
 	dir = ft_open_dir(node->content.simple_cmd.argv[j], &clean_pattern, &clean_path);
 	// printf("\ncleanPattern-->\t%s\nclean_path-->%s\n", clean_pattern, clean_path);
@@ -325,11 +325,11 @@ void	ft_handle_wc_extraction(t_node *node, int j, char **argv)
 	}
 }
 
-void	ft_handle_wildcard(t_node *node)
+void ft_handle_wildcard(t_node *node)
 {
-	char	*argv;
-	char	*tmp;
-	int		j;
+	char *argv;
+	char *tmp;
+	int j;
 
 	if (!ft_has_wildcard(node))
 		return;
@@ -354,13 +354,13 @@ void	ft_handle_wildcard(t_node *node)
 	free(argv);
 }
 
-void	bash_sett_static(t_env env);
+void bash_sett_static(t_env env);
 
 /*WORKING FINE WITH INITIAL ENV*/
 
-int	ft_handle_env(char **args, t_env *bash_env)
+int ft_handle_env(char **args, t_env *bash_env)
 {
-	int		i;
+	int i;
 
 	bash_sett_static(*get_bash_env());
 	i = 0x0;
@@ -369,7 +369,7 @@ int	ft_handle_env(char **args, t_env *bash_env)
 	if (ft_argv_len(args) > 1)
 	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-		return(127);
+		return (127);
 	}
 	while ((*bash_env)[i])
 	{
@@ -383,9 +383,9 @@ int	ft_handle_env(char **args, t_env *bash_env)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_handle_pwd(void)
+int ft_handle_pwd(void)
 {
-	char	pwd[STATIC_BYTES];
+	char pwd[STATIC_BYTES];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
@@ -396,9 +396,9 @@ int	ft_handle_pwd(void)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_isnumber(char *s)
+int ft_isnumber(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0x0;
 	if (s[i] == '+' || s[i] == '-')
@@ -412,9 +412,9 @@ int	ft_isnumber(char *s)
 	return (1);
 }
 
-int	ft_handle_exit(char **args)
+int ft_handle_exit(char **args)
 {
-	int	exit_status;
+	int exit_status;
 
 	exit_status = *retrieve_exit_status();
 	variadic_error_printer(2, "exit\n");
@@ -433,12 +433,12 @@ int	ft_handle_exit(char **args)
 		else
 			exit_status = ft_atoi(args[1]);
 	}
-	return(exit_status);
+	return (exit_status);
 }
 
-int	export_len_name(char *argument)
+int export_len_name(char *argument)
 {
-	int	len;
+	int len;
 
 	len = 0x0;
 	while (argument[len] != '+' && argument[len] != '=' && argument[len] != '\0')
@@ -446,15 +446,15 @@ int	export_len_name(char *argument)
 	return (len);
 }
 
-char	*export_variable_name(char *argument)
+char *export_variable_name(char *argument)
 {
-	int		i;
-	int		j;
-	char	*var_name;
+	int i;
+	int j;
+	char *var_name;
 
 	i = 0x0;
 	j = 0x0;
-	//printf("EXPORT ARGUMENT = %s\n", argument);
+	// printf("EXPORT ARGUMENT = %s\n", argument);
 	if (ft_isalpha(argument[i]) == 0x0)
 		return (0x0);
 	// SHOULD CALC LEN VAR NAME
@@ -463,7 +463,7 @@ char	*export_variable_name(char *argument)
 	{
 		if (ft_isalnum(argument[i]) == 0x0)
 		{
-			garbage_free((void **) &var_name);
+			garbage_free((void **)&var_name);
 			return (0x0);
 		}
 		else
@@ -471,21 +471,21 @@ char	*export_variable_name(char *argument)
 		++i;
 	}
 	var_name[i] = '\0';
-	//printf("EXPORT VAR_NAME = %s\n", var_name);
+	// printf("EXPORT VAR_NAME = %s\n", var_name);
 	if (argument[i] == '+' && argument[i + 1] != '=')
-		garbage_free((void **) &var_name);
+		garbage_free((void **)&var_name);
 	return (var_name);
 }
 
-void	export_perror(char *args, int *ret)
+void export_perror(char *args, int *ret)
 {
 	variadic_error_printer(2, "Minishell : export : '%s' not a valid identifier\n", args);
 	*ret = EXIT_FAILURE;
 }
 
-char	*retrieve_var_val(char *str, char *env_val)
+char *retrieve_var_val(char *str, char *env_val)
 {
-	char	*var_val;
+	char *var_val;
 
 	if (*(str - 2) == '+')
 		var_val = ft_strjoin(env_val, str, "");
@@ -494,32 +494,32 @@ char	*retrieve_var_val(char *str, char *env_val)
 	return (var_val);
 }
 
-int	special_env_len(t_env *env)
+int special_env_len(t_env *env)
 {
-	int	len = 0x0;
+	int len = 0x0;
 	while ((*env)[len])
 		len++;
 	return (len);
 }
 
 // Save in data segment
-void	bash_sett_static(t_env env)
+void bash_sett_static(t_env env)
 {
-	//ft_print_env(env);;
-	//printf("====> STATIC BASH SAVE IN DATA SEG <==========\n\n");
+	// ft_print_env(env);;
+	// printf("====> STATIC BASH SAVE IN DATA SEG <==========\n\n");
 	*get_bash_env() = env;
 }
 
-void	env_setter(char *name, char *val, int replace, t_env *env)
+void env_setter(char *name, char *val, int replace, t_env *env)
 {
-	int		i;
-	t_env	tmp;
+	int i;
+	t_env tmp;
 
-	//ft_print_env(*env);
-	//printf("\n\n===> ENV SETTER <===\n\n");
-	//printf("\n\n==> ENV LEN = %d\n", special_env_len(env));
-	tmp = *env; //get_bash_env();//garbage_malloc(sizeof(char *) * (special_env_len(env) + 2));
-	
+	// ft_print_env(*env);
+	// printf("\n\n===> ENV SETTER <===\n\n");
+	// printf("\n\n==> ENV LEN = %d\n", special_env_len(env));
+	tmp = *env; // get_bash_env();//garbage_malloc(sizeof(char *) * (special_env_len(env) + 2));
+
 	i = ft_in_env(name, tmp);
 	if (i > 0x0 && replace != 0x0)
 	{
@@ -537,22 +537,22 @@ void	env_setter(char *name, char *val, int replace, t_env *env)
 		if (env == 0x0)
 			printf("EMPTY SHIT\n");
 	}
-	//ft_print_env(*env);
+	// ft_print_env(*env);
 }
 
-void	append_to_env(char *export, char *var_name, t_env *env)
+void append_to_env(char *export, char *var_name, t_env *env)
 {
-	bool	replace;
-	char	*ptr;
-	char	*env_val;
-	char	*var_val;
+	bool replace;
+	char *ptr;
+	char *env_val;
+	char *var_val;
 
 	replace = true;
 	var_val = 0x0;
-	//printf("\n\n====> APPEND TO ENV <===\n\n");
-	//ft_print_env(*env);
+	// printf("\n\n====> APPEND TO ENV <===\n\n");
+	// ft_print_env(*env);
 	ptr = ft_strchr(export, '=');
-	//printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
+	// printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
 	env_val = getenv(var_name);
 	if (ptr == 0x0)
 	{
@@ -564,15 +564,15 @@ void	append_to_env(char *export, char *var_name, t_env *env)
 		var_val = retrieve_var_val(ptr + 1, env_val);
 	if (replace == true)
 	{
-		//printf("==> APPEND WITH ENV SETTER\n");
+		// printf("==> APPEND WITH ENV SETTER\n");
 		env_setter(var_name, var_val, 0x1, env);
 	}
-	garbage_free((void **) &var_val);
+	garbage_free((void **)&var_val);
 }
 
-void	display_env(t_env *env)
+void display_env(t_env *env)
 {
-	int		i;
+	int i;
 
 	i = 0x0;
 	while ((*env)[i])
@@ -585,12 +585,12 @@ void	display_env(t_env *env)
 	}
 }
 
-int	ft_handle_export(char **args, t_env *env)
+int ft_handle_export(char **args, t_env *env)
 {
-	int		argc;
-	int		i;
-	char	*var_name;
-	int		ret;
+	int argc;
+	int i;
+	char *var_name;
+	int ret;
 
 	argc = ft_argv_len(args);
 	if (argc <= 1) // MUTATED VIA POINTER TO T_ENV
@@ -601,95 +601,94 @@ int	ft_handle_export(char **args, t_env *env)
 	{
 		var_name = 0x0;
 		var_name = export_variable_name(args[i]);
-		//printf("==> VAR NAME EXPORT HANDLER = %s\n", var_name);
+		// printf("==> VAR NAME EXPORT HANDLER = %s\n", var_name);
 		if (var_name == 0x0)
 			export_perror(args[i], &ret);
 		else
 		{
-			//printf("===========VAR MUST BE ADDED IN ENV===========\n\n");
+			// printf("===========VAR MUST BE ADDED IN ENV===========\n\n");
 			append_to_env(args[i], var_name, env);
-			garbage_free((void **) &var_name);
+			garbage_free((void **)&var_name);
 		}
 		++i;
 	}
 	return (ret);
 }
-/*
-void	parse_unset(char *args)
+
+void parse_unset(char *args)
 {
-	int	i;
+	int i;
 
 	i = 0x0;
 	if (isalpha(args[i]) == 0x0)
 	{
 		variadic_error_printer(2, "minishell : unset '%s' not a valid identifieri\n", args);
-		return ;
+		return;
 	}
 	while (args[i] != '\0')
 	{
 		if (ft_isalnum(args[i]) == 0x0)
 		{
 			variadic_error_printer(2, "minishell : unset '%s' not a valid identifier\n", args);
-			return ;
+			return;
 		}
 		++i;
 	}
 }
 
-void	ft_unset_logic(char *name, t_env *env)
+// void ft_unset_logic(char *name, t_env *env)
+// {
+// 	t_env new_env;
+// 	t_env	*env;
+// 	int i;
+// 	int ret;
+
+// 	i = 0x0;
+// 	env = get_bash_env();
+// 	ret = ft_in_env(name, env);
+// 	if (ret == -1)
+// 		return;
+// 	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
+// 	while ((*env)[i])
+// 	{
+// 		if (i == ret)
+// 			garbage_free((void **)&(*env)[i]);
+// 		else if (i >= ret)
+// 			new_env[i - 1] = (*env)[i];
+// 		else
+// 			new_env[i] = (*env)[i];
+// 		i++;
+// 	}
+// 	new_env[i - 1] = 0x0;
+// 	garbage_free((void **) &(*env));
+// 	free(*env);
+// 	*env = new_env;
+// 	ft_print_env(*env);
+// }
+
+// void ft_handle_unset(char **args, t_env *env)
+// {
+// 	int i;
+
+// 	i = 0x0;
+// 	while (args[i] != 0x0)
+// 	{
+// 		parse_unset(args[i]);
+// 		ft_unset_logic(args[i], env);
+// 		++i;
+// 	}
+// }
+
+int ft_handle_built_ins(char **args, t_env *env)
 {
-	t_env	new_env;
-	//t_env	*env;
-	int		i;
-	int		ret;
-
-	i = 0x0;
-	//env = get_bash_env();
-	//ret = ft_in_env(name, env);
-	if (ret == -1)
-		return ;
-	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
-	while ((*env)[i])
-	{
-		if (i == ret)
-			garbage_free((void **) &(*env)[i]);
-		else if (i >= ret)
-			new_env[i - 1] = (*env)[i];
-		else
-			new_env[i] = (*env)[i];
-		i++;
-	}
-	new_env[i - 1] = 0x0;
-	//garbage_free((void **) &(*env));
-	free(*env);
-	*env = new_env;
-	ft_print_env(*env);
-}
-
-void	ft_handle_unset(char **args, t_env *env)
-{
-	int		i;
-
-	i = 0x0;
-	while (args[i] != 0x0)
-	{
-		parse_unset(args[i]);
-		ft_unset_logic(args[i], env);
-		++i;
-	}
-}
-*/
-
-int	ft_handle_built_ins(char **args, t_env *env)
-{
-	int	exit_stat;
+	int exit_stat;
 
 	exit_stat = *retrieve_exit_status();
-	//printf("\n===> BUILT-INS HANDLER <===\n");
+	// printf("\n===> BUILT-INS HANDLER <===\n");
 	if (!ft_strcmp(args[0], "export"))
 		exit_stat = ft_handle_export(args, env);
-	//else if (!ft_strcmp(args[0], "unset"))
-		//ft_handle_unset(args, env);
+	// else if (!ft_strcmp(args[0], "unset"))
+	// 	ft_handle_unset(args, env);
 	else if (!ft_strcmp(args[0], "env"))
 		exit_stat = ft_handle_env(args, env);
 	else if (!ft_strcmp(args[0], "echo"))
@@ -703,20 +702,20 @@ int	ft_handle_built_ins(char **args, t_env *env)
 	}
 	else if (!ft_strcmp(args[0], "exit"))
 	{
-		//printf("\n\nEXIT HANDLER\n\n");
+		// printf("\n\nEXIT HANDLER\n\n");
 		exit_stat = ft_handle_exit(args);
 		exit(exit_stat);
 	}
 	exit_value_set(exit_stat);
-	//printf("==> EXIT STAT = %d\n", exit_stat);
+	// printf("==> EXIT STAT = %d\n", exit_stat);
 	return (exit_stat);
 }
 
-int	**ft_to_array(t_pipe **pipe)
+int **ft_to_array(t_pipe **pipe)
 {
-	int		i;
-	t_pipe	*tmp;
-	int		**arr;
+	int i;
+	t_pipe *tmp;
+	int **arr;
 
 	arr = malloc(sizeof(int *) * ft_lstsize(*pipe));
 	if (!arr)
@@ -736,7 +735,7 @@ int	**ft_to_array(t_pipe **pipe)
 	return (arr);
 }
 
-void	ft_free_to_array(t_pipe **pipe, int **arr)
+void ft_free_to_array(t_pipe **pipe, int **arr)
 {
 	int i;
 
@@ -746,10 +745,10 @@ void	ft_free_to_array(t_pipe **pipe, int **arr)
 	free(arr);
 }
 
-void	ft_close_pipes(t_pipe *pipe, int **arr)
+void ft_close_pipes(t_pipe *pipe, int **arr)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	while (i < ft_lstsize(pipe))
@@ -761,16 +760,16 @@ void	ft_close_pipes(t_pipe *pipe, int **arr)
 	}
 }
 
-void	heredoc_sig_handler(int sig)
+void heredoc_sig_handler(int sig)
 {
 	if (sig == SIGINT)
 		exit(EXIT_SUCCESS);
 }
 
-void	ft_handle_redirections(t_redirs *redirs, t_node *node)
+void ft_handle_redirections(t_redirs *redirs, t_node *node)
 {
-	char	*line;
-	char	*tmp;
+	char *line;
+	char *tmp;
 
 	line = NULL;
 	tmp = ft_strdup("/tmp/");
@@ -817,7 +816,7 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node)
 	ft_handle_redirections(redirs->next, node);
 }
 
-void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
+void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
 	ft_handle_redirections(node->content.simple_cmd.redirs, node);
 	if (node->content.simple_cmd.fd_in == 0)
@@ -836,12 +835,12 @@ void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 		dup2(node->content.simple_cmd.fd_out, 1);
 }
 
-void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 {
-	char	*bin_path;
-	char	**argv;
-	int		ret;
-	int		**pipes;
+	char *bin_path;
+	char **argv;
+	int ret;
+	int **pipes;
 
 	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
 	pipes = ft_to_array(pipe);
@@ -850,7 +849,7 @@ void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	ft_close_pipes(*pipe, pipes);
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		//printf("\n\n==> BUILT-INS HANDLER IN CHILD <==\n\n");
+		// printf("\n\n==> BUILT-INS HANDLER IN CHILD <==\n\n");
 		ret = ft_handle_built_ins(node->content.simple_cmd.argv, env);
 		exit(ret);
 	}
@@ -874,9 +873,9 @@ void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 
 void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
-	int	pid;
-	int	**pipes;
-	int	status;
+	int pid;
+	int **pipes;
+	int status;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -903,7 +902,7 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		}
 		if (node->content.simple_cmd.argv[0] == 0x0)
 			return;
-		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd")))
+		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || !ft_strcmp(node->content.simple_cmd.argv[0], "unset")))
 		{
 			printf("\n\n===> PARENT EXEC ONLY CD AND EXIT <===\n\n");
 			status = ft_handle_built_ins(node->content.simple_cmd.argv, env);
@@ -914,9 +913,9 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	(*exec_index)++;
 }
 
-int	ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
+int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
-	int	error;
+	int error;
 
 	error = 0;
 	ft_handle_cmd(node, pipe, exec_index, env);
@@ -926,10 +925,10 @@ int	ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 		return (1);
 }
 
-void	ft_free_pipes(t_pipe **pipe)
+void ft_free_pipes(t_pipe **pipe)
 {
-	t_pipe	*p;
-	t_pipe	*tmp;
+	t_pipe *p;
+	t_pipe *tmp;
 
 	p = *pipe;
 	while (p)
@@ -995,9 +994,9 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 
 void ft_executor(char *line, t_env *env)
 {
-	t_node	*ast;
-	t_pipe	*pipe;
-	int		exec_init;
+	t_node *ast;
+	t_pipe *pipe;
+	int exec_init;
 
 	ast = 0x0;
 	pipe = NULL;
