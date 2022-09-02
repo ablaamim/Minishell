@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:21:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 23:45:40 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	printerror_and_falsify(bool is_subshell)
 		variadic_error_printer(2, ERROR_TOKEN);
 	else
 		variadic_error_printer(2, ERROR_TOKEN);
-	return (false);
+	return (true);
 }
 
 /*
