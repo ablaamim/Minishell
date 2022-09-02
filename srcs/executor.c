@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 02:43:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 16:25:09 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,24 @@ int	ft_argv_len(char **argv)
 	return (i);
 }
 
-void	ft_handle_cd(char **argv, t_env *env)
+int	ft_handle_cd(char **argv, t_env *env)
 {
 	char	pwd[STATIC_BYTES];
 	char	old_pwd[STATIC_BYTES];
 
 	getcwd(old_pwd, sizeof(old_pwd));
 	if (ft_argv_len(argv) > 2)
-		perror("ERROR : TOO MANY ARGS");
+	{
+		variadic_error_printer(2, "minishell : too many arguments\n");
+		return (EXIT_FAILURE);
+	}
 	else if (ft_argv_len(argv) == 1 || (argv[1] && !ft_strcmp(argv[1], "~")))
 	{
 		if (chdir(getenv("HOME")) != 0)
-			perror("ERROR : FAILD TO OPEN FILE");
+		{
+			variadic_error_printer(2, "minishell : failed to open file\n");
+			return (EXIT_FAILURE);
+		}
 		else // success
 		{
 			getcwd(pwd, sizeof(pwd));
@@ -71,7 +77,11 @@ void	ft_handle_cd(char **argv, t_env *env)
 	else if (ft_argv_len(argv) == 2)
 	{
 		if (chdir(argv[1]) != 0)
-			perror("ERROR : FAILD TO OPEN FILE");
+		{
+			//perror("ERROR : FAILD TO OPEN FILE");
+			variadic_error_printer(2, "minishell : failed to open file\n");
+			return (EXIT_FAILURE);
+		}
 		else // success
 		{
 			getcwd(pwd, sizeof(pwd));
@@ -79,6 +89,7 @@ void	ft_handle_cd(char **argv, t_env *env)
 			env_setter("OLDPWD", old_pwd, 1, env);
 		}
 	}
+	return (EXIT_SUCCESS);
 }
 
 t_pipe	*ft_lstlast(t_pipe *lst)
@@ -166,7 +177,7 @@ void	ft_echo_print(char **args, int i, int j, int add_new_line)
 		printf("\n");
 }
 
-void	ft_handle_echo(char **args)
+int	ft_handle_echo(char **args)
 {
 	int	i;
 	int	j;
@@ -185,6 +196,7 @@ void	ft_handle_echo(char **args)
 		i++;
 	}
 	ft_echo_print(args, i, j, add_new_line);
+	return (EXIT_SUCCESS);
 }
 
 void	ft_clean_argv(t_node *node)
@@ -305,9 +317,7 @@ void	ft_handle_wc_extraction(t_node *node, int j, char **argv)
 	else
 	{
 		while ((entry = readdir(dir)) != NULL)
-		{
 			ft_handle_existant_folder(entry, clean_pattern, clean_path, argv);
-		}
 		// printf("==>%s\n", *argv);
 		free(clean_pattern);
 		free(clean_path);
@@ -317,9 +327,9 @@ void	ft_handle_wc_extraction(t_node *node, int j, char **argv)
 
 void	ft_handle_wildcard(t_node *node)
 {
-	char *argv;
-	char *tmp;
-	int j;
+	char	*argv;
+	char	*tmp;
+	int		j;
 
 	if (!ft_has_wildcard(node))
 		return;
@@ -344,15 +354,23 @@ void	ft_handle_wildcard(t_node *node)
 	free(argv);
 }
 
-void	ft_handle_env(char **args, t_env *bash_env)
+void	bash_sett_static(t_env env);
+
+/*WORKING FINE WITH INITIAL ENV*/
+
+int	ft_handle_env(char **args, t_env *bash_env)
 {
 	int		i;
 
+	bash_sett_static(*get_bash_env());
 	i = 0x0;
 	if (*args == 0x0)
-		return;
+		return (EXIT_SUCCESS);
 	if (ft_argv_len(args) > 1)
+	{
 		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
+		return(127);
+	}
 	while ((*bash_env)[i])
 	{
 		if (ft_strchr((*bash_env)[i], '=') != 0x0)
@@ -362,18 +380,20 @@ void	ft_handle_env(char **args, t_env *bash_env)
 		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
-void	ft_handle_pwd(void)
+int	ft_handle_pwd(void)
 {
 	char	pwd[STATIC_BYTES];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 	{
 		variadic_error_printer(2, "error: pwd could not be found\n");
-		return ;
+		return (127);
 	}
 	printf("%s\n", pwd);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_isnumber(char *s)
@@ -392,7 +412,7 @@ int	ft_isnumber(char *s)
 	return (1);
 }
 
-void	ft_handle_exit(char **args)
+int	ft_handle_exit(char **args)
 {
 	int	exit_status;
 
@@ -413,7 +433,7 @@ void	ft_handle_exit(char **args)
 		else
 			exit_status = ft_atoi(args[1]);
 	}
-	exit(exit_status);
+	return(exit_status);
 }
 
 int	export_len_name(char *argument)
@@ -443,7 +463,6 @@ char	*export_variable_name(char *argument)
 	{
 		if (ft_isalnum(argument[i]) == 0x0)
 		{
-			//printf("SHOUD BE FREE\n");
 			garbage_free((void **) &var_name);
 			return (0x0);
 		}
@@ -475,14 +494,33 @@ char	*retrieve_var_val(char *str, char *env_val)
 	return (var_val);
 }
 
+int	special_env_len(t_env *env)
+{
+	int	len = 0x0;
+	while ((*env)[len])
+		len++;
+	return (len);
+}
+
+// Save in data segment
+void	bash_sett_static(t_env env)
+{
+	//ft_print_env(env);;
+	//printf("====> STATIC BASH SAVE IN DATA SEG <==========\n\n");
+	*get_bash_env() = env;
+}
+
 void	env_setter(char *name, char *val, int replace, t_env *env)
 {
 	int		i;
 	t_env	tmp;
 
-	tmp = *env;
 	//ft_print_env(*env);
-	i = ft_in_env(name, env);
+	//printf("\n\n===> ENV SETTER <===\n\n");
+	//printf("\n\n==> ENV LEN = %d\n", special_env_len(env));
+	tmp = *env; //get_bash_env();//garbage_malloc(sizeof(char *) * (special_env_len(env) + 2));
+	
+	i = ft_in_env(name, tmp);
 	if (i > 0x0 && replace != 0x0)
 	{
 		free(tmp[i]);
@@ -494,10 +532,12 @@ void	env_setter(char *name, char *val, int replace, t_env *env)
 	else
 	{
 		*env = ft_add_up_in_env(name, val, tmp);
-		//ft_print_env(*env);
-		if (tmp != 0x0)
-			free(tmp);
+		free(tmp);
+		bash_sett_static(*env);
+		if (env == 0x0)
+			printf("EMPTY SHIT\n");
 	}
+	//ft_print_env(*env);
 }
 
 void	append_to_env(char *export, char *var_name, t_env *env)
@@ -509,7 +549,7 @@ void	append_to_env(char *export, char *var_name, t_env *env)
 
 	replace = true;
 	var_val = 0x0;
-	printf("\n\n====> APPEND TO ENV <===\n\n");
+	//printf("\n\n====> APPEND TO ENV <===\n\n");
 	//ft_print_env(*env);
 	ptr = ft_strchr(export, '=');
 	//printf("APPEND VAR FUNC : PTR VAL: = %s\n", ptr);
@@ -524,11 +564,8 @@ void	append_to_env(char *export, char *var_name, t_env *env)
 		var_val = retrieve_var_val(ptr + 1, env_val);
 	if (replace == true)
 	{
-		//printf("VAR_NAME = %s\n", var_name);
-		///printf("VAR_VAL =  %s\n", var_val);
-		//ft_set_env_var(var_name, var_val, 0x1);
+		//printf("==> APPEND WITH ENV SETTER\n");
 		env_setter(var_name, var_val, 0x1, env);
-		ft_print_env(*env);
 	}
 	garbage_free((void **) &var_val);
 }
@@ -555,22 +592,21 @@ int	ft_handle_export(char **args, t_env *env)
 	char	*var_name;
 	int		ret;
 
-	//ft_print_env(*env);
 	argc = ft_argv_len(args);
 	if (argc <= 1) // MUTATED VIA POINTER TO T_ENV
 		display_env(env);
-	//printf("ARGS LEN EXPORT = %d\n", argc);
 	i = 0x1;
 	ret = EXIT_SUCCESS;
 	while (args[i] != 0x0)
 	{
 		var_name = 0x0;
 		var_name = export_variable_name(args[i]);
-		//printf("VAR NAME EXPORT HANDLER = %s\n", var_name);
+		//printf("==> VAR NAME EXPORT HANDLER = %s\n", var_name);
 		if (var_name == 0x0)
 			export_perror(args[i], &ret);
 		else
 		{
+			//printf("===========VAR MUST BE ADDED IN ENV===========\n\n");
 			append_to_env(args[i], var_name, env);
 			garbage_free((void **) &var_name);
 		}
@@ -578,7 +614,7 @@ int	ft_handle_export(char **args, t_env *env)
 	}
 	return (ret);
 }
-
+/*
 void	parse_unset(char *args)
 {
 	int	i;
@@ -609,7 +645,7 @@ void	ft_unset_logic(char *name, t_env *env)
 
 	i = 0x0;
 	//env = get_bash_env();
-	ret = ft_in_env(name, env);
+	//ret = ft_in_env(name, env);
 	if (ret == -1)
 		return ;
 	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
@@ -642,26 +678,37 @@ void	ft_handle_unset(char **args, t_env *env)
 		++i;
 	}
 }
+*/
 
 int	ft_handle_built_ins(char **args, t_env *env)
 {
 	int	exit_stat;
 
-	printf("\n===> BUILT-INS HANDLER <===\n");
+	exit_stat = *retrieve_exit_status();
+	//printf("\n===> BUILT-INS HANDLER <===\n");
 	if (!ft_strcmp(args[0], "export"))
 		exit_stat = ft_handle_export(args, env);
-	else if (!ft_strcmp(args[0], "unset"))
-		ft_handle_unset(args, env);
+	//else if (!ft_strcmp(args[0], "unset"))
+		//ft_handle_unset(args, env);
 	else if (!ft_strcmp(args[0], "env"))
-		ft_handle_env(args, env);
+		exit_stat = ft_handle_env(args, env);
 	else if (!ft_strcmp(args[0], "echo"))
-		ft_handle_echo(args);
+		exit_stat = ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
-		ft_handle_pwd();
+		exit_stat = ft_handle_pwd();
 	else if (!ft_strcmp(args[0], "cd"))
-		ft_handle_cd(args, env);
-	printf("===> EXIT STAT = %d\n", exit_stat);
+	{
+		printf("\n\n====> CD HANDLER <====\n\n");
+		exit_stat = ft_handle_cd(args, env);
+	}
+	else if (!ft_strcmp(args[0], "exit"))
+	{
+		//printf("\n\nEXIT HANDLER\n\n");
+		exit_stat = ft_handle_exit(args);
+		exit(exit_stat);
+	}
 	exit_value_set(exit_stat);
+	//printf("==> EXIT STAT = %d\n", exit_stat);
 	return (exit_stat);
 }
 
@@ -803,10 +850,12 @@ void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	ft_close_pipes(*pipe, pipes);
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		printf("\n\n==> BUILT-INS HANDLER IN CHILD <==\n\n");
+		//printf("\n\n==> BUILT-INS HANDLER IN CHILD <==\n\n");
 		ret = ft_handle_built_ins(node->content.simple_cmd.argv, env);
 		exit(ret);
 	}
+	ret = *retrieve_exit_status();
+	exit_value_set(ret);
 	argv = node->content.simple_cmd.argv;
 	if (!argv[0])
 		exit(1);
@@ -947,12 +996,10 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 void ft_executor(char *line, t_env *env)
 {
 	t_node	*ast;
-	//t_env	*bash_env;
 	t_pipe	*pipe;
 	int		exec_init;
 
 	ast = 0x0;
-	//bash_env = get_bash_env();
 	pipe = NULL;
 	exec_init = 0;
 	if (line != 0x0)

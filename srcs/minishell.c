@@ -6,16 +6,14 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 11:11:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 01:00:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 12:03:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- * ft_free_fd() : this function will free all file descriptors beyond 3,
- * i will call this function respectively 2 times in order to free all leaking
- * filedescriptors.
+ * ft_free_fd() : this function will free all file descriptors beyond 3.
 */
 
 void	ft_free_fd(void)
@@ -64,13 +62,12 @@ int	main(int argc, char **argv, char  **env)
 	(void) argv;
 	if (argc == 1)
 	{
-		bash_env = init_bash_env(env);
+		bash_env = init_bash_env(env); //Alternative fixs for env
 		//ft_print_env(*bash_env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
-		ft_minishell(bash_env);
-		ft_free_fd();
+		ft_minishell(bash_env); // send a pointer to env so i can mutate it
 	}
 	else
 	{

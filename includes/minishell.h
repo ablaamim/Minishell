@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 01:08:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 15:11:58 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,12 +435,11 @@ char *file_extract(char *filepath);
 t_env *get_bash_env(void);
 int env_length(t_env env);
 char *get_env(const char *var);
-int ft_in_env(const char *var, t_env *env);
+int ft_in_env(const char *var, t_env env);
 char *ft_substr(const char *src, unsigned int start, size_t len);
 void ft_set_env_var(const char *name, const char *val,
 					int replace);
-char **ft_add_up_in_env(const char *name, const char *val,
-						t_env env);
+t_env	ft_add_up_in_env(const char *name, const char *val, t_env env);
 void cleaner_mr_propre(char *tmp_path, char *shell_path,
 					   char *shelvl_value);
 int retrieve_len_array(char **array);

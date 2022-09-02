@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 01:13:18 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 15:44:00 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_set_env_var(const char *name, const char *val, int replace)
  * Return index of var in environment, returns -1 if not found.
 */
 
-int	ft_in_env(const char *var, t_env *env)
+int	ft_in_env(const char *var, t_env env)
 {
 	int		i;
 	int		len;
@@ -60,7 +60,7 @@ int	ft_in_env(const char *var, t_env *env)
 
 	i = 0x0;
 	len = ft_strlen(var);
-	temp = *env;
+	temp = env;
 	while (temp[i])
 	{
 		if (ft_strncmp(temp[i], var, len) == 0x0)
