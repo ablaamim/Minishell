@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:07:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:14:00 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
  * -> Control EOF to exit with ctrl+D.
  */
 
-void ft_handle_prompt(char **line)
+void	ft_handle_prompt(char **line)
 {
-	char *tmp;
-	char *data;
-	char *data_tmp;
-	int i;
+	char	*tmp;
+	char	*data;
+	char	*data_tmp;
+	int		i;
 
-	data_tmp = get_env("PWD");
-	tmp = get_env("HOME");
+	data_tmp = getenv("PWD");
+	tmp = getenv("HOME");
+	printf("==> HOME =%s\n", tmp);
 	i = 0;
 	printf("\033[0;32m");
 	while (data_tmp[i] && data_tmp[i] == tmp[i])
@@ -36,7 +37,7 @@ void ft_handle_prompt(char **line)
 		i = 0;
 	else
 		data_tmp = ft_strjoin("~", data_tmp + i, "");
-	data = ft_strjoin(get_env("USER"), get_env("NAME"), "@");
+	data = ft_strjoin(getenv("USER"), getenv("NAME"), "@");
 	tmp = ft_strjoin(data, data_tmp, "\033[0;37m:\033[0;36m");
 	free(data);
 	data = ft_strjoin(tmp, "\033[0;37m$ ", "");
@@ -45,10 +46,10 @@ void ft_handle_prompt(char **line)
 	free(data);
 }
 
-char *read_line(void)
+char	*read_line(void)
 {
-	char *line;
-	char *prompt;
+	char	*line;
+	char	*prompt;
 
 	prompt = ft_strdup("");
 	ft_handle_prompt(&prompt);
@@ -66,9 +67,9 @@ char *read_line(void)
 
 /*
  * Signals handling : ctrl+c and ctrl+\
- */
+*/
 
-void signal_command(int sig)
+void	signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -84,7 +85,7 @@ void signal_command(int sig)
 	}
 }
 
-void signal_command_child(int sig)
+void	signal_command_child(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -106,9 +107,9 @@ void signal_command_child(int sig)
  * -> free line.
  */
 
-void ft_minishell(char **env)
+void	ft_minishell(t_env *env)
 {
-	char *line;
+	char	*line;
 
 	while (1337)
 	{

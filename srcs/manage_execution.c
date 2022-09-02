@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:58:37 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/21 13:07:21 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:15:41 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	manage_execution(char *binary_path, char *cmd)
 
 	if (binary_path == 0x0)
 	{
-		if (get_env("PATH") == 0x0)
+		if (getenv("PATH") == 0x0)
 			return (manage_error(0x0, cmd, "No such file or directory", 127));
 		else
 			return (manage_error(0x0, cmd, "Command not found", 127));

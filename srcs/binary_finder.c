@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 18:22:47 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 11:14:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:32:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*bin_path_getter(char *binary)
 	struct stat	buff;
 
 	i = 0x0;
-	paths = ft_split(get_env("PATH"), ':');
+	paths = ft_split(getenv("PATH"), ':');
 	if (paths == 0x0)
 		return (0x0);
 	while (paths[i])

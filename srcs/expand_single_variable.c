@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 22:33:59 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 11:37:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:33:36 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	get_variable_name_and_val(char *arg, char **var_name, char **var_val)
 	else
 	{
 		*var_name = get_variable_name(arg);
-		*var_val = quotes_reversal(get_env(*var_name));
+		*var_val = quotes_reversal(getenv(*var_name));
 		if (*var_val == 0x0)
 			*var_val = "";
 	}

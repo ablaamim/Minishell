@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/01 18:16:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:08:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,16 +222,18 @@ typedef struct s_garbage_list
 	struct s_garbage_list *next;
 } t_garbage_list;
 
+typedef char **t_env;
+
 /*
  * Core functions :.
  */
 
-void ft_minishell(char **env);
+void ft_minishell(t_env *env);
 int argv_error_handler(char *argv);
 void ft_free_fd(void);
 char *ft_prompt(void);
 char *read_line(void);
-void ft_executor(char *line, char **env);
+void ft_executor(char *line, t_env *env);
 void ft_add_history(char *line);
 
 /*
@@ -340,8 +342,6 @@ bool has_space(char *str);
  * EXECUTION DATA :
  */
 
-typedef char **t_env;
-
 typedef struct s_pipe
 {
 	int fd[2];
@@ -426,7 +426,7 @@ void get_variable_name_and_val(char *arg, char **var_name,
  * Init shell environment and save it in accessible memory.
  */
 
-int init_bash_env(char *shell, t_env env);
+t_env *init_bash_env(t_env env);
 void init_env_variables(char *shell);
 char *get_true_filepath(char const *filepath);
 char *path_extracter(char const *filepath);
@@ -435,7 +435,7 @@ char *file_extract(char *filepath);
 t_env *get_bash_env(void);
 int env_length(t_env env);
 char *get_env(const char *var);
-int ft_in_env(const char *var);
+int ft_in_env(const char *var, t_env *env);
 char *ft_substr(const char *src, unsigned int start, size_t len);
 void ft_set_env_var(const char *name, const char *val,
 					int replace);

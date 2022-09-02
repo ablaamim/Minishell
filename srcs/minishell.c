@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 11:11:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 11:13:15 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:00:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,19 @@ void	ft_free_fd(void)
  * in accessible memory, like this we will have a copy of bash environment.
 */
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char  **env)
 {
+	t_env	*bash_env;
+
+	(void) argv;
 	if (argc == 1)
 	{
-		init_bash_env(file_extract(argv[0]), env);
+		bash_env = init_bash_env(env);
+		//ft_print_env(*bash_env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
-		ft_minishell(env);
+		ft_minishell(bash_env);
 		ft_free_fd();
 	}
 	else

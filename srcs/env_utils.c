@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/01 20:55:06 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:13:18 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
  *  [ALL GOOD IN THIS MODULE]
 */
 
+/*
 void	ft_set_env_var(const char *name, const char *val, int replace)
 {
 	int		i;
@@ -46,21 +47,19 @@ void	ft_set_env_var(const char *name, const char *val, int replace)
 			free(temp);
 	}
 }
-
+*/
 /*
  * Return index of var in environment, returns -1 if not found.
 */
 
-int	ft_in_env(const char *var)
+int	ft_in_env(const char *var, t_env *env)
 {
 	int		i;
 	int		len;
 	t_env	temp;
-	t_env	*env;
 
 	i = 0x0;
 	len = ft_strlen(var);
-	env = get_bash_env();
 	temp = *env;
 	while (temp[i])
 	{
@@ -77,7 +76,7 @@ int	ft_in_env(const char *var)
 /*
  * Return value of var in environment, return NULL if its not found.
 */
-
+/*
 char	*get_env(const char *var)
 {
 	t_env	temp;
@@ -91,7 +90,7 @@ char	*get_env(const char *var)
 	temp = *env;
 	return (&temp[i][ft_strlen(var) + 1]);
 }
-
+*/
 /*
  * Rerturn address of environment.
  * [AKA WANNA BE GLOBAL //HACK IT ITS FINE]

@@ -6,7 +6,7 @@
 #    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/08/29 13:41:05 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/09/01 21:50:48 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,6 @@ SRC = ./srcs/debug.c \
 	  ./srcs/expander_utils.c \
 	  ./srcs/heredoc_expander.c \
 	  ./srcs/parse_parenthesis.c \
-	  ./srcs/wildcards_expander.c \
 	  ./srcs/redir_helper.c \
 
 OBJ = $(SRC:.c=.o)

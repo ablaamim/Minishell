@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 11:12:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/02 01:29:55 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * SHLVL ALSO.
 */
 
-char	*path_extracter(char const	*filepath)
+char	*path_extracter(char const *filepath)
 {
 	int	i;
 
@@ -34,7 +34,7 @@ char	*path_extracter(char const	*filepath)
 	return (ft_strndup(filepath, i));
 }
 
-char	*realpath_helper(char const	*path)
+char	*realpath_helper(char const *path)
 {
 	char	*real_path;
 	char	pwd[SIZE_10B];
@@ -55,7 +55,7 @@ char	*realpath_helper(char const	*path)
 	return (real_path);
 }
 
-char	*get_true_filepath(char const	*filepath)
+char	*get_true_filepath(char const *filepath)
 {
 	char	*real_path;
 	char	*path;
@@ -72,7 +72,7 @@ char	*get_true_filepath(char const	*filepath)
 	free(real_path);
 	return (binary_path);
 }
-
+/*
 void	init_env_variables(char	*shell)
 {
 	char	*temp_path;
@@ -98,12 +98,12 @@ void	init_env_variables(char	*shell)
 		shell_exit(EXIT_FAILURE, strerror(errno));
 	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
-
+*/
 /*
  * Save environment data in accessible memory area.
 */
 
-int	init_bash_env(char *bash, t_env env)
+t_env	*init_bash_env(t_env env)
 {
 	t_env	*shell_env;
 	int		len;
@@ -126,6 +126,6 @@ int	init_bash_env(char *bash, t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
-	init_env_variables(bash);
-	return (0x0);
+	//init_env_variables(bash);
+	return (shell_env);
 }
