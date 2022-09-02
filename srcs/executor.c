@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 00:00:44 by root             ###   ########.fr       */
+/*   Updated: 2022/09/03 00:42:37 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int ft_handle_cd(char **argv, t_env *env)
 	{
 		if (chdir(argv[1]) != 0)
 		{
-			// perror("ERROR : FAILD TO OPEN FILE");
 			variadic_error_printer(2, "minishell : failed to open file\n");
 			return (EXIT_FAILURE);
 		}
@@ -355,8 +354,6 @@ void ft_handle_wildcard(t_node *node)
 }
 
 void bash_sett_static(t_env env);
-
-/*WORKING FINE WITH INITIAL ENV*/
 
 int ft_handle_env(char **args, t_env *bash_env)
 {
@@ -697,7 +694,6 @@ int ft_handle_built_ins(char **args, t_env *env)
 		exit_stat = ft_handle_pwd();
 	else if (!ft_strcmp(args[0], "cd"))
 	{
-		printf("\n\n====> CD HANDLER <====\n\n");
 		exit_stat = ft_handle_cd(args, env);
 	}
 	else if (!ft_strcmp(args[0], "exit"))
@@ -849,7 +845,6 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	ft_close_pipes(*pipe, pipes);
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		// printf("\n\n==> BUILT-INS HANDLER IN CHILD <==\n\n");
 		ret = ft_handle_built_ins(node->content.simple_cmd.argv, env);
 		exit(ret);
 	}
@@ -904,7 +899,6 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 			return;
 		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || !ft_strcmp(node->content.simple_cmd.argv[0], "unset")))
 		{
-			printf("\n\n===> PARENT EXEC ONLY CD AND EXIT <===\n\n");
 			status = ft_handle_built_ins(node->content.simple_cmd.argv, env);
 			exit_value_set(status);
 		}
