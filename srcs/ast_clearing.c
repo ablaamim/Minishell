@@ -12,16 +12,16 @@
 
 #include "../includes/minishell.h"
 
-void	ast_clearing(t_node	**ast)
+void ast_clearing(t_node **ast)
 {
 	if (*ast == 0x0)
-		return ;
+		return;
 	if ((*ast)->type == SIMPLE_CMD)
 		simple_cmd_clearing(ast);
 	else
 	{
 		ast_clearing(&(*ast)->content.child.left);
 		ast_clearing(&(*ast)->content.child.right);
-		garbage_free((void **) &*ast);
+		garbage_free((void **)&*ast);
 	}
 }

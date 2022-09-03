@@ -135,6 +135,30 @@ void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 	}
 }
 
+int ft_is_child_ignored(char *string)
+{
+	int i;
+	char **built_ins;
+	int ignored;
+
+	i = 0;
+	ignored = 0;
+	built_ins = ft_split("cd unset export exit", ' ');
+	while (built_ins[i])
+	{
+		if (built_ins[0] == 0x0 || string == 0x0)
+			break;
+		if (!ft_strcmp(built_ins[i], string))
+			ignored = 1;
+		i++;
+	}
+	i = 0;
+	while (built_ins[i])
+		free(built_ins[i++]);
+	free(built_ins);
+	return (ignored);
+}
+
 int ft_is_built_in(char *string)
 {
 	int i;
@@ -485,7 +509,7 @@ char *retrieve_var_val(char *str, char *env_val)
 	char *var_val;
 
 	if (*(str - 2) == '+')
-		var_val = ft_strjoin(env_val, str, "");
+		var_val = ft_strdup(env_val);
 	else
 		var_val = ft_strdup(str);
 	return (var_val);
@@ -762,13 +786,46 @@ void heredoc_sig_handler(int sig)
 		exit(EXIT_SUCCESS);
 }
 
-void ft_handle_redirections(t_redirs *redirs, t_node *node)
+int ft_handle_line(char *line, t_redirs *redirs, t_node *node)
+{
+
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, heredoc_sig_handler);
+	line = readline(">");
+	if (line == 0x0)
+		return (0);
+	if (!ft_strcmp(line, redirs->file_name))
+		return (0);
+	heredoc_expander(&line);
+	write(node->content.simple_cmd.fd_in, line, ft_strlen(line));
+	write(node->content.simple_cmd.fd_in, "\n", 1);
+	free(line);
+	return (1);
+}
+
+void ft_handle_heredoc(t_redirs *redirs, t_node *node)
 {
 	char *line;
 	char *tmp;
 
-	line = NULL;
 	tmp = ft_strdup("/tmp/");
+	line = ft_strjoin(tmp, redirs->file_name, "");
+	node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
+	while (1)
+		if (ft_handle_line(line, redirs, node) == 0)
+			break;
+
+	free(line);
+	line = ft_strjoin(tmp, redirs->file_name, "");
+	close(node->content.simple_cmd.fd_in);
+	node->content.simple_cmd.fd_in = open(line, O_RDONLY);
+	free(line);
+	free(tmp);
+}
+
+void ft_handle_redirections(t_redirs *redirs, t_node *node)
+{
+
 	if (redirs == NULL)
 		return;
 	else if (redirs->type == INPUT_REDIR)
@@ -781,35 +838,11 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 		}
 	}
 	else if (redirs->type == OUTPUT_REDIR)
-	{
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
-	}
 	else if (redirs->type == APPEND_OUTPUT_REDIR)
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
 	else if (redirs->type == HEREDOC_REDIR)
-	{
-		line = ft_strjoin(tmp, redirs->file_name, "");
-		node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
-		while (ft_strcmp(line, redirs->file_name))
-		{
-			signal(SIGQUIT, SIG_IGN);
-			signal(SIGINT, heredoc_sig_handler);
-			line = readline(">");
-			if (line == 0x0)
-				break;
-			;
-			if (!ft_strcmp(line, redirs->file_name))
-				break;
-			heredoc_expander(&line);
-			write(node->content.simple_cmd.fd_in, line, ft_strlen(line));
-			write(node->content.simple_cmd.fd_in, "\n", 1);
-		}
-		free(line);
-		line = ft_strjoin(tmp, redirs->file_name, "");
-		close(node->content.simple_cmd.fd_in);
-		node->content.simple_cmd.fd_in = open(line, O_RDONLY);
-		free(line);
-	}
+		ft_handle_heredoc(redirs, node);
 	ft_handle_redirections(redirs->next, node);
 }
 
@@ -831,18 +864,26 @@ void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 		dup2(node->content.simple_cmd.fd_out, 1);
 }
 
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
+void ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index)
 {
-	char *bin_path;
-	char **argv;
-	int ret;
 	int **pipes;
 
-	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
+	if (node->content.simple_cmd.argv[0] && ft_is_child_ignored(node->content.simple_cmd.argv[0]))
+		exit(0);
 	pipes = ft_to_array(pipe);
 	ft_handle_wildcard(node);
 	ft_handle_dup2(node, pipe, pipes, exec_index);
 	ft_close_pipes(*pipe, pipes);
+	signal(SIGQUIT, signal_command_child); // ctrl+\ when cat is waiting for input
+	ft_free_to_array(pipe, pipes);
+}
+
+void ft_handle_child_execution(t_node *node, t_env *env)
+{
+	char *bin_path;
+	char **argv;
+	int ret;
+
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
 		ret = ft_handle_built_ins(node->content.simple_cmd.argv, env);
@@ -866,11 +907,42 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
 	exit(ret);
 }
 
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
+{
+	ft_handle_child_init(node, pipe, exec_index);
+	ft_handle_child_execution(node, env);
+}
+
+void ft_handle_parent(t_node *node, int pid, t_env *env, t_pipe **pipe)
+{
+	int status;
+
+	while (waitpid(pid, &status, 0x0) > 0)
+	{
+		while (waitpid(-1, &status, 0x0) > 0)
+			;
+		write(2, "", 0);
+		if (WIFEXITED(status))
+		{
+			exit_value_set(WEXITSTATUS(status));
+			if (WEXITSTATUS(status) == 17)
+				exit_value_set(0x0);
+		}
+	}
+	if (node->content.simple_cmd.argv[0] == 0x0)
+		return;
+	status = *retrieve_exit_status();
+	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || !ft_strcmp(node->content.simple_cmd.argv[0], "unset")))
+	{
+		status = ft_handle_built_ins(node->content.simple_cmd.argv, env);
+		exit_value_set(status);
+	}
+}
+
 void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 {
 	int pid;
 	int **pipes;
-	int status;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -883,26 +955,7 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		while (waitpid(pid, &status, 0x0) > 0)
-		{
-			while (waitpid(-1, &status, 0x0) > 0)
-				;
-			write(2, "", 0);
-			if (WIFEXITED(status))
-			{
-				exit_value_set(WEXITSTATUS(status));
-				if (WEXITSTATUS(status) == 17)
-					exit_value_set(0x0);
-			}
-		}
-		if (node->content.simple_cmd.argv[0] == 0x0)
-			return;
-		status = *retrieve_exit_status();
-		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || !ft_strcmp(node->content.simple_cmd.argv[0], "unset")))
-		{
-			status = ft_handle_built_ins(node->content.simple_cmd.argv, env);
-			exit_value_set(status);
-		}
+		ft_handle_parent(node, pid, env, pipe);
 	}
 	ft_free_to_array(pipe, pipes);
 	(*exec_index)++;
