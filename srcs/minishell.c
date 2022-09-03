@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 11:11:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 12:03:11 by root             ###   ########.fr       */
+/*   Updated: 2022/09/03 12:03:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,11 @@ int	main(int argc, char **argv, char  **env)
 	(void) argv;
 	if (argc == 1)
 	{
-		bash_env = init_bash_env(env); //Alternative fixs for env
-		//ft_print_env(*bash_env);
+		bash_env = init_bash_env(env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
-		ft_minishell(bash_env); // send a pointer to env so i can mutate it
+		ft_minishell(bash_env);
 	}
 	else
 	{

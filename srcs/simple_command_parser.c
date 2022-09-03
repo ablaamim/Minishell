@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 14:43:51 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 00:38:58 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/03 14:18:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	printerror_and_falsify(bool is_subshell)
 		variadic_error_printer(2, ERROR_TOKEN);
 	else
 		variadic_error_printer(2, ERROR_TOKEN);
-	return (true);
+	return (false);
 }
 
 /*
@@ -68,6 +68,7 @@ bool	convert_list_to_array(t_token **token_list, t_node \
 			if (*token_list == 0x0)
 				return (printerror_and_falsify(is_subshell));
 			if ((*token_list)->type != WORD_TOKEN)
+				//return (false);
 				continue ;
 		}
 		simple_command->content.simple_cmd.argv[i++] = \
@@ -110,7 +111,6 @@ bool	simple_command_parser(t_token **token_list, t_node **ast, \
 	if (convert_list_to_array(token_list, simple_command, is_subshell) == \
 			false)
 		return (false);
-	else
-		*ast = simple_command;
+	*ast = simple_command;
 	return (true);
 }

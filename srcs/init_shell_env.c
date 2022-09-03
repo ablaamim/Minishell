@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 12:22:10 by root             ###   ########.fr       */
+/*   Updated: 2022/09/03 12:04:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*get_true_filepath(char const *filepath)
 	free(real_path);
 	return (binary_path);
 }
+
 /*
 void	init_env_variables(char	*shell)
 {
@@ -99,6 +100,7 @@ void	init_env_variables(char	*shell)
 	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
 */
+
 /*
  * Save environment data in accessible memory area.
 */
@@ -126,6 +128,5 @@ t_env	*init_bash_env(t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
-	//init_env_variables(bash);
 	return (shell_env);
 }
