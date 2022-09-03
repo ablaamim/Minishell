@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 11:11:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 12:03:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/03 18:47:17 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,14 @@ void	ft_free_fd(void)
 
 int	main(int argc, char **argv, char  **env)
 {
-	t_env	*bash_env;
-
 	(void) argv;
 	if (argc == 1)
 	{
-		bash_env = init_bash_env(env);
+		init_bash_env(argv[0], env);
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
-		ft_minishell(bash_env);
+		ft_minishell();
 	}
 	else
 	{

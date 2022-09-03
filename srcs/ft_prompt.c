@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 12:43:48 by root             ###   ########.fr       */
+/*   Updated: 2022/09/03 18:50:07 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ void ft_handle_prompt(char **line)
 
 	data_tmp = get_var("PWD");
 	tmp = get_var("HOME");
-	// printf("==> HOME = %s\n", tmp); //HOME ENV VAR
-	// printf("==> PWD = %s\n", data_tmp); // PWD ENV VAR
 	i = 0;
 	printf("\033[0;32m");
 	while (data_tmp[i] && data_tmp[i] == tmp[i])
@@ -132,7 +130,7 @@ void signal_command_child(int sig)
  * -> free line.
  */
 
-void ft_minishell(t_env *env)
+void ft_minishell(void)
 {
 	char *line;
 
@@ -142,7 +140,7 @@ void ft_minishell(t_env *env)
 		line = read_line();
 		signal(SIGINT, signal_command);
 		signal(SIGQUIT, SIG_IGN);
-		ft_executor(line, env);
+		ft_executor(line);
 		free(line);
 	}
 }

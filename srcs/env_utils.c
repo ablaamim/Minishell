@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/02 15:44:00 by root             ###   ########.fr       */
+/*   Updated: 2022/09/03 18:44:19 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
  *  [ALL GOOD IN THIS MODULE]
 */
 
-/*
 void	ft_set_env_var(const char *name, const char *val, int replace)
 {
 	int		i;
@@ -39,28 +38,25 @@ void	ft_set_env_var(const char *name, const char *val, int replace)
 	}
 	else
 	{
-		//printf("ADD UP NAME = %s\n", name);
-		//printf("VAL = %s\n", val);
 		*env = ft_add_up_in_env(name, val, temp);
-		//ft_print_env(*env);
-		if (temp != 0x0)
-			free(temp);
+		garbage_free((void **) &temp);
 	}
 }
-*/
 /*
  * Return index of var in environment, returns -1 if not found.
 */
 
-int	ft_in_env(const char *var, t_env env)
+int	ft_in_env(const char *var)
 {
 	int		i;
 	int		len;
+	t_env	*env;
 	t_env	temp;
 
 	i = 0x0;
 	len = ft_strlen(var);
-	temp = env;
+	env = get_bash_env();
+	temp = *env;
 	while (temp[i])
 	{
 		if (ft_strncmp(temp[i], var, len) == 0x0)
@@ -76,7 +72,7 @@ int	ft_in_env(const char *var, t_env env)
 /*
  * Return value of var in environment, return NULL if its not found.
 */
-/*
+
 char	*get_env(const char *var)
 {
 	t_env	temp;
@@ -90,7 +86,7 @@ char	*get_env(const char *var)
 	temp = *env;
 	return (&temp[i][ft_strlen(var) + 1]);
 }
-*/
+
 /*
  * Rerturn address of environment.
  * [AKA WANNA BE GLOBAL //HACK IT ITS FINE]

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 12:04:48 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/03 18:39:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ char	*get_true_filepath(char const *filepath)
 	return (binary_path);
 }
 
-/*
-void	init_env_variables(char	*shell)
+void	init_env_variables(char *shell)
 {
 	char	*temp_path;
 	char	*shell_path;
@@ -99,13 +98,12 @@ void	init_env_variables(char	*shell)
 		shell_exit(EXIT_FAILURE, strerror(errno));
 	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
-*/
 
 /*
  * Save environment data in accessible memory area.
 */
 
-t_env	*init_bash_env(t_env env)
+void	init_bash_env(char *shell, t_env env)
 {
 	t_env	*shell_env;
 	int		len;
@@ -117,9 +115,7 @@ t_env	*init_bash_env(t_env env)
 	shell_env = get_bash_env();
 	if (*shell_env == 0x0)
 	{
-		tmp = malloc(sizeof(char *) * (len + 1));
-		if (!tmp)
-			return (0x0);
+		tmp = garbage_malloc(sizeof(char *) * (len + 1));
 		while (env[i])
 		{
 			tmp[i] = ft_strdup(env[i]);
@@ -128,5 +124,5 @@ t_env	*init_bash_env(t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
-	return (shell_env);
+	init_env_variables(shell);
 }

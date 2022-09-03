@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 14:51:27 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/03 20:45:14 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int ft_argv_len(char **argv)
 	return (i);
 }
 
-int ft_handle_cd(char **argv, t_env *env)
+int ft_handle_cd(char **argv)
 {
 	char pwd[STATIC_BYTES];
 	char old_pwd[STATIC_BYTES];
@@ -69,8 +69,8 @@ int ft_handle_cd(char **argv, t_env *env)
 		else // success
 		{
 			getcwd(pwd, sizeof(pwd));
-			env_setter("PWD", pwd, 1, env);
-			env_setter("OLDPWD", old_pwd, 1, env);
+			ft_set_env_var("PWD", pwd, 1);
+			ft_set_env_var("OLDPWD", old_pwd, 1);
 		}
 	}
 	else if (ft_argv_len(argv) == 2)
@@ -83,8 +83,8 @@ int ft_handle_cd(char **argv, t_env *env)
 		else // success
 		{
 			getcwd(pwd, sizeof(pwd));
-			env_setter("PWD", pwd, 1, env);
-			env_setter("OLDPWD", old_pwd, 1, env);
+			ft_set_env_var("PWD", pwd, 1);
+			ft_set_env_var("OLDPWD", old_pwd, 1);
 		}
 	}
 	return (EXIT_SUCCESS);
@@ -376,14 +376,13 @@ void ft_handle_wildcard(t_node *node)
 	free(argv);
 }
 
-void bash_sett_static(t_env env);
-
-int ft_handle_env(char **args, t_env *bash_env)
+int ft_handle_env(char **args)
 {
-	int i;
+	int		i;
+	t_env	*bash_env;
 
 	i = 0x0;
-	*bash_env = *get_bash_env();
+	bash_env = get_bash_env();
 	if (*args == 0x0)
 		return (EXIT_SUCCESS);
 	if (ft_argv_len(args) > 1)
@@ -474,7 +473,7 @@ char	*export_variable_name(char *argument)
 
 	i = 0x0;
 	j = 0x0;
-	if (ft_isalpha(argument[i]) == 0x0)
+	if (ft_isalpha(argument[i]) == 0x0 && argument[i] != '_')
 		return (0x0);
 	var_name = garbage_malloc(sizeof(*var_name) * (export_len_name(argument) + 1));
 	while (argument[i] != '+' && argument[i] != '=' && argument[i] != '\0')
@@ -519,15 +518,16 @@ int special_env_len(t_env *env)
 	return (len);
 }
 
-void env_setter(char *name, char *val, int replace, t_env *env)
+/*
+void env_setter(char *name, char *val, int replace)
 {
 	int i;
-	t_env tmp;
-
-	tmp = *env;
+	t_env	tmp;
+	t_env	*env;
 
 	env = get_bash_env();
-	i = ft_in_env(name, tmp);
+	tmp = *env;
+	i = ft_in_env(name);
 	if (i > 0x0 && replace != 0x0)
 	{
 		free(tmp[i]);
@@ -542,8 +542,8 @@ void env_setter(char *name, char *val, int replace, t_env *env)
 		free(tmp);
 	}
 }
-
-void	append_to_env(char *export, char *var_name, t_env *env)
+*/
+void	append_to_env(char *export, char *var_name)
 {
 	bool replace;
 	char *ptr;
@@ -563,16 +563,16 @@ void	append_to_env(char *export, char *var_name, t_env *env)
 	else
 		var_val = retrieve_var_val(ptr + 1, env_val);
 	if (replace == true)
-	{
-		env_setter(var_name, var_val, 0x1, env);
-	}
+		ft_set_env_var(var_name, var_val, 0x1);
 	garbage_free((void **)&var_val);
 }
 
-void	display_env(t_env *env)
+void	display_env(void)
 {
-	int i;
+	int		i;
+	t_env	*env;
 
+	env = get_bash_env();
 	i = 0x0;
 	while ((*env)[i])
 	{
@@ -584,17 +584,16 @@ void	display_env(t_env *env)
 	}
 }
 
-int	ft_handle_export(char **args, t_env *env)
+int	ft_handle_export(char **args)
 {
 	int		argc;
 	int		i;
 	char	*var_name;
 	int		ret;
 
-	env = get_bash_env();
 	argc = ft_argv_len(args);
 	if (argc <= 1)
-		display_env(env);
+		display_env();
 	i = 0x1;
 	ret = EXIT_SUCCESS;
 	while (args[i] != 0x0)
@@ -605,7 +604,7 @@ int	ft_handle_export(char **args, t_env *env)
 			export_perror(args[i], &ret);
 		else
 		{
-			append_to_env(args[i], var_name, env);
+			append_to_env(args[i], var_name);
 			garbage_free((void **)&var_name);
 		}
 		++i;
@@ -639,15 +638,16 @@ int	parse_unset(char *args)
  * UNSET ENVIRONMENT VAR, RETURNS 1 IF IT EXISTS, AND 0 OTHERWISE.
 */
 
-int ft_unset_logic(char *name, t_env *env)
+int ft_unset_logic(char *name)
 {
 	t_env	new_env;
 	int		i;
 	int		ret;
+	t_env	*env;
 
- 	i = 0x0;
- 	env = get_bash_env();
- 	ret = ft_in_env(name, *env);
+	i = 0x0;
+	env = get_bash_env();
+	ret = ft_in_env(name);
 	if (ret == -1)
 		return (EXIT_SUCCESS);
 	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
@@ -663,11 +663,10 @@ int ft_unset_logic(char *name, t_env *env)
  	}
  	new_env[i - 1] = 0x0;
  	*env = new_env;
- 	//ft_print_env(*env);
 	return (EXIT_FAILURE);
 }
 
-int	ft_handle_unset(char **args, t_env *env)
+int	ft_handle_unset(char **args)
 {
 	int	i;
 	int	ret;
@@ -678,29 +677,29 @@ int	ft_handle_unset(char **args, t_env *env)
  	{
  		if (parse_unset(args[i]) == EXIT_FAILURE && ret == EXIT_SUCCESS)
 			ret = EXIT_FAILURE;
- 		ft_unset_logic(args[i], env);
+ 		ft_unset_logic(args[i]);
  		++i;
  	}
 	return (ret);
 }
 
-int	ft_handle_built_ins(char **args, t_env *env)
+int	ft_handle_built_ins(char **args)
 {
 	int	exit_stat;
 
 	exit_stat = *retrieve_exit_status();
 	if (!ft_strcmp(args[0], "export"))
-		exit_stat = ft_handle_export(args, env);
+		exit_stat = ft_handle_export(args);
 	else if (!ft_strcmp(args[0], "unset"))
-	 	exit_stat = ft_handle_unset(args, env);
+	 	exit_stat = ft_handle_unset(args);
 	else if (!ft_strcmp(args[0], "env"))
-		exit_stat = ft_handle_env(args, env);
+		exit_stat = ft_handle_env(args);
 	else if (!ft_strcmp(args[0], "echo"))
 		exit_stat = ft_handle_echo(args);
 	else if (!ft_strcmp(args[0], "pwd"))
 		exit_stat = ft_handle_pwd();
 	else if (!ft_strcmp(args[0], "cd"))
-		exit_stat = ft_handle_cd(args, env);
+		exit_stat = ft_handle_cd(args);
 	else if (!ft_strcmp(args[0], "exit"))
 	{
 		exit_stat = ft_handle_exit(args);
@@ -767,12 +766,11 @@ void heredoc_sig_handler(int sig)
 
 int ft_handle_line(char *line, t_redirs *redirs, t_node *node)
 {
-
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, heredoc_sig_handler);
 	line = readline(">");
 	if (line == 0x0)
-		return (0);
+	{
+		return (0x0);
+	}
 	if (!ft_strcmp(line, redirs->file_name))
 		return (0);
 	heredoc_expander(&line);
@@ -790,10 +788,15 @@ void ft_handle_heredoc(t_redirs *redirs, t_node *node)
 	tmp = ft_strdup("/tmp/");
 	line = ft_strjoin(tmp, redirs->file_name, "");
 	node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
+	signal(SIGINT, heredoc_sig_handler);
 	while (1)
+	{
 		if (ft_handle_line(line, redirs, node) == 0)
+		{
+			write(1, "\n", 1);
 			break;
-
+		}
+	}
 	free(line);
 	line = ft_strjoin(tmp, redirs->file_name, "");
 	close(node->content.simple_cmd.fd_in);
@@ -857,15 +860,17 @@ void ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index)
 	ft_free_to_array(pipe, pipes);
 }
 
-void ft_handle_child_execution(t_node *node, t_env *env)
+void ft_handle_child_execution(t_node *node)
 {
 	char *bin_path;
 	char **argv;
 	int ret;
+	t_env	*env;
 
+	env = get_bash_env();
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		ret = ft_handle_built_ins(node->content.simple_cmd.argv, env);
+		ret = ft_handle_built_ins(node->content.simple_cmd.argv);
 		exit(ret);
 	}
 	ret = *retrieve_exit_status();
@@ -886,13 +891,13 @@ void ft_handle_child_execution(t_node *node, t_env *env)
 	exit(ret);
 }
 
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index, t_env *env)
+void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index)
 {
 	ft_handle_child_init(node, pipe, exec_index);
-	ft_handle_child_execution(node, env);
+	ft_handle_child_execution(node);
 }
 
-void ft_handle_parent(t_node *node, int pid, t_env *env, t_pipe **pipe)
+void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 {
 	int status;
 
@@ -915,12 +920,13 @@ void ft_handle_parent(t_node *node, int pid, t_env *env, t_pipe **pipe)
 				|| !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || \
 				!ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))
 	{
-		status = ft_handle_built_ins(node->content.simple_cmd.argv, env);
+		//printf("PARENT\n");
+		status = ft_handle_built_ins(node->content.simple_cmd.argv);
 		exit_value_set(status);
 	}
 }
 
-void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
+void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 {
 	int	pid;
 	int	**pipes;
@@ -932,22 +938,22 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 	if (pid == ERR)
 		shell_exit(EXIT_FAILURE, strerror(errno));
 	if (!pid)
-		ft_handle_child(node, pipe, *exec_index, env);
+		ft_handle_child(node, pipe, *exec_index);
 	if (*exec_index == ft_lstsize(*pipe))
 	{
 		ft_close_pipes(*pipe, pipes);
-		ft_handle_parent(node, pid, env, pipe);
+		ft_handle_parent(node, pid, pipe);
 	}
 	ft_free_to_array(pipe, pipes);
 	(*exec_index)++;
 }
 
-int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
+int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 {
 	int error;
 
 	error = 0;
-	ft_handle_cmd(node, pipe, exec_index, env);
+	ft_handle_cmd(node, pipe, exec_index);
 	if (error)
 		return (2);
 	else
@@ -975,7 +981,7 @@ void ft_handle_reset(t_pipe **pipe, int *exec_index)
 	*exec_index = 0;
 }
 
-void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 {
 	int fd[2];
 
@@ -988,30 +994,30 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 				if (pipe(fd) == ERR)
 					shell_exit(EXIT_FAILURE, strerror(errno));
 				ft_lstadd_front(pipe_, ft_lstnew(fd));
-				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
-				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
+				ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 			else if (node->type == SIMPLE_CMD)
-				ft_exec_cmd(node, pipe_, exec_index, env);
+				ft_exec_cmd(node, pipe_, exec_index);
 			else if (node->type == OR_NODE)
 			{
-				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
 				ft_handle_reset(pipe_, exec_index);
 				if (*retrieve_exit_status() != 0)
-					ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+					ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 			else if (node->type == AND_NODE)
 			{
-				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
 				ft_handle_reset(pipe_, exec_index);
 				if (*retrieve_exit_status() == 0)
-					ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+					ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 			else if (node->type == SEMICO_NODE)
 			{
-				ft_iterate_tree(node->content.child.left, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
 				ft_handle_reset(pipe_, exec_index);
-				ft_iterate_tree(node->content.child.right, pipe_, exec_index, env);
+				ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 		}
 		else
@@ -1021,7 +1027,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 		exit_value_set(EXIT_FAILURE);
 }
 
-void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
+void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index)
 {
 	if (expansions_perform(node) == true)
 	{
@@ -1034,18 +1040,18 @@ void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 			}
 			else if (node != NULL)
 			{
-				ft_init_heredoc(node->content.child.left, pipe_, exec_index, env);
-				ft_init_heredoc(node->content.child.right, pipe_, exec_index, env);
+				ft_init_heredoc(node->content.child.left, pipe_, exec_index);
+				ft_init_heredoc(node->content.child.right, pipe_, exec_index);
 			}
 		}
 	}
 }
 
-void ft_executor(char *line, t_env *env)
+void ft_executor(char *line)
 {
-	t_node *ast;
-	t_pipe *pipe;
-	int exec_init;
+	t_node	*ast;
+	t_pipe	*pipe;
+	int		exec_init;
 
 	ast = 0x0;
 	pipe = NULL;
@@ -1057,8 +1063,8 @@ void ft_executor(char *line, t_env *env)
 			
 			if (ast != 0x0)
 			{
-				ft_init_heredoc(ast, &pipe, &exec_init, env);
-				ft_iterate_tree(ast, &pipe, &exec_init, env);
+				ft_init_heredoc(ast, &pipe, &exec_init);
+				ft_iterate_tree(ast, &pipe, &exec_init);
 				ft_free_pipes(&pipe);
 				ast_clearing(&ast); // FREE ABSTACT SYNTAX TREE.
 			}

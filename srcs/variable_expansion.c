@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 16:28:35 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:26:09 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/03 18:29:38 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	verify_next_char(char c)
 {
-	return (c == '\0' || (ft_isalnum(c) == 0x0 && c != '?'));
+	return (c == '\0' || ((ft_isalnum(c) == 0x0 && c != '_') && c != '?'));
 }
 
 char	*allocate_new_argument(char *arg, int len_var_name, char *var_val)
