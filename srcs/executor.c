@@ -808,13 +808,13 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node)
 		line = ft_strjoin(tmp, redirs->file_name, "");
 		close(node->content.simple_cmd.fd_in);
 		node->content.simple_cmd.fd_in = open(line, O_RDONLY);
+		free(line);
 	}
 	ft_handle_redirections(redirs->next, node);
 }
 
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
 {
-	ft_handle_redirections(node->content.simple_cmd.redirs, node);
 	if (node->content.simple_cmd.fd_in == 0)
 	{
 		if (exec_index - 1 >= 0)
@@ -896,7 +896,7 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index, t_env *env)
 			}
 		}
 		if (node->content.simple_cmd.argv[0] == 0x0)
-			return ;
+			return;
 		status = *retrieve_exit_status();
 		if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || !ft_strcmp(node->content.simple_cmd.argv[0], "unset")))
 		{
@@ -987,6 +987,26 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
 		exit_value_set(EXIT_FAILURE);
 }
 
+void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, t_env *env)
+{
+	if (expansions_perform(node) == true) // See expansions_performer.c // expansion ana li andirha so dw
+	{
+		if (execute_redirections(node) == true) // See exec_redirections.c
+		{
+
+			if (node->type == SIMPLE_CMD)
+			{
+				ft_handle_redirections(node->content.simple_cmd.redirs, node);
+			}
+			else if (node != NULL)
+			{
+				ft_init_heredoc(node->content.child.left, pipe_, exec_index, env);
+				ft_init_heredoc(node->content.child.right, pipe_, exec_index, env);
+			}
+		}
+	}
+}
+
 void ft_executor(char *line, t_env *env)
 {
 	t_node *ast;
@@ -1002,6 +1022,7 @@ void ft_executor(char *line, t_env *env)
 		{
 			if (ast != 0x0)
 			{
+				ft_init_heredoc(ast, &pipe, &exec_init, env);
 				ft_iterate_tree(ast, &pipe, &exec_init, env);
 				ft_free_pipes(&pipe);
 				ast_clearing(&ast); // FREE ABSTACT SYNTAX TREE.

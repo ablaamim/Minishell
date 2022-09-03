@@ -19,17 +19,41 @@
  * -> Control EOF to exit with ctrl+D.
  */
 
-void	ft_handle_prompt(char **line)
+char *get_var(char *var_name)
 {
-	char	*tmp;
-	char	*data;
-	char	*data_tmp;
-	int		i;
+	t_env env;
+	char *tmp;
+	int i;
+	int j;
 
-	data_tmp = getenv("PWD");
-	tmp = getenv("HOME");
-	//printf("==> HOME = %s\n", tmp); //HOME ENV VAR
-	//printf("==> PWD = %s\n", data_tmp); // PWD ENV VAR
+	env = *get_bash_env();
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j] && env[i][j] != '=')
+			j++;
+		tmp = ft_strdup(env[i]);
+		tmp[j] = '\0';
+		if (!ft_strcmp(tmp, var_name))
+			return (env[i] + (j + 1));
+		free(tmp);
+		i++;
+	}
+	return (NULL);
+}
+
+void ft_handle_prompt(char **line)
+{
+	char *tmp;
+	char *data;
+	char *data_tmp;
+	int i;
+
+	data_tmp = get_var("PWD");
+	tmp = get_var("HOME");
+	// printf("==> HOME = %s\n", tmp); //HOME ENV VAR
+	// printf("==> PWD = %s\n", data_tmp); // PWD ENV VAR
 	i = 0;
 	printf("\033[0;32m");
 	while (data_tmp[i] && data_tmp[i] == tmp[i])
@@ -38,7 +62,7 @@ void	ft_handle_prompt(char **line)
 		i = 0;
 	else
 		data_tmp = ft_strjoin("~", data_tmp + i, "");
-	data = ft_strjoin(getenv("USER"), getenv("NAME"), "@");
+	data = ft_strjoin(get_var("USER"), get_var("NAME"), "@");
 	tmp = ft_strjoin(data, data_tmp, "\033[0;37m:\033[0;36m");
 	free(data);
 	data = ft_strjoin(tmp, "\033[0;37m$ ", "");
@@ -47,10 +71,10 @@ void	ft_handle_prompt(char **line)
 	free(data);
 }
 
-char	*read_line(void)
+char *read_line(void)
 {
-	char	*line;
-	char	*prompt;
+	char *line;
+	char *prompt;
 
 	prompt = ft_strdup("");
 	ft_handle_prompt(&prompt);
@@ -68,9 +92,9 @@ char	*read_line(void)
 
 /*
  * Signals handling : ctrl+c and ctrl+\
-*/
+ */
 
-void	signal_command(int sig)
+void signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -86,7 +110,7 @@ void	signal_command(int sig)
 	}
 }
 
-void	signal_command_child(int sig)
+void signal_command_child(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -108,11 +132,11 @@ void	signal_command_child(int sig)
  * -> free line.
  */
 
-void	ft_minishell(t_env *env)
+void ft_minishell(t_env *env)
 {
-	char	*line;
+	char *line;
 
-	//ft_print_env(*env);
+	// ft_print_env(*env);
 	while (1337)
 	{
 		line = read_line();
