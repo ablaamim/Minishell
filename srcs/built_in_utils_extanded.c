@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_utils_extandede.c                         :+:      :+:    :+:   */
+/*   built_in_utils_extanded.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:49:58 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 20:53:06 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 21:26:02 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,30 @@ int ft_handle_built_ins(char **args)
 	}
 	exit_value_set(exit_stat);
 	return (exit_stat);
+}
+
+int	ft_isnumber(char *s)
+{
+	int	i;
+
+	i = 0x0;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+	while (s[i])
+	{
+		if (!(s[i] >= '0' && s[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	export_len_name(char *argument)
+{
+	int	len;
+
+	len = 0x0;
+	while (argument[len] != '+' && argument[len] != '=' && argument[len] != '\0')
+		++len;
+	return (len);
 }

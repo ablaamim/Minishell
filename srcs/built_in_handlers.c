@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:40:25 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 20:59:07 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 21:45:04 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int ft_handle_cd(char **argv)
 {
-    char pwd[STATIC_BYTES];
     char old_pwd[STATIC_BYTES];
 
     getcwd(old_pwd, sizeof(old_pwd));
@@ -25,11 +24,11 @@ int ft_handle_cd(char **argv)
     }
     else if (ft_argv_len(argv) == 1 || (argv[1] && !ft_strcmp(argv[1], "~")))
     {
-        return (ft_handle_empty_cd(pwd, old_pwd));
+        return (ft_handle_empty_cd(old_pwd));
     }
     else if (ft_argv_len(argv) == 2)
     {
-        return (ft_handle_def_cd(*argv, pwd, old_pwd));
+        return (ft_handle_def_cd(argv[1], old_pwd));
     }
     return (EXIT_SUCCESS);
 }

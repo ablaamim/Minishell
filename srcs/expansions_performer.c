@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions_performer.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:31:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 15:09:10 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 21:30:33 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,28 @@ bool expansions_perform(t_node *ast, int remove_quotes)
 		}
 	}
 	return (true);
+}
+
+void append_to_env(char *export, char *var_name)
+{
+	bool replace;
+	char *ptr;
+	char *env_val;
+	char *var_val;
+
+	replace = true;
+	var_val = 0x0;
+	ptr = ft_strchr(export, '=');
+	env_val = get_env(var_name);
+	if (ptr == 0x0)
+	{
+		var_val = 0x0;
+		if (env_val != 0x0 && env_val[-1] == '=')
+			replace = false;
+	}
+	else
+		var_val = retrieve_var_val(ptr + 1, env_val);
+	if (replace == true)
+		ft_set_env_var(var_name, var_val, 0x1);
+	garbage_free((void **)&var_val);
 }

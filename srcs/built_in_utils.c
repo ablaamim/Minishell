@@ -6,14 +6,16 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:43:55 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 20:59:49 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 21:45:56 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_handle_empty_cd(char *pwd, char *old_pwd)
+int ft_handle_empty_cd(char *old_pwd)
 {
+    char pwd[STATIC_BYTES];
+    
     if (chdir(get_var("HOME")) != 0)
     {
         variadic_error_printer(2, "minishell : failed to open file\n");
@@ -28,8 +30,10 @@ int ft_handle_empty_cd(char *pwd, char *old_pwd)
     }
 }
 
-int ft_handle_def_cd(char *argv, char *pwd, char *old_pwd)
+int ft_handle_def_cd(char *argv, char *old_pwd)
 {
+    char pwd[STATIC_BYTES];
+    
     if (chdir(argv) != 0)
     {
         variadic_error_printer(2, "minishell : failed to open file\n");

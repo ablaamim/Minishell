@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:48:49 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 20:51:13 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 21:24:45 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,56 @@ int ft_handle_echo(char **args)
     }
     ft_echo_print(args, i, j, add_new_line);
     return (EXIT_SUCCESS);
+}
+
+void	ft_handle_wc_extraction(t_node *node, int j, char **argv)
+{
+	DIR		*dir;
+	struct	dirent *entry;
+	char	*clean_pattern = NULL;
+	char	*clean_path = NULL;
+
+	dir = ft_open_dir(node->content.simple_cmd.argv[j], &clean_pattern, &clean_path);
+	if (dir == NULL)
+		perror("opendir() error");
+	else
+	{
+		entry = readdir(dir);
+		while (entry != NULL)
+		{
+			ft_handle_existant_folder(entry, clean_pattern, clean_path, argv);
+			entry = readdir(dir);
+		}
+		free(clean_pattern);
+		free(clean_path);
+		closedir(dir);
+	}
+}
+
+void	ft_handle_wildcard(t_node *node)
+{
+	char	*argv;
+	char	*tmp;
+	int		j;
+
+	if (!ft_has_wildcard(node))
+		return ;
+	argv = ft_strdup("");
+	j = 0;
+	while (node->content.simple_cmd.argv[j])
+	{
+		tmp = ft_strdup(argv);
+		free(argv);
+		argv = ft_strjoin(tmp, node->content.simple_cmd.argv[j++], "|");
+		free(tmp);
+	}
+	j = 1;
+	while (node->content.simple_cmd.argv[j])
+	{
+		ft_handle_wc_extraction(node, j, &argv);
+		j++;
+	}
+	node->content.simple_cmd.argv = ft_split(argv, '|');
+	ft_clean_argv(node);
+	free(argv);
 }

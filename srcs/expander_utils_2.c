@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:54:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:01:43 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 21:30:26 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,3 +61,23 @@ void	manage_last_join(char *arg, char **new_argv, \
 	else if (*after_variable != '\0')
 		new_argv[utils->i_new++] = ft_strdup(after_variable);
 }
+
+char *retrieve_var_val(char *str, char *env_val)
+{
+	char *var_val;
+
+	if (*(str - 2) == '+')
+		var_val = ft_strdup(env_val);
+	else
+		var_val = ft_strdup(str);
+	return (var_val);
+}
+
+int special_env_len(t_env *env)
+{
+	int len = 0x0;
+	while ((*env)[len])
+		len++;
+	return (len);
+}
+
