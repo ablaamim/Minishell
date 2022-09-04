@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 20:45:14 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 15:15:57 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -518,31 +518,6 @@ int special_env_len(t_env *env)
 	return (len);
 }
 
-/*
-void env_setter(char *name, char *val, int replace)
-{
-	int i;
-	t_env	tmp;
-	t_env	*env;
-
-	env = get_bash_env();
-	tmp = *env;
-	i = ft_in_env(name);
-	if (i > 0x0 && replace != 0x0)
-	{
-		free(tmp[i]);
-		if (val == 0x0)
-			tmp[i] = ft_strjoin(name, val, "");
-		else
-			tmp[i] = ft_strjoin(name, val, "=");
-	}
-	else
-	{
-		*env = ft_add_up_in_env(name, val, tmp);
-		free(tmp);
-	}
-}
-*/
 void append_to_env(char *export, char *var_name)
 {
 	bool replace;
@@ -553,7 +528,7 @@ void append_to_env(char *export, char *var_name)
 	replace = true;
 	var_val = 0x0;
 	ptr = ft_strchr(export, '=');
-	env_val = getenv(var_name);
+	env_val = get_env(var_name);
 	if (ptr == 0x0)
 	{
 		var_val = 0x0;
@@ -768,9 +743,7 @@ int ft_handle_line(char *line, t_redirs *redirs, t_node *node)
 {
 	line = readline(">");
 	if (line == 0x0)
-	{
 		return (0x0);
-	}
 	if (!ft_strcmp(line, redirs->file_name))
 		return (0);
 	heredoc_expander(&line);
@@ -792,10 +765,7 @@ void ft_handle_heredoc(t_redirs *redirs, t_node *node)
 	while (1)
 	{
 		if (ft_handle_line(line, redirs, node) == 0)
-		{
-			write(1, "\n", 1);
 			break;
-		}
 	}
 	free(line);
 	line = ft_strjoin(tmp, redirs->file_name, "");
@@ -919,7 +889,6 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") ||
 								   !ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))
 	{
-		// printf("PARENT\n");
 		status = ft_handle_built_ins(node->content.simple_cmd.argv);
 		exit_value_set(status);
 	}
@@ -1032,7 +1001,6 @@ void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index)
 	{
 		if (execute_redirections(node) == true)
 		{
-
 			if (node->type == SIMPLE_CMD)
 			{
 				ft_handle_redirections(node->content.simple_cmd.redirs, node);
@@ -1065,7 +1033,7 @@ void ft_executor(char *line)
 				ft_init_heredoc(ast, &pipe, &exec_init);
 				ft_iterate_tree(ast, &pipe, &exec_init);
 				ft_free_pipes(&pipe);
-				ast_clearing(&ast); // FREE ABSTACT SYNTAX TREE.
+				ast_clearing(&ast);
 			}
 		}
 	}

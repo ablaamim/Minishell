@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 12:01:17 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 18:44:19 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 15:09:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
  * TO DO : SET_ENV FUNC()
  * - SET VAR VALUE IF IT DOES NOT EXIST.
  * - Replace.
- *  [ALL GOOD IN THIS MODULE]
 */
 
 void	ft_set_env_var(const char *name, const char *val, int replace)
