@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 18:50:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:17:53 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void ft_handle_prompt(char **line)
 	free(data);
 }
 
-char *read_line(void)
+char	*read_line(void)
 {
-	char *line;
-	char *prompt;
+	char	*line;
+	char	*prompt;
 
 	prompt = ft_strdup("");
 	ft_handle_prompt(&prompt);

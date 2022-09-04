@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 18:39:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 14:51:34 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ void	init_bash_env(char *shell, t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
+	env = NULL;
 	init_env_variables(shell);
 }

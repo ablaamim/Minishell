@@ -6,21 +6,13 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 13:18:07 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 11:02:20 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 13:10:09 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	env_length_special(t_env *env)
-{
-	int	len = 0x0;
-	while ((*env)[len])
-		len++;
-	return (len);
-}
-
-t_env	ft_add_up_in_env(const char *name, const char *val, t_env env)
+char	**ft_add_up_in_env(const char *name, const char *val, t_env env)
 {
 	int		i;
 	t_env	new_env;
