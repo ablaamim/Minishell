@@ -54,7 +54,8 @@ char	*bin_path_getter(char *binary)
 	struct stat	buff;
 
 	i = 0x0;
-	paths = ft_split(getenv("PATH"), ':');
+	binary_path = get_var("PATH");
+	paths = ft_split(binary_path, ':');
 	if (paths == 0x0)
 		return (0x0);
 	while (paths[i])

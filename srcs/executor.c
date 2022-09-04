@@ -867,14 +867,14 @@ void ft_handle_child_execution(t_node *node)
 	if (!argv[0])
 		exit(1);
 	bin_path = found_binary(argv);
-	ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+	ret = manage_execution(&bin_path, node->content.simple_cmd.argv[0]);
 	if (ret != EXIT_SUCCESS)
 	{
 		exit_value_set(ret);
 		exit(ret);
 	}
 	if (execve(bin_path, argv, *env) == ERR)
-		ret = manage_execution(bin_path, node->content.simple_cmd.argv[0]);
+		ret = manage_execution(&bin_path, node->content.simple_cmd.argv[0]);
 	garbage_free((void **)&bin_path);
 	exit(ret);
 }

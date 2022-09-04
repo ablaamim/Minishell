@@ -54,9 +54,9 @@ void ft_handle_prompt(char **line)
 	tmp = get_var("HOME");
 	i = 0;
 	printf("\033[0;32m");
-	while (data_tmp[i] && data_tmp[i] == tmp[i])
+	while (data_tmp && tmp && data_tmp[i] && data_tmp[i] == tmp[i])
 		i++;
-	if (ft_strlen(tmp) > ft_strlen(data_tmp))
+	if (data_tmp && tmp && ft_strlen(tmp) > ft_strlen(data_tmp))
 		i = 0;
 	else
 		data_tmp = ft_strjoin("~", data_tmp + i, "");
