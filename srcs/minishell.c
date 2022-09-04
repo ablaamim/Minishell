@@ -62,8 +62,6 @@ int	main(int argc, char **argv, char  **env)
 	{
 		init_bash_env(argv[0], env);
 		env = NULL;
-		signal(SIGINT, signal_command);
-		signal(SIGQUIT, SIG_IGN);
 		ft_free_fd();
 		ft_minishell();
 	}

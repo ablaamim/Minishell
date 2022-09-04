@@ -64,19 +64,38 @@ void ft_handle_prompt(char **line)
 	tmp = ft_strjoin(data, data_tmp, "\033[0;37m:\033[0;36m");
 	free(data);
 	data = ft_strjoin(tmp, "\033[0;37m$ ", "");
+	free(*line);
 	*line = ft_strdup(data);
 	free(tmp);
 	free(data);
 }
 
-char	*read_line(void)
+void signal_command2(int sig)
 {
-	char	*line;
-	char	*prompt;
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		exit_value_set(130);
+	}
+	if (sig == SIGQUIT)
+	{
+		printf("QUIT\n");
+		exit(EXIT_SUCCESS);
+	}
+}
+
+char *read_line(void)
+{
+	char *line;
+	char *prompt;
 
 	prompt = ft_strdup("");
+	signal(SIGINT, signal_command);
+	signal(SIGQUIT, SIG_IGN);
 	ft_handle_prompt(&prompt);
 	line = readline(prompt);
+	signal(SIGINT, signal_command2);
 	add_history(line);
 	if (line == 0x0)
 	{
@@ -96,10 +115,12 @@ void signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
 		rl_on_new_line();
+		printf("\n");
+		printf("\033[0;32m");
 		rl_replace_line("", 0x0);
 		rl_redisplay();
+		exit_value_set(1);
 	}
 	if (sig == SIGQUIT)
 	{
@@ -138,8 +159,7 @@ void ft_minishell(void)
 	while (1337)
 	{
 		line = read_line();
-		signal(SIGINT, signal_command);
-		signal(SIGQUIT, SIG_IGN);
+		// signal(SIGQUIT, signal_command2);
 		ft_executor(line);
 		free(line);
 	}

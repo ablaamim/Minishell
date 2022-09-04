@@ -46,7 +46,7 @@
 #define ERR -1
 #define IN_REDIR "no such file or directory\n"
 
-char	**g_env;
+char **g_env;
 
 /*
  * LEXER CLASS ABSTRACTION.
@@ -360,6 +360,8 @@ int manage_error(char *binary_path, char *cmd, char *error,
 void execute_command_list(t_node *node);
 void signal_command_child(int sig);
 void print_redir_list(t_redirs *redir);
+int *retrieve_exit_ctl_c(void);
+void ctl_c_value_set(int exit_value);
 t_redirs *redirection_generator(void);
 void redir_appender(t_redirs *new_redir, t_redirs **lst_redir);
 t_redirs *redirs_help_manager(char **args, int *fd_out, t_redirs *redir);
@@ -440,7 +442,7 @@ int ft_in_env(const char *var);
 char *ft_substr(const char *src, unsigned int start, size_t len);
 void ft_set_env_var(const char *name, const char *val,
 					int replace);
-char	**ft_add_up_in_env(const char *name, const char *val, t_env env);
+char **ft_add_up_in_env(const char *name, const char *val, t_env env);
 void cleaner_mr_propre(char *tmp_path, char *shell_path,
 					   char *shelvl_value);
 int retrieve_len_array(char **array);
