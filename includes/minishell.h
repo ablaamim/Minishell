@@ -348,21 +348,20 @@ typedef struct s_pipe
 	struct s_pipe *next;
 } t_pipe;
 
-void				ft_iterate_tree(t_node *node, t_pipe **pipe_, int \
-		*exec_index);
-void				set_exit_value(int exit_value);
-char				*found_binary(char **argv);
-bool				execute_redirections(t_node *node);
-int					manage_execution(char *binary_path, char *cmd);
-int					manage_error(char *binary_path, char *cmd, char *error, \
-		int exit_val);
-void				execute_command_list(t_node *node);
-void				signal_command_child(int sig);
-void				print_redir_list(t_redirs *redir);
-t_redirs			*redirection_generator(void);
-void				redir_appender(t_redirs *new_redir, t_redirs **lst_redir);
-t_redirs			*redirs_help_manager(char **args, int *fd_out, t_redirs *redir);
-void				ft_env_setter(char *name, char *val, int repl, t_env env);
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
+void set_exit_value(int exit_value);
+char *found_binary(char **argv);
+bool execute_redirections(t_node *node);
+int manage_execution(char *binary_path, char *cmd);
+int manage_error(char *binary_path, char *cmd, char *error,
+				 int exit_val);
+void execute_command_list(t_node *node);
+void signal_command_child(int sig);
+void print_redir_list(t_redirs *redir);
+t_redirs *redirection_generator(void);
+void redir_appender(t_redirs *new_redir, t_redirs **lst_redir);
+t_redirs *redirs_help_manager(char **args, int *fd_out, t_redirs *redir);
+void ft_env_setter(char *name, char *val, int repl, t_env env);
 /*
  * EXPANSIONS PERFOMER :
  */
@@ -385,7 +384,7 @@ typedef struct s_expander
  * REDIR FUNCTIONS :
  */
 
-bool expansions_perform(t_node *ast);
+bool expansions_perform(t_node *ast, int remove_quotes);
 void remove_quotes_from_argument(char **argv);
 void substitute_quotes_state(char quote, bool *in_dquotes,
 							 bool *in_squotes);
@@ -439,7 +438,7 @@ int ft_in_env(const char *var);
 char *ft_substr(const char *src, unsigned int start, size_t len);
 void ft_set_env_var(const char *name, const char *val,
 					int replace);
-t_env	ft_add_up_in_env(const char *name, const char *val, t_env env);
+t_env ft_add_up_in_env(const char *name, const char *val, t_env env);
 void cleaner_mr_propre(char *tmp_path, char *shell_path,
 					   char *shelvl_value);
 int retrieve_len_array(char **array);

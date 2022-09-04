@@ -136,9 +136,9 @@ void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 
 int ft_is_child_ignored(char *string)
 {
-	int		i;
-	char	**built_ins;
-	int		ignored;
+	int i;
+	char **built_ins;
+	int ignored;
 
 	i = 0;
 	ignored = 0;
@@ -158,7 +158,7 @@ int ft_is_child_ignored(char *string)
 	return (ignored);
 }
 
-int	ft_is_built_in(char *string)
+int ft_is_built_in(char *string)
 {
 	int i;
 	char **built_ins;
@@ -378,8 +378,8 @@ void ft_handle_wildcard(t_node *node)
 
 int ft_handle_env(char **args)
 {
-	int		i;
-	t_env	*bash_env;
+	int i;
+	t_env *bash_env;
 
 	i = 0x0;
 	bash_env = get_bash_env();
@@ -431,9 +431,9 @@ int ft_isnumber(char *s)
 	return (1);
 }
 
-int	ft_handle_exit(char **args)
+int ft_handle_exit(char **args)
 {
-	int	exit_status;
+	int exit_status;
 
 	exit_status = *retrieve_exit_status();
 	variadic_error_printer(2, "exit\n");
@@ -455,9 +455,9 @@ int	ft_handle_exit(char **args)
 	return (exit_status);
 }
 
-int	export_len_name(char *argument)
+int export_len_name(char *argument)
 {
-	int	len;
+	int len;
 
 	len = 0x0;
 	while (argument[len] != '+' && argument[len] != '=' && argument[len] != '\0')
@@ -465,7 +465,7 @@ int	export_len_name(char *argument)
 	return (len);
 }
 
-char	*export_variable_name(char *argument)
+char *export_variable_name(char *argument)
 {
 	int i;
 	int j;
@@ -543,7 +543,7 @@ void env_setter(char *name, char *val, int replace)
 	}
 }
 */
-void	append_to_env(char *export, char *var_name)
+void append_to_env(char *export, char *var_name)
 {
 	bool replace;
 	char *ptr;
@@ -567,10 +567,10 @@ void	append_to_env(char *export, char *var_name)
 	garbage_free((void **)&var_val);
 }
 
-void	display_env(void)
+void display_env(void)
 {
-	int		i;
-	t_env	*env;
+	int i;
+	t_env *env;
 
 	env = get_bash_env();
 	i = 0x0;
@@ -584,12 +584,12 @@ void	display_env(void)
 	}
 }
 
-int	ft_handle_export(char **args)
+int ft_handle_export(char **args)
 {
-	int		argc;
-	int		i;
-	char	*var_name;
-	int		ret;
+	int argc;
+	int i;
+	char *var_name;
+	int ret;
 
 	argc = ft_argv_len(args);
 	if (argc <= 1)
@@ -612,7 +612,7 @@ int	ft_handle_export(char **args)
 	return (ret);
 }
 
-int	parse_unset(char *args)
+int parse_unset(char *args)
 {
 	int i;
 
@@ -636,14 +636,14 @@ int	parse_unset(char *args)
 
 /*
  * UNSET ENVIRONMENT VAR, RETURNS 1 IF IT EXISTS, AND 0 OTHERWISE.
-*/
+ */
 
 int ft_unset_logic(char *name)
 {
-	t_env	new_env;
-	int		i;
-	int		ret;
-	t_env	*env;
+	t_env new_env;
+	int i;
+	int ret;
+	t_env *env;
 
 	i = 0x0;
 	env = get_bash_env();
@@ -651,47 +651,47 @@ int ft_unset_logic(char *name)
 	if (ret == -1)
 		return (EXIT_SUCCESS);
 	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
- 	while ((*env)[i])
+	while ((*env)[i])
 	{
 		if (i == ret)
 			garbage_free((void **)&(*env)[i]);
 		else if (i >= ret)
- 			new_env[i - 1] = (*env)[i];
+			new_env[i - 1] = (*env)[i];
 		else
- 			new_env[i] = (*env)[i];
- 		i++;
- 	}
- 	new_env[i - 1] = 0x0;
- 	*env = new_env;
+			new_env[i] = (*env)[i];
+		i++;
+	}
+	new_env[i - 1] = 0x0;
+	*env = new_env;
 	return (EXIT_FAILURE);
 }
 
-int	ft_handle_unset(char **args)
+int ft_handle_unset(char **args)
 {
-	int	i;
-	int	ret;
+	int i;
+	int ret;
 
 	i = 0x0;
 	ret = EXIT_SUCCESS;
- 	while (args[i] != 0x0)
- 	{
- 		if (parse_unset(args[i]) == EXIT_FAILURE && ret == EXIT_SUCCESS)
+	while (args[i] != 0x0)
+	{
+		if (parse_unset(args[i]) == EXIT_FAILURE && ret == EXIT_SUCCESS)
 			ret = EXIT_FAILURE;
- 		ft_unset_logic(args[i]);
- 		++i;
- 	}
+		ft_unset_logic(args[i]);
+		++i;
+	}
 	return (ret);
 }
 
-int	ft_handle_built_ins(char **args)
+int ft_handle_built_ins(char **args)
 {
-	int	exit_stat;
+	int exit_stat;
 
 	exit_stat = *retrieve_exit_status();
 	if (!ft_strcmp(args[0], "export"))
 		exit_stat = ft_handle_export(args);
 	else if (!ft_strcmp(args[0], "unset"))
-	 	exit_stat = ft_handle_unset(args);
+		exit_stat = ft_handle_unset(args);
 	else if (!ft_strcmp(args[0], "env"))
 		exit_stat = ft_handle_env(args);
 	else if (!ft_strcmp(args[0], "echo"))
@@ -865,7 +865,7 @@ void ft_handle_child_execution(t_node *node)
 	char *bin_path;
 	char **argv;
 	int ret;
-	t_env	*env;
+	t_env *env;
 
 	env = get_bash_env();
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
@@ -916,11 +916,10 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 	if (node->content.simple_cmd.argv[0] == 0x0)
 		return;
 	status = *retrieve_exit_status();
-	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") 
-				|| !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") || \
-				!ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))
+	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") ||
+								   !ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))
 	{
-		//printf("PARENT\n");
+		// printf("PARENT\n");
 		status = ft_handle_built_ins(node->content.simple_cmd.argv);
 		exit_value_set(status);
 	}
@@ -928,8 +927,8 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 
 void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 {
-	int	pid;
-	int	**pipes;
+	int pid;
+	int **pipes;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -985,7 +984,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 {
 	int fd[2];
 
-	if (expansions_perform(node) == true)
+	if (expansions_perform(node, 1) == true)
 	{
 		if (execute_redirections(node) == true)
 		{
@@ -1029,7 +1028,7 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 
 void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index)
 {
-	if (expansions_perform(node) == true)
+	if (expansions_perform(node, 0) == true)
 	{
 		if (execute_redirections(node) == true)
 		{
@@ -1049,9 +1048,9 @@ void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index)
 
 void ft_executor(char *line)
 {
-	t_node	*ast;
-	t_pipe	*pipe;
-	int		exec_init;
+	t_node *ast;
+	t_pipe *pipe;
+	int exec_init;
 
 	ast = 0x0;
 	pipe = NULL;
@@ -1060,7 +1059,7 @@ void ft_executor(char *line)
 	{
 		ast = ft_lexer_parser_program(line);
 		{
-			
+
 			if (ast != 0x0)
 			{
 				ft_init_heredoc(ast, &pipe, &exec_init);
