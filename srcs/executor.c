@@ -3,40 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 15:15:57 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/04 21:01:18 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 void env_setter(char *name, char *val, int replace, t_env *env);
-
-/*
- * => Unit test
- */
-
-int ft_isalpha(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0x1);
-	return (0x0);
-}
-
-int ft_lstsize(t_pipe *lst)
-{
-	int counter;
-
-	counter = 0;
-	while (lst != NULL)
-	{
-		counter++;
-		lst = lst->next;
-	}
-	return (counter);
-}
 
 int ft_argv_len(char **argv)
 {
@@ -46,48 +22,6 @@ int ft_argv_len(char **argv)
 	while (argv[i])
 		i++;
 	return (i);
-}
-
-int ft_handle_cd(char **argv)
-{
-	char pwd[STATIC_BYTES];
-	char old_pwd[STATIC_BYTES];
-
-	getcwd(old_pwd, sizeof(old_pwd));
-	if (ft_argv_len(argv) > 2)
-	{
-		variadic_error_printer(2, "minishell : too many arguments\n");
-		return (EXIT_FAILURE);
-	}
-	else if (ft_argv_len(argv) == 1 || (argv[1] && !ft_strcmp(argv[1], "~")))
-	{
-		if (chdir(getenv("HOME")) != 0)
-		{
-			variadic_error_printer(2, "minishell : failed to open file\n");
-			return (EXIT_FAILURE);
-		}
-		else // success
-		{
-			getcwd(pwd, sizeof(pwd));
-			ft_set_env_var("PWD", pwd, 1);
-			ft_set_env_var("OLDPWD", old_pwd, 1);
-		}
-	}
-	else if (ft_argv_len(argv) == 2)
-	{
-		if (chdir(argv[1]) != 0)
-		{
-			variadic_error_printer(2, "minishell : failed to open file\n");
-			return (EXIT_FAILURE);
-		}
-		else // success
-		{
-			getcwd(pwd, sizeof(pwd));
-			ft_set_env_var("PWD", pwd, 1);
-			ft_set_env_var("OLDPWD", old_pwd, 1);
-		}
-	}
-	return (EXIT_SUCCESS);
 }
 
 t_pipe *ft_lstlast(t_pipe *lst)
@@ -156,69 +90,6 @@ int ft_is_child_ignored(char *string)
 		free(built_ins[i++]);
 	free(built_ins);
 	return (ignored);
-}
-
-int ft_is_built_in(char *string)
-{
-	int i;
-	char **built_ins;
-
-	i = 0;
-	built_ins = ft_split("env pwd echo exit cd export unset", ' ');
-	while (built_ins[i])
-	{
-		if (built_ins[0] == 0x0 || string == 0x0)
-			break;
-		if (!ft_strcmp(built_ins[i], string))
-			return (1);
-		i++;
-	}
-	i = 0;
-	while (built_ins[i])
-		free(built_ins[i++]);
-	free(built_ins);
-	return (0);
-}
-
-void ft_echo_iterator(char **args, int *k, int i)
-{
-	*k = 1;
-	while (args[i][*k] == 'n')
-		(*k)++;
-}
-
-void ft_echo_print(char **args, int i, int j, int add_new_line)
-{
-	while (args[i])
-	{
-		printf("%s", args[i++]);
-		if (i < j)
-			printf(" ");
-	}
-	if (add_new_line)
-		printf("\n");
-}
-
-int ft_handle_echo(char **args)
-{
-	int i;
-	int j;
-	int add_new_line;
-	int k;
-
-	i = 1;
-	add_new_line = 1;
-	j = ft_argv_len(args);
-	while (args[i] && args[i][0] == '-' && args[i][1] == 'n')
-	{
-		ft_echo_iterator(args, &k, i);
-		if ((size_t)k < ft_strlen(args[i]))
-			break;
-		add_new_line = 0;
-		i++;
-	}
-	ft_echo_print(args, i, j, add_new_line);
-	return (EXIT_SUCCESS);
 }
 
 void ft_clean_argv(t_node *node)
@@ -376,45 +247,6 @@ void ft_handle_wildcard(t_node *node)
 	free(argv);
 }
 
-int ft_handle_env(char **args)
-{
-	int i;
-	t_env *bash_env;
-
-	i = 0x0;
-	bash_env = get_bash_env();
-	if (*args == 0x0)
-		return (EXIT_SUCCESS);
-	if (ft_argv_len(args) > 1)
-	{
-		variadic_error_printer(2, "env : %s %s", args[1], ENV_ERROR);
-		return (127);
-	}
-	while ((*bash_env)[i])
-	{
-		if (ft_strchr((*bash_env)[i], '=') != 0x0)
-		{
-			printf("%s", (*bash_env)[i]);
-			printf("\n");
-		}
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
-int ft_handle_pwd(void)
-{
-	char pwd[STATIC_BYTES];
-
-	if (getcwd(pwd, sizeof(pwd)) == NULL)
-	{
-		variadic_error_printer(2, "error: pwd could not be found\n");
-		return (127);
-	}
-	printf("%s\n", pwd);
-	return (EXIT_SUCCESS);
-}
-
 int ft_isnumber(char *s)
 {
 	int i;
@@ -429,30 +261,6 @@ int ft_isnumber(char *s)
 		i++;
 	}
 	return (1);
-}
-
-int ft_handle_exit(char **args)
-{
-	int exit_status;
-
-	exit_status = *retrieve_exit_status();
-	variadic_error_printer(1, "exit\n");
-	if (ft_argv_len(args) >= 2)
-	{
-		if (ft_isnumber(args[1]) == 0x0)
-		{
-			variadic_error_printer(2, "minishell : exit : %s : %s\n", NUM_ARG, args[1]);
-			exit_status = 2;
-		}
-		else if (ft_argv_len(args) > 2)
-		{
-			variadic_error_printer(2, "minishell : exit : too many arguments\n");
-			exit_status = 1;
-		}
-		else
-			exit_status = ft_atoi(args[1]);
-	}
-	return (exit_status);
 }
 
 int export_len_name(char *argument)
@@ -557,131 +365,6 @@ void display_env(void)
 			printf("%s\n", (*env)[i]);
 		i++;
 	}
-}
-
-int ft_handle_export(char **args)
-{
-	int argc;
-	int i;
-	char *var_name;
-	int ret;
-
-	argc = ft_argv_len(args);
-	if (argc <= 1)
-		display_env();
-	i = 0x1;
-	ret = EXIT_SUCCESS;
-	while (args[i] != 0x0)
-	{
-		var_name = 0x0;
-		var_name = export_variable_name(args[i]);
-		if (var_name == 0x0)
-			export_perror(args[i], &ret);
-		else
-		{
-			append_to_env(args[i], var_name);
-			garbage_free((void **)&var_name);
-		}
-		++i;
-	}
-	return (ret);
-}
-
-int parse_unset(char *args)
-{
-	int i;
-
-	i = 0x0;
-	if (ft_isalpha(args[i]) == 0x0 && args[i] != '_')
-	{
-		variadic_error_printer(2, "minishell : unset '%s' not a valid identifieri\n", args);
-		return (EXIT_FAILURE);
-	}
-	while (args[i] != '\0')
-	{
-		if (ft_isalnum(args[i]) == 0x0 && args[i] != '_')
-		{
-			variadic_error_printer(2, "minishell : unset '%s' not a valid identifier\n", args);
-			return (EXIT_FAILURE);
-		}
-		++i;
-	}
-	return (EXIT_SUCCESS);
-}
-
-/*
- * UNSET ENVIRONMENT VAR, RETURNS 1 IF IT EXISTS, AND 0 OTHERWISE.
- */
-
-int ft_unset_logic(char *name)
-{
-	t_env new_env;
-	int i;
-	int ret;
-	t_env *env;
-
-	i = 0x0;
-	env = get_bash_env();
-	ret = ft_in_env(name);
-	if (ret == -1)
-		return (EXIT_SUCCESS);
-	new_env = garbage_malloc(sizeof(char *) * env_length(*env));
-	while ((*env)[i])
-	{
-		if (i == ret)
-			garbage_free((void **)&(*env)[i]);
-		else if (i >= ret)
-			new_env[i - 1] = (*env)[i];
-		else
-			new_env[i] = (*env)[i];
-		i++;
-	}
-	new_env[i - 1] = 0x0;
-	*env = new_env;
-	return (EXIT_FAILURE);
-}
-
-int ft_handle_unset(char **args)
-{
-	int i;
-	int ret;
-
-	i = 0x0;
-	ret = EXIT_SUCCESS;
-	while (args[i] != 0x0)
-	{
-		if (parse_unset(args[i]) == EXIT_FAILURE && ret == EXIT_SUCCESS)
-			ret = EXIT_FAILURE;
-		ft_unset_logic(args[i]);
-		++i;
-	}
-	return (ret);
-}
-
-int ft_handle_built_ins(char **args)
-{
-	int exit_stat;
-
-	exit_stat = *retrieve_exit_status();
-	if (!ft_strcmp(args[0], "export"))
-		exit_stat = ft_handle_export(args);
-	else if (!ft_strcmp(args[0], "unset"))
-		exit_stat = ft_handle_unset(args);
-	else if (!ft_strcmp(args[0], "env"))
-		exit_stat = ft_handle_env(args);
-	else if (!ft_strcmp(args[0], "echo"))
-		exit_stat = ft_handle_echo(args);
-	else if (!ft_strcmp(args[0], "pwd"))
-		exit_stat = ft_handle_pwd();
-	else if (!ft_strcmp(args[0], "cd"))
-		exit_stat = ft_handle_cd(args);
-	else if (!ft_strcmp(args[0], "exit"))
-	{
-		exit_stat = ft_handle_exit(args);
-		exit(exit_stat);
-	}
-	exit_value_set(exit_stat);
-	return (exit_stat);
 }
 
 int **ft_to_array(t_pipe **pipe)

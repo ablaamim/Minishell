@@ -67,3 +67,10 @@ char *ft_substr(const char *src, unsigned int start, size_t len)
 	r[i] = '\0';
 	return (r);
 }
+
+int ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (0x1);
+	return (0x0);
+}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/09/01 21:50:48 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/09/04 20:57:30 by gruz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,10 @@ SRC = ./srcs/debug.c \
 	  ./srcs/heredoc_expander.c \
 	  ./srcs/parse_parenthesis.c \
 	  ./srcs/redir_helper.c \
+	  ./srcs/built_in_handlers.c \
+	  ./srcs/built_in_utils.c \
+	  ./srcs/built_in_handlers_extanded.c \
+	  ./srcs/built_in_utils_extanded.c \
 
 OBJ = $(SRC:.c=.o)
 
