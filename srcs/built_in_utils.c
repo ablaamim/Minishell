@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:43:55 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 21:45:56 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 21:46:50 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int ft_handle_empty_cd(char *old_pwd)
         variadic_error_printer(2, "minishell : failed to open file\n");
         return (EXIT_FAILURE);
     }
-    else // success
+    else
     {
         getcwd(pwd, sizeof(pwd));
         ft_set_env_var("PWD", pwd, 1);
@@ -39,7 +39,7 @@ int ft_handle_def_cd(char *argv, char *old_pwd)
         variadic_error_printer(2, "minishell : failed to open file\n");
         return (EXIT_FAILURE);
     }
-    else // success
+    else
     {
         getcwd(pwd, sizeof(pwd));
         ft_set_env_var("PWD", pwd, 1);

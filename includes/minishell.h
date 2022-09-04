@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:44:49 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:21:35 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,25 +510,25 @@ void signal_command(int sig);
 int ft_handle_empty_cd(char *old_pwd);
 int ft_handle_def_cd(char *argv, char *old_pwd);
 int parse_unset(char *args);
-int ft_handle_built_ins(char **args);
+int ft_handle_built_ins(char **args, t_node *node);
 int ft_unset_logic(char *name);
-void ft_echo_print(char **args, int i, int j, int add_new_line);
+void ft_echo_print(t_node *node, int i, int j, int add_new_line);
 void ft_echo_iterator(char **args, int *k, int i);
 int ft_is_built_in(char *string);
-void display_env(void);
+void display_env(t_node *node);
 char *export_variable_name(char *argument);
 void export_perror(char *args, int *ret);
-int ft_handle_echo(char **args);
+int ft_handle_echo(char **args, t_node *node);
 void append_to_env(char *export, char *var_name);
 
 /*
  * BUILT INS:
  */
 int ft_handle_cd(char **argv);
-int ft_handle_env(char **args);
-int ft_handle_pwd(void);
-int ft_handle_exit(char **args);
-int ft_handle_export(char **args);
+int ft_handle_env(char **args,t_node *node);
+int ft_handle_pwd(t_node *node);
+int ft_handle_exit(char **args, t_node *node);
+int ft_handle_export(char **args, t_node *node);
 int ft_handle_unset(char **args);
 /*
  * EXECUTION:

@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:48:49 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 21:24:45 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:21:39 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int ft_handle_unset(char **args)
     return (ret);
 }
 
-int ft_handle_echo(char **args)
+int ft_handle_echo(char **args,t_node *node)
 {
     int i;
     int j;
@@ -47,7 +47,7 @@ int ft_handle_echo(char **args)
         add_new_line = 0;
         i++;
     }
-    ft_echo_print(args, i, j, add_new_line);
+    ft_echo_print(node, i, j, add_new_line);
     return (EXIT_SUCCESS);
 }
 

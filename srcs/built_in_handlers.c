@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:40:25 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 21:45:04 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:20:21 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int ft_handle_cd(char **argv)
     return (EXIT_SUCCESS);
 }
 
-int ft_handle_env(char **args)
+int ft_handle_env(char **args, t_node *node)
 {
     int i;
     t_env *bash_env;
@@ -51,15 +51,16 @@ int ft_handle_env(char **args)
     {
         if (ft_strchr((*bash_env)[i], '=') != 0x0)
         {
-            printf("%s", (*bash_env)[i]);
-            printf("\n");
+            variadic_error_printer(node->content.simple_cmd.fd_out, "%s", (*bash_env)[i]);
+            variadic_error_printer(node->content.simple_cmd.fd_out, "\n");
+
         }
         i++;
     }
     return (EXIT_SUCCESS);
 }
 
-int ft_handle_pwd(void)
+int ft_handle_pwd( t_node *node)
 {
     char pwd[STATIC_BYTES];
 
@@ -68,16 +69,16 @@ int ft_handle_pwd(void)
         variadic_error_printer(2, "error: pwd could not be found\n");
         return (127);
     }
-    printf("%s\n", pwd);
+    variadic_error_printer(node->content.simple_cmd.fd_out,"%s\n", pwd);
     return (EXIT_SUCCESS);
 }
 
-int ft_handle_exit(char **args)
+int ft_handle_exit(char **args, t_node *node)
 {
     int exit_status;
 
     exit_status = *retrieve_exit_status();
-    variadic_error_printer(1, "exit\n");
+    variadic_error_printer(node->content.simple_cmd.fd_out, "exit\n");
     if (ft_argv_len(args) >= 2)
     {
         if (ft_isnumber(args[1]) == 0x0)
@@ -96,7 +97,7 @@ int ft_handle_exit(char **args)
     return (exit_status);
 }
 
-int ft_handle_export(char **args)
+int ft_handle_export(char **args, t_node *node)
 {
     int argc;
     int i;
@@ -105,7 +106,7 @@ int ft_handle_export(char **args)
 
     argc = ft_argv_len(args);
     if (argc <= 1)
-        display_env();
+        display_env(node);
     i = 0x1;
     ret = EXIT_SUCCESS;
     while (args[i] != 0x0)

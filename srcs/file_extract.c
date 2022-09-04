@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 18:10:15 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:31:28 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:15:54 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*file_extract(char *filepath)
 	return (&filepath[i + 1]);
 }
 
-void display_env(void)
+void display_env(t_node *node)
 {
 	int i;
 	t_env *env;
@@ -36,9 +36,9 @@ void display_env(void)
 	while ((*env)[i])
 	{
 		if (ft_strchr((*env)[i], '=') != 0x0)
-			printf("declare -x %s\n", (*env)[i]);
+			variadic_error_printer(node->content.simple_cmd.fd_out, "declare -x %s\n", (*env)[i]);
 		else
-			printf("%s\n", (*env)[i]);
+			variadic_error_printer(node->content.simple_cmd.fd_out, "%s\n", (*env)[i]);
 		i++;
 	}
 }

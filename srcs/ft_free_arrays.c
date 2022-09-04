@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 18:21:49 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:34:27 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:25:14 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void ft_handle_child_execution(t_node *node)
 	env = get_bash_env();
 	if (ft_is_built_in(node->content.simple_cmd.argv[0]))
 	{
-		ret = ft_handle_built_ins(node->content.simple_cmd.argv);
+		ret = ft_handle_built_ins(node->content.simple_cmd.argv, node);
 		exit(ret);
 	}
 	ret = *retrieve_exit_status();
@@ -94,7 +94,7 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") ||
 								   !ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))
 	{
-		status = ft_handle_built_ins(node->content.simple_cmd.argv);
+		status = ft_handle_built_ins(node->content.simple_cmd.argv, node);
 		exit_value_set(status);
 	}
 }
