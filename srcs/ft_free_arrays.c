@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 18:21:49 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 22:25:14 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/04 22:46:41 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,13 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index)
 void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 {
 	int status;
+	int gab;
 
+	if (pid)
 	while (waitpid(pid, &status, 0x0) > 0)
 	{
+		while (waitpid(-1, &gab, 0x0) > 0)
+				;
 		if (WIFEXITED(status))
 		{
 			exit_value_set(WEXITSTATUS(status));
