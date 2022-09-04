@@ -743,9 +743,15 @@ int ft_handle_line(char *line, t_redirs *redirs, t_node *node)
 {
 	line = readline(">");
 	if (line == 0x0)
+	{
+		free(line);
 		return (0x0);
+	}
 	if (!ft_strcmp(line, redirs->file_name))
+	{
+		free(line);
 		return (0);
+	}
 	heredoc_expander(&line);
 	write(node->content.simple_cmd.fd_in, line, ft_strlen(line));
 	write(node->content.simple_cmd.fd_in, "\n", 1);
@@ -757,18 +763,28 @@ void ft_handle_heredoc(t_redirs *redirs, t_node *node)
 {
 	char *line;
 	char *tmp;
+	int pid;
 
 	tmp = ft_strdup("/tmp/");
 	line = ft_strjoin(tmp, redirs->file_name, "");
 	node->content.simple_cmd.fd_in = open(line, O_RDWR | O_TRUNC | O_CREAT, 0777);
-	signal(SIGINT, heredoc_sig_handler);
-	while (1)
+	pid = fork();
+	if (!pid)
 	{
-		if (ft_handle_line(line, redirs, node) == 0)
-			break;
+		signal(SIGINT, heredoc_sig_handler);
+		while (1)
+		{
+			if (ft_handle_line(line, redirs, node) == 0)
+				break;
+		}
+		free(line);
+		line = ft_strjoin(tmp, redirs->file_name, "");
+		close(node->content.simple_cmd.fd_in);
+		free(tmp);
+		exit(0);
 	}
-	free(line);
-	line = ft_strjoin(tmp, redirs->file_name, "");
+	while (wait(NULL) > 0)
+		write(2, "", 0);
 	close(node->content.simple_cmd.fd_in);
 	node->content.simple_cmd.fd_in = open(line, O_RDONLY);
 	free(line);

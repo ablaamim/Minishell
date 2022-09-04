@@ -14,11 +14,12 @@
 
 // expand heredocument
 
-void	heredoc_expander(char **argv)
+void heredoc_expander(char **argv)
 {
-	char	*variable_name;
-	char	*variable_value;
-	int		i;
+	char *variable_name;
+	char *variable_value;
+	char *tmp;
+	int i;
 
 	i = 0x0;
 	while ((*argv)[i] != '\0')
@@ -29,12 +30,15 @@ void	heredoc_expander(char **argv)
 				*argv = new_argument(argv, 0x0, i++, "$");
 			else
 			{
-				get_variable_name_and_val(*argv + i, &variable_name, \
-						&variable_value);
-				*argv = new_argument(argv, ft_strlen(variable_name), \
-						i, variable_value);
+				get_variable_name_and_val(*argv + i, &variable_name,
+										  &variable_value);
+				tmp = ft_strdup(*argv);
+				free(*argv);
+				*argv = new_argument(&tmp, ft_strlen(variable_name),
+									 i, variable_value);
+				free(tmp);
 				i += ft_strlen(variable_value);
-				garbage_free((void **) &variable_name);
+				garbage_free((void **)&variable_name);
 			}
 		}
 		else
