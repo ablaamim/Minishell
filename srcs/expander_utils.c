@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:10:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 18:05:11 by root             ###   ########.fr       */
+/*   Updated: 2022/09/05 23:51:49 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ bool	ft_reallocate_arg(t_simple_cmd *cmd, int i, int *j, char *var_val)
 	while (utils.i_split < utils.len_argv_to_append)
 		new_argv[utils.i_new++] = ft_strdup(splitted_var[utils.i_split++]);
 	manage_last_join(cmd->argv[i], new_argv, splitted_var, &utils);
-	
 	++utils.i_old;
 	while (cmd->argv[utils.i_old] != 0x0)
 		new_argv[utils.i_new++] = ft_strdup(cmd->argv[utils.i_old++]);
