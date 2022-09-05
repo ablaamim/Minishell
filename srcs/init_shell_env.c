@@ -23,7 +23,7 @@
 char	*path_extracter(char const *filepath)
 {
 	int	i;
-	
+
 	if (filepath == 0x0)
 		return (0x0);
 	if (ft_strchr(filepath, '/') == 0x0)
@@ -110,8 +110,9 @@ void	init_bash_env(char *shell, t_env env)
 	int		i;
 	t_env	tmp;
 
+	(void) shell;
 	if (env == 0x0)
-		return ;
+		*env = 0x0;
 	i = 0x0;
 	len = env_length(env);
 	shell_env = get_bash_env();
@@ -126,6 +127,4 @@ void	init_bash_env(char *shell, t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
-	env = NULL;
-	init_env_variables(shell);
 }
