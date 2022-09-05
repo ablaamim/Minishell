@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/17 15:18:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 14:51:34 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/05 05:46:24 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	init_env_variables(char *shell)
 {
 	char	*temp_path;
 	char	*shell_path;
-	char	pwd[SIZE_10B];
 	char	*shlvl;
 	char	*shlvl_value;
 
@@ -89,13 +88,6 @@ void	init_env_variables(char *shell)
 	shell_path = get_true_filepath(temp_path);
 	ft_set_env_var("SHLVL", shlvl_value, 1);
 	ft_set_env_var("SHELL", shell_path, 1);
-	if (get_env("PATH") == 0x0)
-	{
-		getcwd("PWD", SIZE_10B);
-		ft_set_env_var("PWD", pwd, 0x1);
-	}
-	if (chdir(get_env("PWD")) == -1)
-		shell_exit(EXIT_FAILURE, strerror(errno));
 	cleaner_mr_propre(temp_path, shell_path, shlvl_value);
 }
 
@@ -110,7 +102,6 @@ void	init_bash_env(char *shell, t_env env)
 	int		i;
 	t_env	tmp;
 
-	(void) shell;
 	if (env == 0x0)
 		*env = 0x0;
 	i = 0x0;
@@ -127,4 +118,5 @@ void	init_bash_env(char *shell, t_env env)
 		tmp[i] = 0x0;
 		*shell_env = tmp;
 	}
+	init_env_variables(shell);
 }

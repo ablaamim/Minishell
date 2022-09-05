@@ -38,6 +38,7 @@ bool	argument_is_redirection(char *arg)
 bool	verify_validity(int i, char ***splitted_variable, \
 		char **argv)
 {
+	printf("\n\n\nLOL\n");
 	if (i > 0 && retrieve_len_array(*splitted_variable) > 1 && \
 			argument_is_redirection(argv[i - 1]) == true)
 	{
@@ -67,6 +68,7 @@ bool	ft_reallocate_arg(t_simple_cmd *cmd, int i, int *j, char *var_val)
 	while (utils.i_split < utils.len_argv_to_append)
 		new_argv[utils.i_new++] = ft_strdup(splitted_var[utils.i_split++]);
 	manage_last_join(cmd->argv[i], new_argv, splitted_var, &utils);
+	
 	++utils.i_old;
 	while (cmd->argv[utils.i_old] != 0x0)
 		new_argv[utils.i_new++] = ft_strdup(cmd->argv[utils.i_old++]);

@@ -93,11 +93,25 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc)
 	if (redirs == NULL)
 		return;
 	else if (redirs->type == INPUT_REDIR)
+	{
 		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
+		if (node->content.simple_cmd.fd_in == ERR)
+			perror("minishell");
+	}
 	else if (redirs->type == OUTPUT_REDIR)
+	{
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
+		{
+			if (node->content.simple_cmd.fd_out == ERR)
+				perror("minishell");
+		}
+	}
 	else if (redirs->type == APPEND_OUTPUT_REDIR)
+	{
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
+			if (node->content.simple_cmd.fd_out == ERR)
+				perror("minishell");
+	}
 	else if (redirs->type == HEREDOC_REDIR)
 		ft_handle_heredoc(redirs, node, heredoc);
 	ft_handle_redirections(redirs->next, node, heredoc);
