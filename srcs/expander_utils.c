@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:10:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:00:47 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/05 18:05:11 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ bool	argument_is_redirection(char *arg)
 bool	verify_validity(int i, char ***splitted_variable, \
 		char **argv)
 {
-	printf("\n\n\nLOL\n");
-	if (i > 0 && retrieve_len_array(*splitted_variable) > 1 && \
-			argument_is_redirection(argv[i - 1]) == true)
+	if (i > 0 && retrieve_len_array(*splitted_variable) > 1)
 	{
 		variadic_error_printer(2, "minishell : %s : ambiguous redirection ", \
 				argv[i]);
