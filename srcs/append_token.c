@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 13:59:08 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:02:08 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 22:47:32 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	append_token(t_token *new_token, t_token **token_list)
 	}
 }
 
-int ft_argv_len(char **argv)
+int	ft_argv_len(char **argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (argv[i])
@@ -41,7 +41,7 @@ int ft_argv_len(char **argv)
 	return (i);
 }
 
-t_pipe *ft_lstlast(t_pipe *lst)
+t_pipe	*ft_lstlast(t_pipe *lst)
 {
 	if (ft_lstsize(lst) == 0)
 		return (NULL);
@@ -50,15 +50,15 @@ t_pipe *ft_lstlast(t_pipe *lst)
 	return (lst);
 }
 
-void ft_lstadd_front(t_pipe **head, t_pipe *new)
+void	ft_lstadd_front(t_pipe **head, t_pipe *new)
 {
 	new->next = *(head);
 	*(head) = new;
 }
 
-t_pipe *ft_lstnew(int *fd)
+t_pipe	*ft_lstnew(int *fd)
 {
-	t_pipe *lst;
+	t_pipe	*lst;
 
 	lst = (t_pipe *)malloc(sizeof(*lst));
 	if (!lst)

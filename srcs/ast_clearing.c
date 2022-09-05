@@ -6,16 +6,16 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/19 16:32:23 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:06:02 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 23:06:08 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ast_clearing(t_node **ast)
+void	ast_clearing(t_node **ast)
 {
 	if (*ast == 0x0)
-		return;
+		return ;
 	if ((*ast)->type == SIMPLE_CMD)
 		simple_cmd_clearing(ast);
 	else
@@ -26,9 +26,9 @@ void ast_clearing(t_node **ast)
 	}
 }
 
-void ft_lstadd_back(t_pipe **alst, t_pipe *new)
+void	ft_lstadd_back(t_pipe **alst, t_pipe *new)
 {
-	t_pipe *last;
+	t_pipe	*last;
 
 	if (new != NULL)
 	{
@@ -42,11 +42,11 @@ void ft_lstadd_back(t_pipe **alst, t_pipe *new)
 	}
 }
 
-int ft_is_child_ignored(char *string)
+int	ft_is_child_ignored(char *string)
 {
-	int i;
-	char **built_ins;
-	int ignored;
+	int		i;
+	char	**built_ins;
+	int		ignored;
 
 	i = 0;
 	ignored = 0;
@@ -54,7 +54,7 @@ int ft_is_child_ignored(char *string)
 	while (built_ins[i])
 	{
 		if (built_ins[0] == 0x0 || string == 0x0)
-			break;
+			break ;
 		if (!ft_strcmp(built_ins[i], string))
 			ignored = 1;
 		i++;
@@ -66,9 +66,9 @@ int ft_is_child_ignored(char *string)
 	return (ignored);
 }
 
-void ft_clean_support(t_node *node, char *new_argv)
+void	ft_clean_support(t_node *node, char *new_argv)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (node->content.simple_cmd.argv[i])
@@ -78,12 +78,12 @@ void ft_clean_support(t_node *node, char *new_argv)
 	free(new_argv);
 }
 
-void ft_clean_argv(t_node *node)
+void	ft_clean_argv(t_node *node)
 {
-	int has_wildc;
-	char *new_argv;
-	char *tmp;
-	int i;
+	int		has_wildc;
+	char	*new_argv;
+	char	*tmp;
+	int		i;
 
 	has_wildc = 0;
 	new_argv = ft_strdup("");
@@ -91,7 +91,8 @@ void ft_clean_argv(t_node *node)
 	tmp = NULL;
 	while (node->content.simple_cmd.argv[i])
 	{
-		if (ft_strchr(node->content.simple_cmd.argv[i], '*') && ft_argv_len(node->content.simple_cmd.argv) > 2)
+		if (ft_strchr(node->content.simple_cmd.argv[i], '*') && \
+				ft_argv_len(node->content.simple_cmd.argv) > 2)
 			has_wildc = 1;
 		else
 		{
