@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 20:48:58 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 21:23:42 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,7 +359,7 @@ bool execute_redirections(t_node *node);
 int manage_execution(char **binary_path, char *cmd);
 int manage_error(char *cmd, char *error,
 				 int exit_val);
-void execute_command_list(t_node *node);
+void execute_command_list(t_node *node, t_pipe **pipe_, int *exec_index);
 void signal_command_child(int sig);
 void print_redir_list(t_redirs *redir);
 int *retrieve_exit_ctl_c(void);
@@ -567,5 +567,10 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index);
 int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index);
 void ft_free_pipes(t_pipe **pipe);
 void ft_handle_reset(t_pipe **pipe, int *exec_index);
+void execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
+void ft_handle_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
+void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
 
 #endif
