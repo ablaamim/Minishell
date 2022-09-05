@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 18:21:49 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 22:46:41 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 00:05:02 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 	int status;
 	int gab;
 
+	signal(SIGINT, SIG_IGN);
 	if (pid)
 	while (waitpid(pid, &status, 0x0) > 0)
 	{
