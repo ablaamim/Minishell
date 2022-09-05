@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 22:21:35 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 20:48:58 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -525,7 +525,7 @@ void append_to_env(char *export, char *var_name);
  * BUILT INS:
  */
 int ft_handle_cd(char **argv);
-int ft_handle_env(char **args,t_node *node);
+int ft_handle_env(char **args, t_node *node);
 int ft_handle_pwd(t_node *node);
 int ft_handle_exit(char **args, t_node *node);
 int ft_handle_export(char **args, t_node *node);
@@ -543,12 +543,12 @@ void ft_clean_argv(t_node *node);
 int ft_has_wildcard(t_node *node);
 DIR *ft_open_dir(char *path, char **pattern, char **clean_path);
 void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv);
-void	ft_handle_wc_extraction(t_node *node, int j, char **argv);
-void	ft_handle_wildcard(t_node *node);
-int	ft_isnumber(char *s);
-int	export_len_name(char *argument);
-char	*export_variable_name(char *argument);
-void	export_perror(char *args, int *ret);
+void ft_handle_wc_extraction(t_node *node, int j, char **argv);
+void ft_handle_wildcard(t_node *node);
+int ft_isnumber(char *s);
+int export_len_name(char *argument);
+char *export_variable_name(char *argument);
+void export_perror(char *args, int *ret);
 char *retrieve_var_val(char *str, char *env_val);
 int special_env_len(t_env *env);
 void append_to_env(char *export, char *var_name);
@@ -557,7 +557,7 @@ void ft_free_to_array(t_pipe **pipe, int **arr);
 void ft_close_pipes(t_pipe *pipe, int **arr);
 int ft_handle_line(char *line, t_redirs *redirs, t_node *node);
 void ft_handle_heredoc(t_redirs *redirs, t_node *node, int *heredoc);
-void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc);
+void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc, int init_heredoc);
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index);
 void ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index);
 void ft_handle_child_execution(t_node *node);

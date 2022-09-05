@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:36:20 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 21:10:25 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,15 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 				ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 			else if (node->type == SIMPLE_CMD)
-				ft_exec_cmd(node, pipe_, exec_index);
+			{
+				if (node->content.simple_cmd.fd_in != ERR && node->content.simple_cmd.fd_out != ERR)
+					ft_exec_cmd(node, pipe_, exec_index);
+				else
+				{
+					exit_value_set(1);
+					return;
+				}
+			}
 			else if (node->type == OR_NODE)
 			{
 				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
@@ -48,9 +56,11 @@ void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 			}
 			else if (node->type == SEMICO_NODE)
 			{
-				ft_iterate_tree(node->content.child.left, pipe_, exec_index);
+				if (node->content.child.left)
+					ft_iterate_tree(node->content.child.left, pipe_, exec_index);
 				ft_handle_reset(pipe_, exec_index);
-				ft_iterate_tree(node->content.child.right, pipe_, exec_index);
+				if (node->content.child.right)
+					ft_iterate_tree(node->content.child.right, pipe_, exec_index);
 			}
 		}
 		else
@@ -67,11 +77,27 @@ void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc
 		if (execute_redirections(node) == true)
 		{
 			if (node->type == SIMPLE_CMD)
-				ft_handle_redirections(node->content.simple_cmd.redirs, node, heredoc);
+			{
+				if (*heredoc)
+					ft_handle_redirections(node->content.simple_cmd.redirs, node, heredoc, 0);
+				else
+					ft_handle_redirections(node->content.simple_cmd.redirs, node, heredoc, 1);
+			}
+			else if (node->type == OR_NODE)
+			{
+				if (node->content.child.left)
+					ft_init_heredoc(node->content.child.left, pipe_, exec_index, heredoc);
+				if (*heredoc == 2)
+					*heredoc = 1;
+				if (node->content.child.right)
+					ft_init_heredoc(node->content.child.right, pipe_, exec_index, heredoc);
+			}
 			else if (node != NULL)
 			{
-				ft_init_heredoc(node->content.child.left, pipe_, exec_index, heredoc);
-				ft_init_heredoc(node->content.child.right, pipe_, exec_index, heredoc);
+				if (node->content.child.left)
+					ft_init_heredoc(node->content.child.left, pipe_, exec_index, heredoc);
+				if (node->content.child.right)
+					ft_init_heredoc(node->content.child.right, pipe_, exec_index, heredoc);
 			}
 		}
 		else
@@ -102,6 +128,8 @@ void ft_executor(char *line)
 				ft_init_heredoc(ast, &pipe, &exec_init, &heredoc);
 				if (heredoc == 1) // handle heredoc ctrl + c
 					return;
+				heredoc = 1;
+				ft_init_heredoc(ast, &pipe, &exec_init, &heredoc);
 				ft_iterate_tree(ast, &pipe, &exec_init);
 				ft_free_pipes(&pipe);
 				ast_clearing(&ast);

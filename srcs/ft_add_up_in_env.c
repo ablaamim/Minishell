@@ -6,16 +6,16 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 13:18:07 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:32:50 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 20:55:33 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**ft_add_up_in_env(const char *name, const char *val, t_env env)
+char **ft_add_up_in_env(const char *name, const char *val, t_env env)
 {
-	int		i;
-	t_env	new_env;
+	int i;
+	t_env new_env;
 
 	i = 0x0;
 	new_env = garbage_malloc(sizeof(char *) * (env_length(env) + 2));
@@ -87,34 +87,48 @@ void ft_handle_heredoc(t_redirs *redirs, t_node *node, int *heredoc)
 		*heredoc = 1;
 }
 
-void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc)
+void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc, int init_heredoc)
 {
-
 	if (redirs == NULL)
 		return;
-	else if (redirs->type == INPUT_REDIR)
+	else if (redirs->type == INPUT_REDIR && !init_heredoc)
 	{
 		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
 		if (node->content.simple_cmd.fd_in == ERR)
-			perror("minishell");
+		{
+			variadic_error_printer(2, "minishell: %s : %s\n", strerror(errno), redirs->file_name);
+			*heredoc = 2;
+			exit_value_set(1);
+			return;
+		}
 	}
-	else if (redirs->type == OUTPUT_REDIR)
+	else if (redirs->type == OUTPUT_REDIR && !init_heredoc)
 	{
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
 		{
 			if (node->content.simple_cmd.fd_out == ERR)
-				perror("minishell");
+			{
+				variadic_error_printer(2, "minishell: %s : %s\n", strerror(errno), redirs->file_name);
+				*heredoc = 2;
+				exit_value_set(1);
+				return;
+			}
 		}
 	}
-	else if (redirs->type == APPEND_OUTPUT_REDIR)
+	else if (redirs->type == APPEND_OUTPUT_REDIR && !init_heredoc)
 	{
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
-			if (node->content.simple_cmd.fd_out == ERR)
-				perror("minishell");
+		if (node->content.simple_cmd.fd_out == ERR)
+		{
+			variadic_error_printer(2, "minishell: %s : %s\n", strerror(errno), redirs->file_name);
+			*heredoc = 2;
+			exit_value_set(1);
+			return;
+		}
 	}
-	else if (redirs->type == HEREDOC_REDIR)
+	else if (redirs->type == HEREDOC_REDIR && init_heredoc)
 		ft_handle_heredoc(redirs, node, heredoc);
-	ft_handle_redirections(redirs->next, node, heredoc);
+	ft_handle_redirections(redirs->next, node, heredoc, init_heredoc);
 }
 
 void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
