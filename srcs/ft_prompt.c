@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 13:17:53 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/05 03:06:48 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void signal_command(int sig)
 		rl_on_new_line();
 		printf("\n");
 		printf("\033[0;32m");
-		rl_replace_line("", 0x0);
+		//rl_replace_line("", 0x0);
 		rl_redisplay();
 		exit_value_set(1);
 	}
@@ -135,7 +135,7 @@ void signal_command_child(int sig)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0x0);
+		//rl_replace_line("", 0x0);
 	}
 	if (sig == SIGQUIT)
 	{

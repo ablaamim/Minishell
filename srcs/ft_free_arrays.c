@@ -74,7 +74,6 @@ void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index)
 	ft_handle_child_execution(node);
 }
 
-
 void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 {
 	int status;
@@ -91,9 +90,11 @@ void ft_handle_parent(t_node *node, int pid, t_pipe **pipe)
 			if (WEXITSTATUS(status) == 17)
 				exit_value_set(0x0);
 		}
+		if (WIFSIGNALED(status))
+			exit_value_set(WTERMSIG(status) + 128);
 	}
 	if (node->content.simple_cmd.argv[0] == 0x0)
-		return;
+		return ;
 	status = *retrieve_exit_status();
 	if (ft_lstsize(*pipe) == 0 && (!ft_strcmp(node->content.simple_cmd.argv[0], "exit") || !ft_strcmp(node->content.simple_cmd.argv[0], "cd") || !ft_strcmp(node->content.simple_cmd.argv[0], "export") ||
 								   !ft_strcmp(node->content.simple_cmd.argv[0], "unset") || !ft_strcmp(node->content.simple_cmd.argv[0], "echo")))

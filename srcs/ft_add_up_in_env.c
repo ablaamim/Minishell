@@ -93,14 +93,7 @@ void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc)
 	if (redirs == NULL)
 		return;
 	else if (redirs->type == INPUT_REDIR)
-	{
 		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
-		if (node->content.simple_cmd.fd_in == -1)
-		{
-			variadic_error_printer(2, "Error : file not found\n");
-			exit(EXIT_FAILURE);
-		}
-	}
 	else if (redirs->type == OUTPUT_REDIR)
 		node->content.simple_cmd.fd_out = open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
 	else if (redirs->type == APPEND_OUTPUT_REDIR)

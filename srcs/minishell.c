@@ -58,10 +58,10 @@ void	ft_free_fd(void)
 int	main(int argc, char **argv, char  **env)
 {
 	(void) argv;
+		return (EXIT_SUCCESS);
 	if (argc == 1)
 	{
 		init_bash_env(argv[0], env);
-		env = NULL;
 		ft_free_fd();
 		ft_minishell();
 	}
