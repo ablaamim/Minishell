@@ -35,12 +35,8 @@ void	display_env(t_node *node)
 	i = 0x0;
 	while ((*env)[i])
 	{
-		if (ft_strchr((*env)[i], '=') != 0x0)
-			variadic_error_printer(node->content.simple_cmd.fd_out, \
+		variadic_error_printer(node->content.simple_cmd.fd_out, \
 					"declare -x %s\n", (*env)[i]);
-		else
-			variadic_error_printer(node->content.simple_cmd.fd_out, \
-					"%s\n", (*env)[i]);
 		i++;
 	}
 }
