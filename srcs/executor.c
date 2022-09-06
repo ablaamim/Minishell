@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 21:25:28 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 02:30:57 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,12 @@ void ft_handle_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *
 
 void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc)
 {
-	if (expansions_perform(node, 0) == true)
+	int expand;
+
+	expand = 0;
+	if (!*heredoc)
+		expand = 1;
+	if (expansions_perform(node, expand) == true)
 	{
 		if (execute_redirections(node) == true)
 			ft_handle_init_heredoc(node, pipe_, exec_index, heredoc);

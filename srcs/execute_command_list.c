@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 18:19:10 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 21:29:57 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 01:32:45 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void ft_hanlde_iteration(t_node *node, t_pipe **pipe_, int *exec_index)
 void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
 {
 
-	if (expansions_perform(node, 1) == true)
+	if (expansions_perform(node, 0) == true)
 	{
 		if (execute_redirections(node) == true)
 		{
