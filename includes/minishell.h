@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 17:52:43 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 18:23:49 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -573,5 +573,7 @@ void	ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc
 void	execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
 void	ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
 void	ft_hanlde_iteration(t_node *node, t_pipe **pipe_, int *exec_index);
+void	ft_empty_or_nodes(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void	ft_handle_execution (t_node *ast);
 
 #endif
