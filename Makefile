@@ -6,7 +6,7 @@
 #    By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/09/06 23:07:51 by ablaamim         ###   ########.fr        #
+#    Updated: 2022/09/06 23:29:11 by ablaamim         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RDLINE = -lreadline -L /Users/${USER}/.brew/opt/readline/lib -I /Users/${USER}/.
 
 LINUX_RDLINE = -lreadline
 
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 SRC = ./srcs/debug.c \
 	  ./srcs/executor.c \

@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 23:27:33 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/06 23:29:28 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # include <termios.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
-# include "../Leak_Hunter/leak_hunter.h"
 
 # define MALLOC_ERROR "Error : malloc() failed to allocate memory\n"
 # define ERROR_MINISHELL_EOF "minishell : syntax error, unexpected eof\n"
