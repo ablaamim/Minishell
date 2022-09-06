@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_char_type.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 11:31:54 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/07/07 10:07:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/06 17:44:11 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,19 @@ enum e_char_type	define_char_type(char c)
 	if (c == '\0')
 		return (NULL_CHAR);
 	return (char_type[(int) c]);
+}
+
+void	ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index)
+{
+	if (expansions_perform(node, 0) == true)
+	{
+		if (execute_redirections(node) == true)
+		{
+			ft_hanlde_iteration(node, pipe_, exec_index);
+		}
+		else
+			exit_value_set(EXIT_FAILURE);
+	}
+	else
+		exit_value_set(EXIT_FAILURE);
 }

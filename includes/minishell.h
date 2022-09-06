@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 01:32:57 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 17:52:43 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,93 +484,94 @@ typedef struct s_converter
 	void (*function)(t_buffering *, va_list);
 } t_converter;
 
-char *variadic_format(const char *str, va_list ap);
-int type_recognizer(char type, va_list ap, t_buffering *fmt);
-void convert_percent(t_buffering *fmt, va_list ap);
-void convert_c(t_buffering *fmt, va_list ap);
-void convert_s(t_buffering *fmt, va_list ap);
-void convert_d(t_buffering *fmt, va_list ap);
+char	*variadic_format(const char *str, va_list ap);
+int		type_recognizer(char type, va_list ap, t_buffering *fmt);
+void	convert_percent(t_buffering *fmt, va_list ap);
+void	convert_c(t_buffering *fmt, va_list ap);
+void	convert_s(t_buffering *fmt, va_list ap);
+void	convert_d(t_buffering *fmt, va_list ap);
 
 /*
  * LEAKS FIGHTING :
  */
 
-void ast_clearing(t_node **ast);
-void simple_cmd_clearing(t_node **simple_cmd);
-void tokens_clearing(t_token **token_list);
+void	ast_clearing(t_node **ast);
+void	simple_cmd_clearing(t_node **simple_cmd);
+void	tokens_clearing(t_token **token_list);
 
 /*
  * SIGNALS HANDLING:
  */
 
-void signal_command(int sig);
+void	signal_command(int sig);
 /*
  * BUILT IN UTILS:
  */
-int ft_handle_empty_cd(char *old_pwd);
-int ft_handle_def_cd(char *argv, char *old_pwd);
-int parse_unset(char *args);
-int ft_handle_built_ins(char **args, t_node *node);
-int ft_unset_logic(char *name);
-void ft_echo_print(t_node *node, int i, int j, int add_new_line);
-void ft_echo_iterator(char **args, int *k, int i);
-int ft_is_built_in(char *string);
-void display_env(t_node *node);
-char *export_variable_name(char *argument);
-void export_perror(char *args, int *ret);
-int ft_handle_echo(char **args, t_node *node);
-void append_to_env(char *export, char *var_name);
+int		ft_handle_empty_cd(char *old_pwd);
+int		ft_handle_def_cd(char *argv, char *old_pwd);
+int		parse_unset(char *args);
+int		ft_handle_built_ins(char **args, t_node *node);
+int		ft_unset_logic(char *name);
+int		ft_is_built_in(char *string);
+int		ft_handle_echo(char **args, t_node *node);
+char	*export_variable_name(char *argument);
+void	ft_echo_print(t_node *node, int i, int j, int add_new_line);
+void	ft_echo_iterator(char **args, int *k, int i);
+void	display_env(t_node *node);
+void	export_perror(char *args, int *ret);
+void	append_to_env(char *export, char *var_name);
 
 /*
  * BUILT INS:
  */
-int ft_handle_cd(char **argv);
-int ft_handle_env(char **args, t_node *node);
-int ft_handle_pwd(t_node *node);
-int ft_handle_exit(char **args, t_node *node);
-int ft_handle_export(char **args, t_node *node);
-int ft_handle_unset(char **args);
+int		ft_handle_cd(char **argv);
+int		ft_handle_env(char **args, t_node *node);
+int		ft_handle_pwd(t_node *node);
+int		ft_handle_exit(char **args, t_node *node);
+int		ft_handle_export(char **args, t_node *node);
+int		ft_handle_unset(char **args);
 /*
  * EXECUTION:
  */
-int ft_argv_len(char **argv);
-t_pipe *ft_lstlast(t_pipe *lst);
-void ft_lstadd_front(t_pipe **head, t_pipe *new);
-t_pipe *ft_lstnew(int *fd);
-void ft_lstadd_back(t_pipe **alst, t_pipe *new);
-int ft_is_child_ignored(char *string);
-void ft_clean_argv(t_node *node);
-int ft_has_wildcard(t_node *node);
-DIR *ft_open_dir(char *path, char **pattern, char **clean_path);
-void ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv);
-void ft_handle_wc_extraction(t_node *node, int j, char **argv);
-void ft_handle_wildcard(t_node *node);
-int ft_isnumber(char *s);
-int export_len_name(char *argument);
-char *export_variable_name(char *argument);
-void export_perror(char *args, int *ret);
-char *retrieve_var_val(char *str, char *env_val);
-int special_env_len(t_env *env);
-void append_to_env(char *export, char *var_name);
-int **ft_to_array(t_pipe **pipe);
-void ft_free_to_array(t_pipe **pipe, int **arr);
-void ft_close_pipes(t_pipe *pipe, int **arr);
-int ft_handle_line(char *line, t_redirs *redirs, t_node *node);
-void ft_handle_heredoc(t_redirs *redirs, t_node *node, int *heredoc);
-void ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc, int init_heredoc);
-void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index);
-void ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index);
-void ft_handle_child_execution(t_node *node);
-void ft_handle_child(t_node *node, t_pipe **pipe, int exec_index);
-void ft_handle_parent(t_node *node, int pid, t_pipe **pipe);
-void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index);
-int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index);
-void ft_free_pipes(t_pipe **pipe);
-void ft_handle_reset(t_pipe **pipe, int *exec_index);
-void execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
-void ft_handle_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
-void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
-void execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
-void ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
+t_pipe	*ft_lstlast(t_pipe *lst);
+t_pipe	*ft_lstnew(int *fd);
+DIR		*ft_open_dir(char *path, char **pattern, char **clean_path);
+int		ft_argv_len(char **argv);
+int		ft_is_child_ignored(char *string);
+int		ft_has_wildcard(t_node *node);
+int		ft_isnumber(char *s);
+int		export_len_name(char *argument);
+int		special_env_len(t_env *env);
+int		**ft_to_array(t_pipe **pipe);
+int		ft_handle_line(char *line, t_redirs *redirs, t_node *node);
+int		ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index);
+char	*export_variable_name(char *argument);
+char	*retrieve_var_val(char *str, char *env_val);
+void	ft_lstadd_front(t_pipe **head, t_pipe *new);
+void	ft_lstadd_back(t_pipe **alst, t_pipe *new);
+void	ft_clean_argv(t_node *node);
+void	ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv);
+void	ft_handle_wc_extraction(t_node *node, int j, char **argv);
+void	ft_handle_wildcard(t_node *node);
+void	export_perror(char *args, int *ret);
+void	append_to_env(char *export, char *var_name);
+void	ft_free_to_array(t_pipe **pipe, int **arr);
+void	ft_close_pipes(t_pipe *pipe, int **arr);
+void	ft_handle_heredoc(t_redirs *redirs, t_node *node, int *heredoc);
+void	ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc, int init_heredoc);
+void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index);
+void	ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index);
+void	ft_handle_child_execution(t_node *node);
+void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index);
+void	ft_handle_parent(t_node *node, int pid, t_pipe **pipe);
+void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index);
+void	ft_free_pipes(t_pipe **pipe);
+void	ft_handle_reset(t_pipe **pipe, int *exec_index);
+void	execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
+void	ft_handle_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void	ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void	execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
+void	ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
+void	ft_hanlde_iteration(t_node *node, t_pipe **pipe_, int *exec_index);
 
 #endif

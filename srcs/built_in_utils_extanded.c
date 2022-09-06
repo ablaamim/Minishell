@@ -6,37 +6,38 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:49:58 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/04 22:24:31 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 17:41:19 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_echo_iterator(char **args, int *k, int i)
+void	ft_echo_iterator(char **args, int *k, int i)
 {
-    *k = 1;
-    while (args[i][*k] == 'n')
-        (*k)++;
+	*k = 1;
+	while (args[i][*k] == 'n')
+		(*k)++;
 }
 
-void ft_echo_print(t_node *node, int i, int j, int add_new_line)
+void	ft_echo_print(t_node *node, int i, int j, int add_new_line)
 {
-	char **args;
+	char	**args;
 
 	args = node->content.simple_cmd.argv;
-    while (args[i])
-    {
-        variadic_error_printer(node->content.simple_cmd.fd_out, "%s", args[i++]);
-        if (i < j)
-            variadic_error_printer(node->content.simple_cmd.fd_out, " ");
-    }
-    if (add_new_line)
-        variadic_error_printer(node->content.simple_cmd.fd_out, "\n");
+	while (args[i])
+	{
+		variadic_error_printer(node->content.simple_cmd.fd_out,
+			"%s", args[i++]);
+		if (i < j)
+			variadic_error_printer(node->content.simple_cmd.fd_out, " ");
+	}
+	if (add_new_line)
+		variadic_error_printer(node->content.simple_cmd.fd_out, "\n");
 }
 
-int ft_handle_built_ins(char **args, t_node *node)
+int	ft_handle_built_ins(char **args, t_node *node)
 {
-	int exit_stat;
+	int	exit_stat;
 
 	exit_stat = *retrieve_exit_status();
 	if (!ft_strcmp(args[0], "export"))
@@ -53,7 +54,7 @@ int ft_handle_built_ins(char **args, t_node *node)
 		exit_stat = ft_handle_cd(args);
 	else if (!ft_strcmp(args[0], "exit"))
 	{
-		exit_stat = ft_handle_exit(args,node);
+		exit_stat = ft_handle_exit(args, node);
 		exit(exit_stat);
 	}
 	exit_value_set(exit_stat);
@@ -81,7 +82,8 @@ int	export_len_name(char *argument)
 	int	len;
 
 	len = 0x0;
-	while (argument[len] != '+' && argument[len] != '=' && argument[len] != '\0')
+	while (argument[len] != '+' && argument[len]
+		!= '=' && argument[len] != '\0')
 		++len;
 	return (len);
 }
