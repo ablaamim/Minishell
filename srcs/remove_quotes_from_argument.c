@@ -6,13 +6,13 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:50:53 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 01:30:57 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 22:29:46 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void substitute_quotes_state(char quote, bool *in_squotes, bool *in_dquotes)
+void	substitute_quotes_state(char quote, bool *in_squotes, bool *in_dquotes)
 {
 	if (quote == '\'' && *in_dquotes == false)
 		*in_squotes = (*in_squotes == false);
@@ -20,12 +20,12 @@ void substitute_quotes_state(char quote, bool *in_squotes, bool *in_dquotes)
 		*in_dquotes = (*in_dquotes == false);
 }
 
-static int calculate_len_without_quotes(char *str)
+static int	calculate_len_without_quotes(char *str)
 {
-	bool in_dquotes;
-	bool in_squotes;
-	int i;
-	int len;
+	bool	in_dquotes;
+	bool	in_squotes;
+	int		i;
+	int		len;
 
 	i = 0x0;
 	len = 0x0;
@@ -33,7 +33,8 @@ static int calculate_len_without_quotes(char *str)
 	in_squotes = false;
 	while (str[i] != 0x0)
 	{
-		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' && in_squotes == false))
+		if ((str[i] == '\'' && in_dquotes == false) || \
+				(str[i] == '"' && in_squotes == false))
 			substitute_quotes_state(str[i], &in_squotes, &in_dquotes);
 		else
 			++len;
@@ -42,7 +43,7 @@ static int calculate_len_without_quotes(char *str)
 	return (len);
 }
 
-void quotes_restore(char *str)
+void	quotes_restore(char *str)
 {
 	while (*str != 0x0)
 	{
@@ -64,24 +65,24 @@ void quotes_restore(char *str)
  *
  */
 
-static char *remove_quotes(char *str)
+static char	*remove_quotes(char *str)
 {
-	bool in_dquotes;
-	bool in_squotes;
-	int i;
-	int j;
-	char *without_quotes;
+	bool	in_dquotes;
+	bool	in_squotes;
+	int		i;
+	int		j;
+	char	*without_quotes;
 
 	in_dquotes = false;
 	in_squotes = false;
 	i = 0x0;
 	j = 0x0;
-	without_quotes = garbage_malloc(sizeof(*without_quotes) *
-									(calculate_len_without_quotes(str) + 0x1));
+	without_quotes = garbage_malloc(sizeof(*without_quotes) * \
+			(calculate_len_without_quotes(str) + 0x1));
 	while (str[i] != 0x0)
 	{
-		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' &&
-														in_squotes == false))
+		if ((str[i] == '\'' && in_dquotes == false) || (str[i] == '"' && \
+					in_squotes == false))
 			substitute_quotes_state(str[i], &in_squotes, &in_dquotes);
 		else
 			without_quotes[j++] = str[i];
@@ -91,9 +92,9 @@ static char *remove_quotes(char *str)
 	return (without_quotes);
 }
 
-void remove_quotes_from_argument(char **argv)
+void	remove_quotes_from_argument(char **argv)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = remove_quotes(*argv);
 	garbage_free((void **)argv);

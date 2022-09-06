@@ -6,18 +6,22 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/27 15:29:19 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 20:40:14 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 22:41:58 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// expand heredocument
+void	increment_and_free(int i, char *var_value, char *var_name)
+{
+	i += ft_strlen(var_value);
+	garbage_free((void **) &var_name);
+}
 
 void	heredoc_expander(char **argv)
 {
-	char	*variable_name;
-	char	*variable_value;
+	char	*var_name;
+	char	*var_value;
 	char	*tmp;
 	int		i;
 
@@ -30,18 +34,15 @@ void	heredoc_expander(char **argv)
 				*argv = new_argument(argv, 0x0, i++, "$");
 			else
 			{
-				get_variable_name_and_val(*argv + i, &variable_name,
-					&variable_value);
+				get_variable_name_and_val(*argv + i, &var_name, &var_value);
 				tmp = ft_strdup(*argv);
 				free(*argv);
-				*argv = new_argument(&tmp, ft_strlen(variable_name),
-						i, variable_value);
+				*argv = new_argument(&tmp, ft_strlen(var_name), i, var_value);
 				free(tmp);
-				i += ft_strlen(variable_value);
-				garbage_free((void **)&variable_name);
+				increment_and_free(i, var_value, var_name);
 			}
 		}
 		else
-			++i;
+		++i;
 	}
 }

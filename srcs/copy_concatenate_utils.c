@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/15 18:18:43 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:27:14 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 22:25:50 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ char	*export_variable_name(char *argument)
 	j = 0x0;
 	if (ft_isalpha(argument[i]) == 0x0 && argument[i] != '_')
 		return (0x0);
-	var_name = garbage_malloc(sizeof(*var_name) * (export_len_name(argument) + 1));
+	var_name = garbage_malloc(sizeof(*var_name) * \
+			(export_len_name(argument) + 1));
 	while (argument[i] != '+' && argument[i] != '=' && argument[i] != '\0')
 	{
 		if (ft_isalnum(argument[i]) == 0x0)
@@ -86,6 +87,7 @@ char	*export_variable_name(char *argument)
 
 void	export_perror(char *args, int *ret)
 {
-	variadic_error_printer(2, "Minishell : export : '%s' not a valid identifier\n", args);
+	variadic_error_printer(2, \
+			"Minishell : export : '%s' not a valid identifier\n", args);
 	*ret = EXIT_FAILURE;
 }
