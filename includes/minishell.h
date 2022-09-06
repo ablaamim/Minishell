@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 20:16:21 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 20:36:43 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,5 +587,7 @@ void	ft_handle_execution(t_node *ast);
 void	ft_hanlde_input_redir(t_node *node, int *heredoc, t_redirs *redirs);
 void	ft_handle_output_redir(t_node *node, int*heredoc, t_redirs *redirs);
 void	ft_handle_append_redir(t_node *node, t_redirs *redirs, int *heredoc);
+void	ft_handle_parent_extanded(int pid, int *status, int *gab);
+void	ft_handle_parent(t_node *node, int pid, t_pipe **pipe);
 
 #endif

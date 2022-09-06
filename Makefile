@@ -6,7 +6,7 @@
 #    By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/23 17:25:54 by ablaamim          #+#    #+#              #
-#    Updated: 2022/09/06 20:17:03 by gruz             ###   ########.fr        #
+#    Updated: 2022/09/06 20:37:52 by gruz             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,6 +84,7 @@ SRC = ./srcs/debug.c \
 	  ./srcs/execute_command_list.c \
 	  ./srcs/executor_utils.c \
 	  ./srcs/ft_execution_redirs.c \
+	  ./srcs/executor_utils_extanded.c \
 
 OBJ = $(SRC:.c=.o)
 
