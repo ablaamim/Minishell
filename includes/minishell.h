@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 18:23:49 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 19:56:19 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -527,7 +527,7 @@ void	append_to_env(char *export, char *var_name);
 int		ft_handle_cd(char **argv);
 int		ft_handle_env(char **args, t_node *node);
 int		ft_handle_pwd(t_node *node);
-int		ft_handle_exit(char **args, t_node *node);
+int		ft_handle_exit(char **args, t_node *node, int *err);
 int		ft_handle_export(char **args, t_node *node);
 int		ft_handle_unset(char **args);
 /*

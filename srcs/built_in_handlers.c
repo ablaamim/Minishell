@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:40:25 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/06 17:30:23 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 19:55:38 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_handle_pwd( t_node *node)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_handle_exit(char **args, t_node *node)
+int	ft_handle_exit(char **args, t_node *node, int *error)
 {
 	int	exit_status;
 
@@ -88,6 +88,7 @@ int	ft_handle_exit(char **args, t_node *node)
 		{
 			variadic_error_printer(2, "minishell : exit : too many arguments\n");
 			exit_status = 1;
+			*error = 1;
 		}
 		else
 			exit_status = ft_atoi(args[1]);

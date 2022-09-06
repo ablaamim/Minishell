@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:49:58 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/06 17:41:19 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 19:58:16 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ void	ft_echo_print(t_node *node, int i, int j, int add_new_line)
 int	ft_handle_built_ins(char **args, t_node *node)
 {
 	int	exit_stat;
+	int err;
 
 	exit_stat = *retrieve_exit_status();
+	err = 0;
 	if (!ft_strcmp(args[0], "export"))
 		exit_stat = ft_handle_export(args, node);
 	else if (!ft_strcmp(args[0], "unset"))
@@ -54,8 +56,9 @@ int	ft_handle_built_ins(char **args, t_node *node)
 		exit_stat = ft_handle_cd(args);
 	else if (!ft_strcmp(args[0], "exit"))
 	{
-		exit_stat = ft_handle_exit(args, node);
-		exit(exit_stat);
+		exit_stat = ft_handle_exit(args, node, &err);
+		if (err != 1)
+			exit(exit_stat);
 	}
 	exit_value_set(exit_stat);
 	return (exit_stat);
