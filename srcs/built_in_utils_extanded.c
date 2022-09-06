@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 20:49:58 by gruz              #+#    #+#             */
-/*   Updated: 2022/09/06 19:58:16 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 20:08:03 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_echo_print(t_node *node, int i, int j, int add_new_line)
 int	ft_handle_built_ins(char **args, t_node *node)
 {
 	int	exit_stat;
-	int err;
+	int	err;
 
 	exit_stat = *retrieve_exit_status();
 	err = 0;

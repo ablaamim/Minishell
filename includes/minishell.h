@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:06:31 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 19:56:19 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 20:16:21 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,33 +456,33 @@ int retrieve_len_array(char **array);
  * Minishell exit ==> return exit_status and free all data.
  */
 
-void shell_exit(int status, char *msg);
-int *retrieve_exit_status(void);
-void exit_value_set(int exit_value);
+void	shell_exit(int status, char *msg);
+int		*retrieve_exit_status(void);
+void	exit_value_set(int exit_value);
 
 /*
  * Variadic function to print arbitrary number of errors on given fd stream
  */
 
-int variadic_error_printer(int fd, const char *fmt, ...);
+int		variadic_error_printer(int fd, const char *fmt, ...);
 
 /*
  * variadic defines and utils :
  */
 
-#define BUFFERING 4096
+# define BUFFERING 4096
 
 typedef struct s_buffering
 {
-	int i;
-	char buffer[BUFFERING];
-} t_buffering;
+	int		i;
+	char	buffer[BUFFERING];
+}	t_buffering;
 
 typedef struct s_converter
 {
-	char type;
-	void (*function)(t_buffering *, va_list);
-} t_converter;
+	char	type;
+	void	(*function)(t_buffering *, va_list);
+}	t_converter;
 
 char	*variadic_format(const char *str, va_list ap);
 int		type_recognizer(char type, va_list ap, t_buffering *fmt);
@@ -550,7 +550,8 @@ char	*retrieve_var_val(char *str, char *env_val);
 void	ft_lstadd_front(t_pipe **head, t_pipe *new);
 void	ft_lstadd_back(t_pipe **alst, t_pipe *new);
 void	ft_clean_argv(t_node *node);
-void	ft_handle_existant_folder(struct dirent *entry, char *clean_pattern, char *clean_path, char **argv);
+void	ft_handle_existant_folder(struct dirent *entry, char *clean_pattern,
+		char *clean_path, char **argv);
 void	ft_handle_wc_extraction(t_node *node, int j, char **argv);
 void	ft_handle_wildcard(t_node *node);
 void	export_perror(char *args, int *ret);
@@ -558,8 +559,10 @@ void	append_to_env(char *export, char *var_name);
 void	ft_free_to_array(t_pipe **pipe, int **arr);
 void	ft_close_pipes(t_pipe *pipe, int **arr);
 void	ft_handle_heredoc(t_redirs *redirs, t_node *node, int *heredoc);
-void	ft_handle_redirections(t_redirs *redirs, t_node *node, int *heredoc, int init_heredoc);
-void	ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index);
+void	ft_handle_redirections(t_redirs *redirs, t_node *node,
+		int *heredoc, int init_heredoc);
+void	ft_handle_dup2(t_node *node, t_pipe **pipe,
+		int **pipes, int exec_index);
 void	ft_handle_child_init(t_node *node, t_pipe **pipe, int exec_index);
 void	ft_handle_child_execution(t_node *node);
 void	ft_handle_child(t_node *node, t_pipe **pipe, int exec_index);
@@ -567,13 +570,22 @@ void	ft_handle_parent(t_node *node, int pid, t_pipe **pipe);
 void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index);
 void	ft_free_pipes(t_pipe **pipe);
 void	ft_handle_reset(t_pipe **pipe, int *exec_index);
-void	execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
-void	ft_handle_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
-void	ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
+void	ft_handle_dup2(t_node *node, t_pipe **pipe,
+		int **pipes, int exec_index);
+void	execute_and_node(t_node *node,
+		t_pipe **pipe_, int *exec_index);
+void	ft_handle_init_heredoc(t_node *node, t_pipe **pipe_,
+		int *exec_index, int *heredoc);
+void	ft_init_heredoc(t_node *node, t_pipe **pipe_,
+		int *exec_index, int *heredoc);
 void	execute_and_node(t_node *node, t_pipe **pipe_, int *exec_index);
 void	ft_iterate_tree(t_node *node, t_pipe **pipe_, int *exec_index);
 void	ft_hanlde_iteration(t_node *node, t_pipe **pipe_, int *exec_index);
-void	ft_empty_or_nodes(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc);
-void	ft_handle_execution (t_node *ast);
+void	ft_empty_or_nodes(t_node *node, t_pipe **pipe_,
+		int *exec_index, int *heredoc);
+void	ft_handle_execution(t_node *ast);
+void	ft_hanlde_input_redir(t_node *node, int *heredoc, t_redirs *redirs);
+void	ft_handle_output_redir(t_node *node, int*heredoc, t_redirs *redirs);
+void	ft_handle_append_redir(t_node *node, t_redirs *redirs, int *heredoc);
 
 #endif

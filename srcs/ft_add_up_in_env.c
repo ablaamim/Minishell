@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/18 13:18:07 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 18:38:00 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 20:16:28 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,64 +101,18 @@ void	ft_handle_redirections(t_redirs *redirs, t_node *node,
 		return ;
 	else if (redirs->type == INPUT_REDIR && !init_heredoc)
 	{
-		node->content.simple_cmd.fd_in = open(redirs->file_name, O_RDONLY);
-		if (node->content.simple_cmd.fd_in == ERR)
-		{
-			variadic_error_printer(2, "minishell: %s : %s\n",
-				strerror(errno), redirs->file_name);
-			*heredoc = 2;
-			exit_value_set(1);
-			return ;
-		}
+		ft_hanlde_input_redir(node, heredoc, redirs);
 	}
 	else if (redirs->type == OUTPUT_REDIR
 		&& !init_heredoc)
 	{
-		node->content.simple_cmd.fd_out
-			= open(redirs->file_name, O_RDWR | O_TRUNC | O_CREAT, 0777);
-		{
-			if (node->content.simple_cmd.fd_out == ERR)
-			{
-				variadic_error_printer(2, "minishell: %s : %s\n",
-					strerror(errno), redirs->file_name);
-				*heredoc = 2;
-				exit_value_set(1);
-				return ;
-			}
-		}
+		ft_handle_output_redir(node, heredoc, redirs);
 	}
 	else if (redirs->type == APPEND_OUTPUT_REDIR && !init_heredoc)
 	{
-		node->content.simple_cmd.fd_out
-			= open(redirs->file_name, O_RDWR | O_APPEND | O_CREAT, 0777);
-		if (node->content.simple_cmd.fd_out == ERR)
-		{
-			variadic_error_printer(2, "minishell: %s : %s\n",
-				strerror(errno), redirs->file_name);
-			*heredoc = 2;
-			exit_value_set(1);
-			return ;
-		}
+		ft_handle_append_redir(node, redirs, heredoc);
 	}
 	else if (redirs->type == HEREDOC_REDIR && init_heredoc)
 		ft_handle_heredoc(redirs, node, heredoc);
 	ft_handle_redirections(redirs->next, node, heredoc, init_heredoc);
-}
-
-void ft_handle_dup2(t_node *node, t_pipe **pipe, int **pipes, int exec_index)
-{
-	if (node->content.simple_cmd.fd_in == 0)
-	{
-		if (exec_index - 1 >= 0)
-			dup2(pipes[exec_index - 1][0], 0);
-	}
-	else
-		dup2(node->content.simple_cmd.fd_in, 0);
-	if (node->content.simple_cmd.fd_out == 1)
-	{
-		if (exec_index < ft_lstsize(*pipe))
-			dup2(pipes[exec_index][1], 1);
-	}
-	else
-		dup2(node->content.simple_cmd.fd_out, 1);
 }
