@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 11:20:46 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 02:30:57 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 16:00:48 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ void ft_init_heredoc(t_node *node, t_pipe **pipe_, int *exec_index, int *heredoc
 	int expand;
 
 	expand = 0;
-	if (!*heredoc)
+	if (!*exec_index)
 		expand = 1;
+	// printf("\n%d\n", *exec_index);
 	if (expansions_perform(node, expand) == true)
 	{
 		if (execute_redirections(node) == true)
@@ -134,7 +135,9 @@ void ft_executor(char *line)
 				if (heredoc == 1) // handle heredoc ctrl + c
 					return;
 				heredoc = 1;
+				exec_init = 1;
 				ft_init_heredoc(ast, &pipe, &exec_init, &heredoc);
+				exec_init = 0;
 				ft_iterate_tree(ast, &pipe, &exec_init);
 				ft_free_pipes(&pipe);
 				ast_clearing(&ast);

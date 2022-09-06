@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:31:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/06 01:31:54 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 02:46:34 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ bool expander(t_simple_cmd *cmd, int remove_quotes)
 	while (cmd->argv[i] != 0x0)
 	{
 		if (ft_strcmp(cmd->argv[i], "<<") == 0x0)
-			cmd->input_has_quotes = (ft_strchr(cmd->argv[i + 1], '\'') != 0x0 \
-					|| ft_strchr(cmd->argv[i + 1], '"') != 0x0);
+			cmd->input_has_quotes = (ft_strchr(cmd->argv[i + 1], '\'') != 0x0 || ft_strchr(cmd->argv[i + 1], '"') != 0x0);
 		remove_quotes_from_argument(&cmd->argv[i]);
 		++i;
 	}
@@ -49,19 +48,19 @@ bool expansions_perform(t_node *ast, int remove_quotes)
 {
 	if (ast && ast->type == SIMPLE_CMD)
 		return (expander(&ast->content.simple_cmd, remove_quotes));
-	// else
-	// {
-	// 	if (ast->content.child.left != 0x0)
-	// 	{
-	// 		if (expansions_perform(ast->content.child.left, remove_quotes) == false)
-	// 			return (false);
-	// 	}
-	// 	if (ast->content.child.right != 0x0)
-	// 	{
-	// 		if (expansions_perform(ast->content.child.right, remove_quotes) == false)
-	// 			return (false);
-	// 	}
-	// }
+	else
+	{
+		if (ast->content.child.left != 0x0)
+		{
+			if (expansions_perform(ast->content.child.left, remove_quotes) == false)
+				return (false);
+		}
+		if (ast->content.child.right != 0x0)
+		{
+			if (expansions_perform(ast->content.child.right, remove_quotes) == false)
+				return (false);
+		}
+	}
 	return (true);
 }
 
