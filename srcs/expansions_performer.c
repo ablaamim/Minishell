@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/19 15:31:06 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 17:11:02 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 01:10:06 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ bool expander(t_simple_cmd *cmd, int remove_quotes)
 	while (cmd->argv[i] != 0x0)
 	{
 		if (ft_strcmp(cmd->argv[i], "<<") == 0x0)
-			cmd->input_has_quotes = (ft_strchr(cmd->argv[i + 1], '\'') != 0x0 || ft_strchr(cmd->argv[i + 1], '"') != 0x0);
+			cmd->input_has_quotes = (ft_strchr(cmd->argv[i + 1], '\'') != 0x0 \
+					|| ft_strchr(cmd->argv[i + 1], '"') != 0x0);
 		remove_quotes_from_argument(&cmd->argv[i]);
 		++i;
 	}

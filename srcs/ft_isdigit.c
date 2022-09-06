@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 12:06:07 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/04 21:35:40 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/05 23:53:44 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	ft_isdigit(int v)
 		return (0);
 }
 
-void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index)
+void	ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 {
-	int pid;
-	int **pipes;
+	int	pid;
+	int	**pipes;
 
 	pipes = NULL;
 	pipes = ft_to_array(pipe);
@@ -44,9 +44,9 @@ void ft_handle_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 	(*exec_index)++;
 }
 
-int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index)
+int	ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 {
-	int error;
+	int	error;
 
 	error = 0;
 	ft_handle_cmd(node, pipe, exec_index);
@@ -56,10 +56,10 @@ int ft_exec_cmd(t_node *node, t_pipe **pipe, int *exec_index)
 		return (1);
 }
 
-void ft_free_pipes(t_pipe **pipe)
+void	ft_free_pipes(t_pipe **pipe)
 {
-	t_pipe *p;
-	t_pipe *tmp;
+	t_pipe	*p;
+	t_pipe	*tmp;
 
 	p = *pipe;
 	while (p)
@@ -70,7 +70,7 @@ void ft_free_pipes(t_pipe **pipe)
 	}
 }
 
-void ft_handle_reset(t_pipe **pipe, int *exec_index)
+void	ft_handle_reset(t_pipe **pipe, int *exec_index)
 {
 	ft_free_pipes(pipe);
 	*pipe = NULL;

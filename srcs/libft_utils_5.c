@@ -6,20 +6,20 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:06:09 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/08/28 12:28:07 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/05 23:12:10 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int ft_isspace(int c)
+int	ft_isspace(int c)
 {
 	if (c == ' ' || (c >= '\t' && c <= '\r'))
 		return (1);
 	return (0);
 }
 
-bool has_space(char *str)
+bool	has_space(char *str)
 {
 	while (*str != '\0')
 		if (ft_isspace(*(str++)))
@@ -27,9 +27,9 @@ bool has_space(char *str)
 	return (false);
 }
 
-void array_free(char ***array)
+void	array_free(char ***array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while ((*array)[i] != NULL)
@@ -39,11 +39,11 @@ void array_free(char ***array)
 	}
 }
 
-char *ft_substr(const char *src, unsigned int start, size_t len)
+char	*ft_substr(const char *src, unsigned int start, size_t len)
 {
-	char *r;
-	size_t i;
-	size_t len_src;
+	char	*r;
+	size_t	i;
+	size_t	len_src;
 
 	i = 0;
 	if (!src)
@@ -68,7 +68,7 @@ char *ft_substr(const char *src, unsigned int start, size_t len)
 	return (r);
 }
 
-int ft_isalpha(int c)
+int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
 		return (0x1);

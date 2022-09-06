@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 11:54:22 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 19:27:31 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 01:10:27 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,13 @@ void manage_last_join(char *arg, char **new_argv,
 		new_argv[utils->i_new++] = ft_strdup(after_variable);
 }
 
-char *retrieve_var_val(char *str, char *env_val)
+char	*retrieve_var_val(char *str, char *env_val)
 {
-	char *var_val;
+	char	*var_val;
 
 	if (*(str - 2) == '+' && env_val)
 		var_val = ft_strjoin(env_val, env_val, "");
 	else
 		var_val = ft_strdup(str);
 	return (var_val);
-}
-
-int special_env_len(t_env *env)
-{
-	int len = 0x0;
-	while ((*env)[len])
-		len++;
-	return (len);
 }

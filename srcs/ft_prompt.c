@@ -6,7 +6,7 @@
 /*   By: gruz <gruz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 10:29:32 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/05 17:13:16 by gruz             ###   ########.fr       */
+/*   Updated: 2022/09/06 01:03:37 by gruz             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
  * -> Control EOF to exit with ctrl+D.
  */
 
-char *get_var(char *var_name)
+char	*get_var(char *var_name)
 {
-	t_env env;
-	char *tmp;
-	int i;
-	int j;
+	t_env	env;
+	char	*tmp;
+	int		i;
+	int		j;
 
 	env = *get_bash_env();
 	i = 0;
@@ -43,12 +43,12 @@ char *get_var(char *var_name)
 	return (NULL);
 }
 
-void ft_handle_prompt(char **line)
+void	ft_handle_prompt(char **line)
 {
-	char *tmp;
-	char *data;
-	char *data_tmp;
-	int i;
+	char	*tmp;
+	char	*data;
+	char	*data_tmp;
+	int		i;
 
 	data_tmp = get_var("PWD");
 	tmp = get_var("HOME");
@@ -70,7 +70,7 @@ void ft_handle_prompt(char **line)
 	free(data);
 }
 
-void signal_command2(int sig)
+void	signal_command2(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -85,10 +85,10 @@ void signal_command2(int sig)
 	}
 }
 
-char *read_line(void)
+char	*read_line(void)
 {
-	char *line;
-	char *prompt;
+	char	*line;
+	char	*prompt;
 
 	prompt = ft_strdup("");
 	signal(SIGINT, signal_command);
@@ -111,7 +111,7 @@ char *read_line(void)
  * Signals handling : ctrl+c and ctrl+\
  */
 
-void signal_command(int sig)
+void	signal_command(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -129,13 +129,13 @@ void signal_command(int sig)
 	}
 }
 
-void signal_command_child(int sig)
+void	signal_command_child(int sig)
 {
 	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
-		// rl_replace_line("", 0x0);
+		rl_replace_line("", 0x0);
 	}
 	if (sig == SIGQUIT)
 	{
@@ -151,15 +151,13 @@ void signal_command_child(int sig)
  * -> free line.
  */
 
-void ft_minishell(void)
+void	ft_minishell(void)
 {
-	char *line;
+	char	*line;
 
-	// ft_print_env(*env);
 	while (1337)
 	{
 		line = read_line();
-		// signal(SIGQUIT, signal_command2);
 		ft_executor(line);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: ablaamim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 12:49:58 by ablaamim          #+#    #+#             */
-/*   Updated: 2022/09/03 00:24:22 by ablaamim         ###   ########.fr       */
+/*   Updated: 2022/09/05 22:37:30 by ablaamim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	check_errors(t_token *token_list)
  *  pipe_node, if success i return true boolean value.
 */
 
-bool	pipe_parser(t_token **token_list, t_node **ast,bool is_subshell)
+bool	pipe_parser(t_token **token_list, t_node **ast, bool is_subshell)
 {
 	t_node	*pipe_node;
 	t_node	*simple_command;
